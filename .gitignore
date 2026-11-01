@@ -1,0 +1,33 @@
+# Temporary & Scratch files
+.env
+*.env
+standard-credentials.txt
+__pycache__/
+*.pyc
+d_storage/
+*.log
+scratch/
+.tempmediaStorage/
+.user_uploaded/
+check_*.py
+view_*.py
+find_*.py
+audit_*.py
+inspect_*.py
+apply_*.py
+test_*.py
+step_*.py
+replay_*.py
+*.bak*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+.vercel
+
+# Cache photos DWH
+uploads/
+
+.agents/
+.system_generated/

@@ -1,0 +1,17 @@
+{
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "use_tls": true,
+  "sender_email": "agentfidness@gmail.com",
+  "sender_name": "Agent IA Fidness (Club Alpha by STIEL)",
+  "sender_password": "obmcocwbbyufqefk",
+  "recipients": [
+    "Nizar.bentanfous@stiel.com.tn"
+  ],
+  "cc_recipients": [
+    "Ahmed.n@itfidness.com"
+  ],
+  "schedule_day": "Monday",
+  "schedule_time": "09:00",
+  "simulation_mode": false
+}

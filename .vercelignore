@@ -1,0 +1,26 @@
+# Ignore heavy storage and installers
+d_storage/
+*.exe
+*.rar
+*.zip
+*.iso
+*.tar.gz
+*.pdf
+
+# Python backend & scripts
+__pycache__/
+*.py
+*.pyc
+venv/
+.env
+
+# System & temporary logs
+*.log
+*.bak*
+scratch/
+.tempmediaStorage/
+.user_uploaded/
+.git/
+*.ps1
+*.txt
+
