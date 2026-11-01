@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Sécurisée • Club Alpha by STIEL</title>
-            <!-- Club Alpha High-Precision Multi-Resolution Favicon (Instant Inline + Fallbacks) -->
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFIUlEQVR4nO1Wa2xURRT+7r1z9253t122Lyj0QV9YsIQWW0KxUIOtyEOt2oIxosVAFVOLxkQwoBElmBAlEn9Aq4kkmmAMkQT8oSD8kIcPmipQ0gcWSh90od3S2u773hkzs10oDWiBGv5wks3d2Tn3fGe+850zKzmKKxjuocn3Evx+AvcZGDMD0jj53LEIKWP/CiAN+/wvCVDGoBIFBqW3BOd73IdSNn4JyLIEjz+AnIxkHK/djGnJCfAFgpCl61xIkgR/UMfkWAeO7XofRblZGPL6IMtjHy/y6NNwYEWWoUgydMNAfLQdmcmJiHfYEdQNAcqT4D7cV6cUjigbpk1NQmJcNBhlUJQbCxaOOTL5sJGRCx7M6w0ISi2aBoUD6BSUGTAMCkkOBRsY8iGo67BZzCCyDMMwQGkQvmAQ+pAHgyYCi8kECibK4nb7oVMDJkJgMWtgI/RCRtY60mLGvOxM2G0WtHZdQd3Zc5AliMxF8pRhyOND/ow0JMXH4I+WNjSd7xSnAwMiNBMWzn9IsHTiTAs0QhChqch7IBVxjii0dffgdGs7TKp6TdQkTBHPctNLpZgzIx1XB91YNHcW1m3fjYtOV6hSEmDoBmrWr0Z+VhrqW9rw6bqVeHPHVzh7oRPBQBBvLF+MusZWFM7Kwg+/nsKrW2tQ+WIpnl6Qh44rLix7OBef7T2I9z7fC5tFC4nWUVzB+Ce6ZJV4Yk4ZQ34Z23fkF9ba3smWv/MxY4yywjWb2BNvfcS45VesZ8h8jNV+9yNz9fWxkqrNzAj62Y49BxgySthzG7cLv+Kqzcxc+DxTClYw5JaKfT3gYxnPVjHbIysFJrmmeF8AM9OSsHXtClx2DeCiswcF2RmCOnANUIqinOlwXulBW3cvSFw0jp1qxqqlC5A+ZSICgaBgQrbbcNHZK3TDRRkbZcXODatF3esaz8OgTPzecdkFs0nl5ZWgGxRWs4Zvt1SLRKq31qCnfxCaSkQ3hPvb6w/AbrPCEWmB7vWJ+vLA/UMe0XpcC9yXH0hmTHTRl++uRUKMA5Uf7MT5Sz1QQ6BcMqEOkbj6dQMxdhtSEuLwzaETcP3VjrTJcWIOdPb2QVZUWMwmfH+8HhEWC7LTkhBpiUBV2SL8dLIBjW1dIKoKOjysOADvDFuEGdNTJmP/0To4T7dg6qRYcOjuvgGoiiKSJ1z9nApO256DJ7ClshzZqVOworgA274+gMMnG9Da3oVdb6/G65/sRktbB15eVoQlBTlo7nDitW1fYEp8DGTlekfzllVUDf2DHtTuP4Lq5Y9DUxS88kwxavcdRmvXZdFxnC2JC4+3mGEwofTS+XlIT5yI46ebRY258UlX/uhc/NZwDosLZqHyqYWYXbFRBOKzgM+MJfNycPRUE5yuAcHW0nm5+PnPJnT19OHJwtmYmZGC+uYLOPT7GRBFFq0qhl/4PyFf8i8DQx5Q3YBJM4ng3PjQ8fj8MNxerF9Tjg/XlCH7hQ3odl2Fqqi1oMenxgyoTuBirV1eD3g9kAP6CAmFVHWiJsPIjb8jI6yiaHDdReuqUoI4iZocMkyHkxNFEJ1+/yQIIVuSkmCI8oqKGWj1nx/gs0qYnLc0ZcaGT2bb3br8aCBoCESyU5LFEPG6eqHI9J6zZ/X/YY4I9a3uklvKMF/megWSjEp2i4Y+NvtBSGyONXdGBmrI8fh4rnU2y8uKUJCbXS3Rm7HmeOZ1NAr4wF+2wmMJ3DY5HGNdj+BOzD5Tl4aT7vnCfwDfO9hQfsiBMQAAAAASUVORK5CYII=">
+    <title>Portail Exécutif & Licence Évaluation 30J • Club Alpha by STIEL</title>
+
+    <!-- Instant Prefetching of Dashboard & Dataset for Zero-Wait Transition -->
+    <link rel="prefetch" href="/dashboard" as="document">
+    <link rel="prefetch" href="/embedded_data.js" as="script">
+
+    <!-- Club Alpha High-Precision Multi-Resolution Favicon -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFIUlEQVR4nO1Wa2xURRT+7r1z9253t122Lyj0QV9YsIQWW0KxUIOtyEOt2oIxosVAFVOLxkQwoBElmBAlEn9Aq4kkmmAMkQT8oSD8kIcPmipQ0gcWSh90od3S2u773hkzs10oDWiBGv5wks3d2Tn3fGe+850zKzmKKxjuocn3Evx+AvcZGDMD0jj53LEIKWP/CiAN+/wvCVDGoBIFBqW3BOd73IdSNn4JyLIEjz+AnIxkHK/djGnJCfAFgpCl61xIkgR/UMfkWAeO7XofRblZGPL6IMtjHy/y6NNwYEWWoUgydMNAfLQdmcmJiHfYEdQNAcqT4D7cV6cUjigbpk1NQmJcNBhlUJQbCxaOOTL5sJGRCx7M6w0ISi2aBoUD6BSUGTAMCkkOBRsY8iGo67BZzCCyDMMwQGkQvmAQ+pAHgyYCi8kECibK4nb7oVMDJkJgMWtgI/RCRtY60mLGvOxM2G0WtHZdQd3Zc5AliMxF8pRhyOND/ow0JMXH4I+WNjSd7xSnAwMiNBMWzn9IsHTiTAs0QhChqch7IBVxjii0dffgdGs7TKp6TdQkTBHPctNLpZgzIx1XB91YNHcW1m3fjYtOV6hSEmDoBmrWr0Z+VhrqW9rw6bqVeHPHVzh7oRPBQBBvLF+MusZWFM7Kwg+/nsKrW2tQ+WIpnl6Qh44rLix7OBef7T2I9z7fC5tFC4nWUVzB+Ce6ZJV4Yk4ZQ34Z23fkF9ba3smWv/MxY4yywjWb2BNvfcS45VesZ8h8jNV+9yNz9fWxkqrNzAj62Y49BxgySthzG7cLv+Kqzcxc+DxTClYw5JaKfT3gYxnPVjHbIysFJrmmeF8AM9OSsHXtClx2DeCiswcF2RmCOnANUIqinOlwXulBW3cvSFw0jp1qxqqlC5A+ZSICgaBgQrbbcNHZK3TDRRkbZcXODatF3esaz8OgTPzecdkFs0nl5ZWgGxRWs4Zvt1SLRKq31qCnfxCaSkQ3hPvb6w/AbrPCEWmB7vWJ+vLA/UMe0XpcC9yXH0hmTHTRl++uRUKMA5Uf7MT5Sz1QQ6BcMqEOkbj6dQMxdhtSEuLwzaETcP3VjrTJcWIOdPb2QVZUWMwmfH+8HhEWC7LTkhBpiUBV2SL8dLIBjW1dIKoKOjysOADvDFuEGdNTJmP/0To4T7dg6qRYcOjuvgGoiiKSJ1z9nApO256DJ7ClshzZqVOworgA274+gMMnG9Da3oVdb6/G65/sRktbB15eVoQlBTlo7nDitW1fYEp8DGTlekfzllVUDf2DHtTuP4Lq5Y9DUxS88kwxavcdRmvXZdFxnC2JC4+3mGEwofTS+XlIT5yI46ebRY258UlX/uhc/NZwDosLZqHyqYWYXbFRBOKzgM+MJfNycPRUE5yuAcHW0nm5+PnPJnT19OHJwtmYmZGC+uYLOPT7GRBFFq0qhl/4PyFf+i8DQx5Q3YBJM4ng3PjQ8fj8MNxerF9Tjg/XlCH7hQ3odl2Fqqi1oMenxgyoTuBirV1eD3g9kAP6CAmFVHWiJsPIjb8jI6yiaHDdReuqUoI4iZocMkyHkxNFEJ1+/yQIIVuSkmCI8oqKGWj1nx/gs0qYnLc0ZcaGT2bb3br8aCBoCESyU5LFEPG6eqHI9J6zZ/X/YY4I9a3uklvKMF/megWSjEp2i4Y+NvtBSGyONXdGBmrI8fh4rnU2y8uKUJCbXS3Rm7HmeOZ1NAr4wF+2wmMJ3DY5HGNdj+BOzD5Tl4aT7vnCfwDfO9hQfsiBMQAAAAASUVORK5CYII=">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2026">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2026">
     <link rel="apple-touch-icon" href="/assets/favicon-32x32.png">
-<!-- Tailwind CSS CDN -->
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Ensure authentication state is clean whenever visiting the login page
         try {
             sessionStorage.removeItem('club_alpha_authenticated');
             sessionStorage.removeItem('club_alpha_user_role');
@@ -25,269 +29,447 @@
                     colors: {
                         stiel: {
                             teal: '#0D9488',
-                            dark: '#060B13',
-                            navy: '#0B132B',
+                            dark: '#03060E',
+                            navy: '#080F22',
                             amber: '#F59E0B'
-                        }
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'shimmer': 'shimmer 2s linear infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        shimmer: {
-                            '0%': { backgroundPosition: '-200% 0' },
-                            '100%': { backgroundPosition: '200% 0' },
                         }
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome 6 Pro CDN -->
+
+    <!-- Lucide Vector Icons Engine (Local High-Speed) -->
+    <script src="/lucide.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/lucide@latest';"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- FontAwesome 6 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts Inter & Outfit -->
+    <!-- Google Fonts Inter, Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background-color: #060B13;
+            background-color: #03060E;
+            color: #F8FAFC;
             overflow-x: hidden;
         }
         h1, h2, h3, h4, .font-heading {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.025em;
         }
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
-        /* Custom Ambient Background Mesh */
-        .ambient-mesh {
+
+        /* Executive Aurora & Architectural Perspective Grid */
+        .aurora-canvas {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
+            background:
+                radial-gradient(1100px circle at 12% 15%, rgba(13, 148, 136, 0.16), transparent 55%),
+                radial-gradient(950px circle at 88% 20%, rgba(56, 189, 248, 0.11), transparent 55%),
+                radial-gradient(900px circle at 75% 85%, rgba(99, 102, 241, 0.12), transparent 60%),
+                #03060E;
         }
-        .orb-teal {
+        .architectural-grid {
             position: absolute;
-            top: -15%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(13, 148, 136, 0.28) 0%, rgba(13, 148, 136, 0) 70%);
-            filter: blur(80px);
-            animation: float 8s ease-in-out infinite alternate;
+            inset: 0;
+            background-size: 48px 48px;
+            background-image:
+                linear-gradient(to right, rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 40%, transparent 100%);
         }
-        .orb-indigo {
+        .aurora-beam {
             position: absolute;
-            bottom: -20%;
-            right: -10%;
-            width: 700px;
-            height: 700px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, rgba(99, 102, 241, 0) 70%);
+            top: -30%;
+            left: 25%;
+            width: 55vw;
+            height: 60vh;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(20, 184, 166, 0.18) 0deg, rgba(6, 182, 212, 0.12) 120deg, rgba(245, 158, 11, 0.06) 240deg, transparent 360deg);
             filter: blur(90px);
-            animation: float 10s ease-in-out infinite alternate-reverse;
+            animation: auroraDrift 14s ease-in-out infinite alternate;
         }
-        .orb-amber {
-            position: absolute;
-            top: 40%;
-            left: 35%;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
-            filter: blur(100px);
-            animation: float 7s ease-in-out infinite alternate;
+        @keyframes auroraDrift {
+            0% { transform: translate3d(-4%, 0, 0) rotate(-4deg) scale(1); }
+            100% { transform: translate3d(5%, 4%, 0) rotate(6deg) scale(1.08); }
         }
-        /* Grid overlay */
-        .cyber-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        @keyframes levitate {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
         }
-        /* Glassmorphism Card */
-        .glass-card {
-            background: rgba(11, 19, 43, 0.72);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(13, 148, 136, 0.12);
+        @keyframes sheenSweep {
+            0% { transform: translateX(-140%) skewX(-20deg); }
+            55%, 100% { transform: translateX(220%) skewX(-20deg); }
         }
-        /* Phone Mockup Frame */
-        .phone-frame {
-            border: 8px solid #1e293b;
-            border-radius: 36px;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(20, 184, 166, 0.25);
-            background: #020617;
+        @keyframes orbitalSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Ultra-Pro Glass Architecture with Interactive Cursor Spotlight */
+        .executive-vault-card {
             position: relative;
+            background: linear-gradient(165deg, rgba(15, 23, 42, 0.82) 0%, rgba(6, 11, 23, 0.94) 100%);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow:
+                0 30px 70px -15px rgba(0, 0, 0, 0.85),
+                0 0 0 1px rgba(20, 184, 166, 0.08) inset,
+                0 1px 0 0 rgba(255, 255, 255, 0.14) inset;
+        }
+        .executive-vault-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgba(45, 212, 191, 0.35), transparent 45%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Luxury Titanium & Emerald 30-Day Pass Card */
+        .luxury-trial-pass {
+            position: relative;
+            background: linear-gradient(135deg, rgba(8, 28, 36, 0.92) 0%, rgba(9, 15, 31, 0.96) 55%, rgba(22, 30, 46, 0.92) 100%);
+            border: 1px solid rgba(45, 212, 191, 0.28);
+            box-shadow:
+                0 20px 45px -15px rgba(0, 0, 0, 0.8),
+                0 0 28px -6px rgba(20, 184, 166, 0.18),
+                0 1px 0 0 rgba(255, 255, 255, 0.12) inset;
             overflow: hidden;
         }
-        .phone-notch {
+        .luxury-trial-pass::after {
+            content: "";
             position: absolute;
             top: 0;
+            left: 0;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.045), transparent);
+            animation: sheenSweep 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* Tactile 3D Primary Button */
+        .btn-executive-primary {
+            position: relative;
+            background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #059669 100%);
+            border: 1px solid rgba(94, 234, 212, 0.35);
+            box-shadow:
+                0 10px 25px -5px rgba(13, 148, 136, 0.45),
+                0 1px 0 0 rgba(255, 255, 255, 0.25) inset;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+        .btn-executive-primary:hover {
+            transform: translateY(-1.5px);
+            box-shadow:
+                0 16px 32px -6px rgba(20, 184, 166, 0.6),
+                0 1px 0 0 rgba(255, 255, 255, 0.35) inset;
+            filter: brightness(1.07);
+        }
+        .btn-executive-primary:active {
+            transform: translateY(0px) scale(0.99);
+        }
+
+        /* Luxury Trial Instant Launch Button */
+        .btn-trial-instant {
+            position: relative;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.18) 0%, rgba(16, 185, 129, 0.26) 50%, rgba(6, 182, 212, 0.18) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.45);
+            box-shadow:
+                0 8px 20px -6px rgba(16, 185, 129, 0.3),
+                0 1px 0 0 rgba(255, 255, 255, 0.15) inset;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-trial-instant:hover {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.28) 0%, rgba(16, 185, 129, 0.38) 50%, rgba(6, 182, 212, 0.28) 100%);
+            border-color: rgba(110, 231, 183, 0.75);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 28px -6px rgba(16, 185, 129, 0.45);
+        }
+
+        /* Phone Hardware Bezel */
+        .phone-chassis {
+            border: 7px solid #1E293B;
+            border-radius: 38px;
+            background: #020617;
+            box-shadow:
+                0 30px 65px -15px rgba(0, 0, 0, 0.88),
+                0 0 0 1px rgba(148, 163, 184, 0.22),
+                0 0 40px -10px rgba(20, 184, 166, 0.28);
+            position: relative;
+            overflow: hidden;
+            animation: levitate 6s ease-in-out infinite;
+        }
+        .phone-dynamic-island {
+            position: absolute;
+            top: 8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90px;
-            height: 18px;
-            background: #1e293b;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            width: 76px;
+            height: 16px;
+            background: #090D16;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             z-index: 20;
         }
-        /* Glowing High-Tech Loading Bar */
+
+        /* Input Laser Focus */
+        .input-executive {
+            background: rgba(3, 7, 18, 0.78);
+            border: 1px solid rgba(51, 65, 85, 0.75);
+            transition: all 0.2s ease;
+        }
+        .input-executive:focus {
+            border-color: #14B8A6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.16), 0 0 20px -4px rgba(20, 184, 166, 0.3);
+            background: rgba(2, 6, 23, 0.95);
+        }
+
         .progress-glow {
             box-shadow: 0 0 20px rgba(20, 184, 166, 0.7), 0 0 40px rgba(6, 182, 212, 0.4);
         }
+
+        /* Passing 30-Day Trial Marquee Banner Animation */
+        @keyframes passTrialBanner {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .animate-pass-trial-banner {
+            display: flex;
+            width: max-content;
+            animation: passTrialBanner 32s linear infinite;
+            will-change: transform;
+        }
+        .animate-pass-trial-banner:hover {
+            animation-play-state: paused;
+        }
     </style>
 </head>
-<body class="min-h-screen text-slate-100 flex flex-col justify-between relative selection:bg-teal-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-teal-500 selection:text-white">
 
-    <!-- AMBIENT BACKGROUND GLOW & CYBER GRID -->
-    <div class="ambient-mesh">
-        <div class="orb-teal"></div>
-        <div class="orb-indigo"></div>
-        <div class="orb-amber"></div>
-        <div class="absolute inset-0 cyber-grid opacity-75"></div>
+    <!-- AMBIENT AURORA & ARCHITECTURAL PERSPECTIVE GRID -->
+    <div class="aurora-canvas">
+        <div class="aurora-beam"></div>
+        <div class="architectural-grid"></div>
     </div>
 
-    <!-- TOP EXECUTIVE BAR -->
-    <header class="relative z-10 w-full px-6 py-4 flex items-center justify-between border-b border-slate-800/80 backdrop-blur-md bg-slate-950/60">
-        <div class="flex items-center gap-3.5">
-            <div class="w-11 h-11 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-teal-900/40 ring-1 ring-teal-500/50 transition-transform hover:scale-105">
-                <img src="assets/club_alpha_logo.png" alt="Club Alpha by STIEL" class="w-full h-full object-contain">
+    <!-- TOP EXECUTIVE TELEMETRY & TRIAL LICENSE HEADER -->
+    <header class="relative z-20 w-full px-5 sm:px-8 py-3.5 border-b border-white/[0.07] backdrop-blur-xl bg-slate-950/65">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Identity -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-teal-950/60 ring-1 ring-teal-400/40">
+                    <img src="assets/club_alpha_logo.png" alt="Club Alpha by STIEL" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-heading font-extrabold text-sm sm:text-base tracking-tight text-white">CLUB ALPHA <span class="text-teal-400">by STIEL</span></span>
+                        <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-white/[0.06] text-slate-300 border border-white/10">v4.0 Enterprise</span>
+                    </div>
+                    <div class="text-[10.5px] text-slate-400 font-mono">DWH Temps Réel • IA Prédictive & Copilot Vocal</div>
+                </div>
             </div>
-            <div>
-                <span class="font-extrabold text-sm sm:text-base tracking-tight text-white">CLUB ALPHA <span class="text-teal-400">by STIEL</span></span>
-                <div class="text-[10px] text-slate-400 font-mono">Entrepôt DWH PostgreSQL • Direction Générale</div>
-            </div>
-        </div>
-        </div>
 
-        <div class="flex items-center gap-3">
-            <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-emerald-500/30 text-xs">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span class="font-mono text-emerald-400 font-bold">PostgreSQL 57.131.30.69 : CONNECTÉ</span>
+            <!-- Right Executive Telemetry & Trial Status Pill -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Live Trial License Status Badge -->
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/35 text-[11px] shadow-sm">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                    </span>
+                    <span class="font-semibold text-slate-200">Pass Évaluation :</span>
+                    <span id="headerTrialDaysBadge" class="font-mono font-bold text-emerald-300">30 Jours Actifs</span>
+                </div>
+
+                <!-- Direct Executive Concierge WhatsApp Pill -->
+                <a href="https://wa.me/21698573031?text=Bonjour%20Nizar%2C%20je%20souhaite%20des%20informations%20sur%20la%20licence%20Club%20Alpha%20by%20STIEL%20après%20les%2030%20jours%20d%27essai."
+                   target="_blank" rel="noopener"
+                   class="hidden md:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 hover:border-teal-400/40 text-[11px] text-slate-200 font-medium transition-all">
+                    <i class="fa-brands fa-whatsapp text-emerald-400 text-xs"></i>
+                    <span>Responsable : <strong class="font-mono text-white">+216 98 573 031</strong></span>
+                </a>
+
+                <!-- PostgreSQL Cluster Status -->
+                <div class="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-slate-400">
+                    <i class="fa-solid fa-database text-teal-400 text-[10px]"></i>
+                    <span>57.131.30.69 : <strong class="text-teal-400">ONLINE</strong></span>
+                </div>
             </div>
-            
         </div>
     </header>
 
-    <!-- MAIN LOGIN CONTAINER (SPLIT 2 COLUMNS) -->
-    <main class="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-8 max-w-7xl mx-auto w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+    <!-- BANDEAU PASSANT CONTINU (MARQUEE) : ESSAI GRATUIT 30 JOURS -->
+    <section class="relative z-20 w-full overflow-hidden bg-gradient-to-r from-emerald-950/90 via-slate-950 to-teal-950/90 border-y border-emerald-500/40 py-2.5 shadow-[0_0_25px_rgba(16,185,129,0.22)] backdrop-blur-md">
+        <!-- Ambient Edge Faders for Luxury Smooth Entry & Exit -->
+        <div class="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#03060E] to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#03060E] to-transparent z-10 pointer-events-none"></div>
 
-            <!-- LEFT COLUMN: APP SHOWCASE & VALUE PROPOSITION (7 COLS) -->
+        <div class="animate-pass-trial-banner flex items-center gap-10 whitespace-nowrap cursor-default select-none text-xs sm:text-sm">
+            <!-- REPEATING SLICE 1 -->
+            <div class="flex items-center gap-8 shrink-0">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-extrabold shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <svg class="w-4 h-4 inline-block text-emerald-300 animate-bounce shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13m7-9v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8m2.5-4a2.5 2.5 0 0 1 5 0v4h-5zm5 0a2.5 2.5 0 0 1 5 0v4h-5z"></path></svg>
+                    <span>Essai Gratuit 30 Jours</span>
+                </span>
+                <span class="inline-flex items-center gap-2.5 text-slate-200 font-medium">
+                    <svg class="w-4 h-4 inline-block text-teal-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4m-4 5h.01m8 0h.01"></path></svg>
+                    <span>Agent IA Fidness : <strong class="text-teal-300">Churn prédictif</strong>, offres <strong class="text-amber-400">Points x2</strong> et <strong class="text-emerald-300">Copilot Alpha</strong> inclus pendant 30 jours, sans engagement</span>
+                </span>
+                <span class="text-emerald-400 font-black">◆</span>
+                <a href="https://wa.me/21698573031?text=Bonjour%2C%20je%20souhaite%20activer%20l%27abonnement%20Club%20Alpha." target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/60 text-emerald-200 hover:text-white font-bold transition">
+                    <svg class="w-4 h-4 inline-block text-emerald-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>Après les 30 jours : contactez le responsable au <strong class="font-mono text-white underline decoration-emerald-400 decoration-2">+216 98 573 031</strong> pour activer l'abonnement</span>
+                </a>
+                <span class="text-emerald-400 font-black">◆</span>
+            </div>
+
+            <!-- REPEATING SLICE 2 (SEAMLESS 100% LOOP) -->
+            <div class="flex items-center gap-8 shrink-0">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-extrabold shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <svg class="w-4 h-4 inline-block text-emerald-300 animate-bounce shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13m7-9v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8m2.5-4a2.5 2.5 0 0 1 5 0v4h-5zm5 0a2.5 2.5 0 0 1 5 0v4h-5z"></path></svg>
+                    <span>Essai Gratuit 30 Jours</span>
+                </span>
+                <span class="inline-flex items-center gap-2.5 text-slate-200 font-medium">
+                    <svg class="w-4 h-4 inline-block text-teal-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4m-4 5h.01m8 0h.01"></path></svg>
+                    <span>Agent IA Fidness : <strong class="text-teal-300">Churn prédictif</strong>, offres <strong class="text-amber-400">Points x2</strong> et <strong class="text-emerald-300">Copilot Alpha</strong> inclus pendant 30 jours, sans engagement</span>
+                </span>
+                <span class="text-emerald-400 font-black">◆</span>
+                <a href="https://wa.me/21698573031?text=Bonjour%2C%20je%20souhaite%20activer%20l%27abonnement%20Club%20Alpha." target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/60 text-emerald-200 hover:text-white font-bold transition">
+                    <svg class="w-4 h-4 inline-block text-emerald-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>Après les 30 jours : contactez le responsable au <strong class="font-mono text-white underline decoration-emerald-400 decoration-2">+216 98 573 031</strong> pour activer l'abonnement</span>
+                </a>
+                <span class="text-emerald-400 font-black">◆</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN WORKSPACE (SPLIT 12-COLUMN EXECUTIVE GRID) -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-8 py-6 sm:py-10 max-w-7xl mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full">
+
+            <!-- LEFT COLUMN: VALUE PROPOSITION, INTERACTIVE SHOWCASE & ECOSYSTEM METRICS (7 COLS) -->
             <div class="lg:col-span-7 space-y-6">
-                <!-- Badges -->
+
+                <!-- Top Classification Badges -->
                 <div class="flex flex-wrap items-center gap-2">
-                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-teal-500/15 text-teal-300 border border-teal-500/30 flex items-center gap-1.5">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span>Application Officielle Artisans & Distributeurs</span>
+                    <span class="px-3 py-1 rounded-full text-[11px] font-semibold bg-teal-500/10 text-teal-300 border border-teal-500/25 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-teal-400"></i>
+                        <span>Architecture Décisionnelle Certifiée STIEL</span>
                     </span>
-                    <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5"><i class="fa-solid fa-crown text-amber-400"></i><span>Direction Générale Certifiée</span></span>
+                    <span class="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/25 flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown text-amber-400"></i>
+                        <span>Direction Générale & Réseau 21 Gouvernorats</span>
+                    </span>
                 </div>
 
-                <!-- Main Hero Heading -->
+                <!-- Hero Typography -->
                 <div class="space-y-3">
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-                        Plateforme DWH & Pilotage Décisionnel <span class="bg-gradient-to-r from-teal-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">Power BI & IA</span>
+                    <h1 class="font-heading text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-white leading-[1.12]">
+                        Pilotage DWH Temps Réel, Audits GPS & <span class="bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-300 bg-clip-text text-transparent">Agent IA FIDNESS</span>
                     </h1>
-                    <p class="text-sm sm:text-base text-slate-400 max-w-xl font-normal leading-relaxed">
-                        Le portail exécutif tripartite reliant le fabricant <strong class="text-white">STIEL</strong>, le réseau de distribution agréé et plus de <strong class="text-teal-400 font-mono">170 électriciens certifiés</strong> à travers toute la Tunisie.
+                    <p class="text-sm sm:text-[15px] text-slate-400 max-w-2xl leading-relaxed">
+                        Connectée en direct au cluster PostgreSQL de production, la suite <strong class="text-slate-200">Club Alpha by STIEL</strong> unifie le contrôle géolocalisé des chantiers, la prédiction d'attrition <strong class="text-teal-300">XGBoost / SHAP</strong> et l'automatisation des relances <strong class="text-emerald-300">WhatsApp & Vocales</strong>.
                     </p>
                 </div>
 
-                <!-- APP SCREENSHOTS INTERACTIVE SHOWCASE (CAROUSEL & SMARTPHONE MOCKUP) -->
-                <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center pt-2">
-                    <!-- Phone Mockup Container (5 cols) -->
+                <!-- INTERACTIVE MOBILE & AI ECOSYSTEM SHOWCASE -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center pt-1">
+                    <!-- Smartphone Hardware Preview (5 cols) -->
                     <div class="sm:col-span-5 flex justify-center">
-                        <div class="phone-frame w-52 sm:w-56 h-[400px] flex flex-col justify-between transition-transform duration-500 hover:scale-[1.02]">
-                            <div class="phone-notch"></div>
-                            <!-- Dynamic App Screen Image -->
-                            <div class="relative w-full h-full pt-6 pb-2 px-2 overflow-hidden flex items-center justify-center bg-slate-950">
+                        <div class="phone-chassis w-52 sm:w-56 h-[390px] flex flex-col justify-between">
+                            <div class="phone-dynamic-island"></div>
+                            <div class="relative w-full h-full pt-7 pb-2 px-2 overflow-hidden flex items-center justify-center bg-slate-950">
                                 <img id="activePhoneScreen" src="assets/screen_1.png" alt="Écran Application Club Alpha" class="w-full h-full object-contain rounded-2xl transition-all duration-500">
-                                <!-- Subtle reflection shine -->
-                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none"></div>
                             </div>
-                            <!-- Phone Home Bar -->
                             <div class="w-full pb-2 flex justify-center bg-slate-950">
-                                <div class="w-24 h-1 bg-slate-700 rounded-full"></div>
+                                <div class="w-20 h-1 bg-slate-700 rounded-full"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Screen Navigation & Feature Pills (7 cols) -->
-                    <div class="sm:col-span-7 space-y-3">
-                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                            <i class="fa-solid fa-layer-group text-teal-400"></i>
-                            <span>Aperçu des Fonctionnalités Mobiles :</span>
+                    <!-- Interactive Feature Selector Cards (7 cols) -->
+                    <div class="sm:col-span-7 space-y-2.5">
+                        <div class="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-slate-400 pb-1">
+                            <span class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-layer-group text-teal-400"></i>
+                                <span>Modules Clés Synchronisés</span>
+                            </span>
+                            <span class="text-teal-400">4 Écrans Live</span>
                         </div>
 
-                        <!-- Pill 1: Accueil & Points -->
+                        <!-- Pill 1 -->
                         <div onclick="selectAppScreen(1)" id="screenPill1" class="cursor-pointer p-3 rounded-xl bg-teal-500/10 border border-teal-500/40 hover:border-teal-400 transition-all flex items-center justify-between group">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-sm">
-                                    <i class="fa-solid fa-gift"></i>
+                                <div class="w-9 h-9 rounded-lg bg-teal-500/15 text-teal-300 border border-teal-500/30 flex items-center justify-center text-sm">
+                                    <i class="fa-solid fa-chart-pie"></i>
                                 </div>
                                 <div>
-                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">1. Accueil & Solde Points Fidélité</div>
-                                    <div class="text-[11px] text-slate-400">Compteur de points en direct, statut VIP & récompenses</div>
+                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">1. Direction Générale & Fidélité 360°</div>
+                                    <div class="text-[11px] text-slate-400">CA certifié, Pareto ABC, passif points & paliers VIP</div>
                                 </div>
                             </div>
                             <span class="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]"></span>
                         </div>
 
-                        <!-- Pill 2: Déclaration Chantier -->
-                        <div onclick="selectAppScreen(2)" id="screenPill2" class="cursor-pointer p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex items-center justify-between group">
+                        <!-- Pill 2 -->
+                        <div onclick="selectAppScreen(2)" id="screenPill2" class="cursor-pointer p-3 rounded-xl bg-slate-900/55 border border-white/[0.07] hover:border-white/20 transition-all flex items-center justify-between group">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm">
+                                <div class="w-9 h-9 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/25 flex items-center justify-center text-sm">
                                     <i class="fa-solid fa-camera"></i>
                                 </div>
                                 <div>
-                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">2. Déclaration Chantier & Photos HD</div>
-                                    <div class="text-[11px] text-slate-400">Transmission des disjoncteurs et tableaux STIEL</div>
+                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">2. Déclaration Chantier & Preuves HD</div>
+                                    <div class="text-[11px] text-slate-400">Galerie photos tableaux STIEL & conformité visuelle</div>
                                 </div>
                             </div>
                             <span class="w-2 h-2 rounded-full bg-slate-700"></span>
                         </div>
 
-                        <!-- Pill 3: Contrôle GPS In-Situ -->
-                        <div onclick="selectAppScreen(3)" id="screenPill3" class="cursor-pointer p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex items-center justify-between group">
+                        <!-- Pill 3 -->
+                        <div onclick="selectAppScreen(3)" id="screenPill3" class="cursor-pointer p-3 rounded-xl bg-slate-900/55 border border-white/[0.07] hover:border-white/20 transition-all flex items-center justify-between group">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">
+                                <div class="w-9 h-9 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/25 flex items-center justify-center text-sm">
                                     <i class="fa-solid fa-location-crosshairs"></i>
                                 </div>
                                 <div>
-                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">3. Contrôle GPS In-Situ (&lt;150m)</div>
-                                    <div class="text-[11px] text-slate-400">Géovalidation anti-fraude et audit commercial &lt;48h</div>
+                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">3. Audit GPS In-Situ (&lt;150m) &amp; SLA 48h</div>
+                                    <div class="text-[11px] text-slate-400">Géovalidation anti-fraude et suivi des 6 commerciaux</div>
                                 </div>
                             </div>
                             <span class="w-2 h-2 rounded-full bg-slate-700"></span>
                         </div>
 
-                        <!-- Pill 4: Boutique Cadeaux -->
-                        <div onclick="selectAppScreen(4)" id="screenPill4" class="cursor-pointer p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex items-center justify-between group">
+                        <!-- Pill 4 -->
+                        <div onclick="selectAppScreen(4)" id="screenPill4" class="cursor-pointer p-3 rounded-xl bg-slate-900/55 border border-white/[0.07] hover:border-white/20 transition-all flex items-center justify-between group">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">
-                                    <i class="fa-solid fa-store"></i>
+                                <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 flex items-center justify-center text-sm">
+                                    <i class="fa-solid fa-robot"></i>
                                 </div>
                                 <div>
-                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">4. Catalogue Cadeaux & Outillage</div>
-                                    <div class="text-[11px] text-slate-400">Conversion des points en outillage pro, électroménager et bons</div>
+                                    <div class="text-xs font-bold text-white group-hover:text-teal-300 transition">4. Agent IA FIDNESS &amp; WhatsApp Vocal</div>
+                                    <div class="text-[11px] text-slate-400">Scoring Churn, Offres Points x2 &amp; Copilot Vocal RAG</div>
                                 </div>
                             </div>
                             <span class="w-2 h-2 rounded-full bg-slate-700"></span>
@@ -295,131 +477,118 @@
                     </div>
                 </div>
 
-                <!-- Live Ecosystem Proof Chips -->
-                <div class="grid grid-cols-3 gap-3 pt-2">
-                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                        <div class="text-[10px] uppercase font-bold text-slate-400">Chantiers Actifs</div>
-                        <div class="text-xl font-extrabold font-mono text-teal-400 mt-0.5">179</div>
-                        <div class="text-[10px] text-emerald-400 font-semibold">100% In-Situ</div>
+                <!-- Live DWH Telemetry Metrics Row -->
+                <div class="grid grid-cols-3 gap-3 pt-1">
+                    <div class="p-3.5 rounded-2xl bg-slate-900/55 border border-white/[0.07] flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] uppercase font-mono text-slate-400">Chantiers Audités</div>
+                            <div class="text-xl font-extrabold font-mono text-white mt-0.5">179</div>
+                            <div class="text-[10px] text-emerald-400 font-medium">Géovalidés In-Situ</div>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                            <i class="fa-solid fa-map-location-dot text-sm"></i>
+                        </div>
                     </div>
-                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                        <div class="text-[10px] uppercase font-bold text-slate-400">Électriciens Club</div>
-                        <div class="text-xl font-extrabold font-mono text-white mt-0.5">172</div>
-                        <div class="text-[10px] text-teal-400 font-semibold">21 Gouvernorats</div>
+                    <div class="p-3.5 rounded-2xl bg-slate-900/55 border border-white/[0.07] flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] uppercase font-mono text-slate-400">Artisans Actifs</div>
+                            <div class="text-xl font-extrabold font-mono text-teal-300 mt-0.5">172</div>
+                            <div class="text-[10px] text-slate-400 font-medium">21 Gouvernorats</div>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                            <i class="fa-solid fa-bolt text-sm"></i>
+                        </div>
                     </div>
-                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                        <div class="text-[10px] uppercase font-bold text-slate-400">CA Certifié DWH</div>
-                        <div class="text-xl font-extrabold font-mono text-amber-400 mt-0.5">1.84M DT</div>
-                        <div class="text-[10px] text-emerald-400 font-semibold">+24.8% YoY</div>
+                    <div class="p-3.5 rounded-2xl bg-slate-900/55 border border-white/[0.07] flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] uppercase font-mono text-slate-400">CA Certifié DWH</div>
+                            <div class="text-xl font-extrabold font-mono text-amber-300 mt-0.5">1.84M DT</div>
+                            <div class="text-[10px] text-emerald-400 font-medium">+24.8% YoY</div>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                            <i class="fa-solid fa-chart-line text-sm"></i>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: EXECUTIVE LOGIN FORM (5 COLS) -->
+            <!-- RIGHT COLUMN: EXECUTIVE AUTHENTICATION VAULT & LUXURY 30-DAY TRIAL PASS (5 COLS) -->
             <div class="lg:col-span-5">
-                <div id="loginCardWrapper" class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden transition-all duration-500">
-                    <!-- Subtle Corner Accent -->
-                    <div class="absolute -top-12 -right-12 w-28 h-28 bg-teal-500/20 rounded-full blur-2xl"></div>
+                <div id="loginCardWrapper" class="executive-vault-card rounded-3xl p-6 sm:p-7 space-y-5">
 
-                    <!-- Card Header with Large Animated Club Alpha Crest & Orbital Aura -->
-                    <div class="text-center space-y-3">
-                        <div class="relative flex items-center justify-center my-3">
-                            <!-- Outer Pulsing Ambient Aura -->
-                            <div class="absolute w-36 h-36 rounded-full bg-gradient-to-tr from-teal-500/40 via-cyan-400/30 to-emerald-400/40 blur-2xl animate-pulse"></div>
-                            
-                            <!-- Rotating Tech Orbital Dashed Ring -->
-                            <div class="absolute w-32 h-32 rounded-full border-2 border-dashed border-teal-400/50 animate-spin" style="animation-duration: 12s;"></div>
-                            
-                            <!-- Concentric Glowing Ring -->
-                            <div class="absolute w-28 h-28 rounded-full border border-teal-400/30 animate-ping" style="animation-duration: 4s;"></div>
-
-                            <!-- Large Club Alpha Logo with Smooth Levitation & Shimmer -->
-                            <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white p-3.5 flex items-center justify-center shadow-2xl shadow-teal-500/30 ring-4 ring-teal-500/50 overflow-hidden transform transition-all duration-300 hover:scale-105 animate-float">
-                                <img src="assets/club_alpha_logo.png" alt="Club Alpha by STIEL" class="w-full h-full object-contain drop-shadow-md">
-                                <!-- Sheen sweep animation -->
-                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_2.5s_infinite]"></div>
+                    <!-- Header: Compact Orbital Crest & Title -->
+                    <div class="flex items-center gap-4 pb-3 border-b border-white/[0.07]">
+                        <div class="relative shrink-0 flex items-center justify-center">
+                            <div class="absolute -inset-1.5 rounded-2xl bg-gradient-to-tr from-teal-500/35 to-emerald-400/25 blur-md"></div>
+                            <div class="relative w-14 h-14 rounded-2xl bg-white p-2 flex items-center justify-center shadow-xl ring-2 ring-teal-400/50">
+                                <img src="assets/club_alpha_logo.png" alt="Club Alpha" class="w-full h-full object-contain">
                             </div>
                         </div>
-
-                        <div>
-                            <h2 class="text-2xl font-black text-white tracking-tight">Authentification Sécurisée</h2>
-                            <p class="text-xs text-slate-400 font-medium mt-0.5">Portail Décisionnel Direction Générale & Ventes</p>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase tracking-wider bg-teal-500/15 text-teal-300 border border-teal-500/30">Accès Direction</span>
+                                <span class="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-lock text-[9px]"></i> TLS 1.3
+                                </span>
+                            </div>
+                            <h2 class="font-heading text-xl font-extrabold text-white mt-1 truncate">Portail Décisionnel STIEL</h2>
+                            <p class="text-[11px] text-slate-400 truncate">Authentification sécurisée DWH PostgreSQL</p>
                         </div>
                     </div>
 
-                    <!-- Profil Utilisateur Exclusif : Direction -->
-                    <div class="p-3 rounded-2xl bg-gradient-to-r from-teal-950/70 via-slate-900 to-teal-950/70 border border-teal-500/40 flex items-center justify-between shadow-inner">
-                        <div class="flex items-center gap-3">
-                            <span class="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 border border-teal-500/30 flex items-center justify-center text-sm shadow-sm">
-                                <i class="fa-solid fa-briefcase"></i>
-                            </span>
-                            <div>
-                                <div class="text-xs font-black text-white flex items-center gap-1.5">
-                                    <span>Profil Direction Générale</span>
-                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                                </div>
-                                <div class="text-[10px] text-teal-300 font-mono">Accès Décisionnel Certifié DWH</div>
-                            </div>
-                        </div>
-                        <span class="px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 shadow-sm">VIP DIRECTION</span>
-                    </div>
-
-                    <!-- Form Inputs with Configured Credentials (clubalpha / club.alpha) -->
-                    <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
-                        <!-- Error notification box -->
-                        <div id="loginErrorMessage" class="hidden p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2.5 animate-in fade-in">
+                    <!-- STANDARD CREDENTIALS FORM -->
+                    <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-3.5">
+                        <div id="loginErrorMessage" class="hidden p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2.5">
                             <i class="fa-solid fa-circle-exclamation text-rose-400 text-sm shrink-0"></i>
                             <div>
                                 <span class="font-bold">Accès refusé :</span> Identifiant ou mot de passe incorrect.
                             </div>
                         </div>
 
-                        <!-- Username Input -->
+                        <!-- Username -->
                         <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-300">Identifiant d'Accès</label>
+                            <label class="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                                <span>Identifiant Direction</span>
+                                <span class="text-[10px] font-mono text-slate-500">clubalpha</span>
+                            </label>
                             <div class="relative flex items-center">
                                 <i class="fa-solid fa-user-shield absolute left-3.5 text-slate-400 text-xs"></i>
-                                <input type="text" id="inputUsername" required value="" placeholder="Identifiant" class="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-950/90 border border-slate-700/80 focus:border-teal-500 text-white text-xs placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition font-mono font-bold tracking-wide">
+                                <input type="text" id="inputUsername" required value="" placeholder="Entrez votre identifiant..."
+                                       class="input-executive w-full pl-10 pr-3 py-2.5 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none font-mono font-semibold">
                             </div>
                         </div>
 
-                        <!-- Password Input -->
+                        <!-- Password -->
                         <div class="space-y-1">
-                            <div class="flex items-center justify-between text-xs">
-                                <label class="font-semibold text-slate-300">Mot de Passe Sécurisé</label>
-                                
-                            </div>
+                            <label class="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                                <span>Clé d'Accès Sécurisée</span>
+                                <span class="text-[10px] font-mono text-slate-500">••••••••••</span>
+                            </label>
                             <div class="relative flex items-center">
                                 <i class="fa-solid fa-key absolute left-3.5 text-slate-400 text-xs"></i>
-                                <input type="password" id="inputPassword" required value="" placeholder="••••••••••••" class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-950/90 border border-slate-700/80 focus:border-teal-500 text-white text-xs placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition font-mono tracking-wider">
+                                <input type="password" id="inputPassword" required value="" placeholder="••••••••••••"
+                                       class="input-executive w-full pl-10 pr-10 py-2.5 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none font-mono tracking-wider">
                                 <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 text-slate-400 hover:text-slate-200 transition text-xs">
                                     <i id="passwordEyeIcon" class="fa-solid fa-eye"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Remember & Security Info -->
-                        <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" checked class="rounded bg-slate-900 border-slate-700 text-teal-500 focus:ring-teal-500/40">
-                                <span>Mémoriser ma session</span>
-                            </label>
-                            <span class="flex items-center gap-1 text-[11px] text-emerald-400 font-mono">
-                                <i class="fa-solid fa-shield-halved"></i>
-                                <span>TLS 1.3 / DWH</span>
-                            </span>
-                        </div>
-
-                        <!-- Main Submit Button -->
-                        <button type="submit" id="btnSubmitLogin" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-teal-600 via-teal-500 to-emerald-600 hover:brightness-110 text-white font-extrabold text-sm transition-all duration-300 shadow-lg shadow-teal-900/50 flex items-center justify-center gap-2 cursor-pointer border border-teal-400/30 group">
-                            <span>Connexion Sécurisée DWH</span>
-                            <i class="fa-solid fa-arrow-right-long text-teal-200 group-hover:translate-x-1 transition-transform"></i>
+                        <!-- Submit Button -->
+                        <button type="submit" id="btnSubmitLogin"
+                                class="btn-executive-primary w-full py-3 px-4 rounded-xl text-white font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer group">
+                            <span>Ouvrir la Suite Décisionnelle DWH</span>
+                            <i class="fa-solid fa-arrow-right-long text-teal-100 group-hover:translate-x-1 transition-transform"></i>
                         </button>
                     </form>
 
-                    <!-- Footer Micro Notice -->
-                    <div class="text-center text-[10px] text-slate-500">
-                        © 2026 STIEL Tunisie • Direction Générale & Ventes • Norme ISO 27001
+                    <!-- Footer Security Compliance -->
+                    <div class="pt-1 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                        <span>© 2026 STIEL Tunisie</span>
+                        <span class="flex items-center gap-1 text-slate-400">
+                            <i class="fa-solid fa-bolt text-teal-400 text-[9px]"></i>
+                            <span>Compression Gzip &amp; Cache Actifs</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -428,68 +597,88 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="relative z-10 w-full px-6 py-3 border-t border-slate-900 text-center text-xs text-slate-500 backdrop-blur-md bg-slate-950/40 flex items-center justify-center gap-2">
-        <span class="text-[11px] text-slate-600">Plateforme Décisionnelle STIEL</span>
+    <footer class="relative z-10 w-full px-6 py-3 border-t border-white/[0.05] text-center text-xs text-slate-500 backdrop-blur-md bg-slate-950/50 flex items-center justify-center gap-2">
+        <span class="text-[11px] text-slate-500">Suite Décisionnelle BI &amp; Agent IA — Club Alpha by STIEL</span>
         <span class="text-slate-800">•</span>
-        <div class="flex items-center gap-1.5 opacity-25 hover:opacity-50 transition-opacity" title="Moteur par FIDNESS">
+        <div class="flex items-center gap-1.5 opacity-40 hover:opacity-75 transition-opacity">
             <img src="assets/fidness_f_hd.png" alt="FIDNESS" class="h-3.5 w-3.5 object-contain grayscale">
-            <span class="text-[10px] font-mono text-slate-600">FIDNESS Engine</span>
+            <span class="text-[10px] font-mono text-slate-400">Propulsé par FIDNESS AI Engine</span>
         </div>
     </footer>
 
-    <!-- HIGH-QUALITY FULLSCREEN ANIMATED LOADING SPLASH OVERLAY -->
-    <div id="splashOverlay" class="fixed inset-0 z-50 bg-[#060B13]/95 backdrop-blur-2xl hidden flex flex-col items-center justify-center p-6 text-center select-none animate-in fade-in duration-300">
-        <div class="max-w-md w-full space-y-6 flex flex-col items-center">
-            
-            <!-- Glowing Club Alpha Logo in Hologram Circle -->
+    <!-- ULTRA-FAST HOLOGRAPHIC LOADING OVERLAY -->
+    <div id="splashOverlay" class="fixed inset-0 z-50 bg-[#03060E]/95 backdrop-blur-2xl hidden flex flex-col items-center justify-center p-6 text-center select-none">
+        <div class="max-w-md w-full space-y-5 flex flex-col items-center">
             <div class="relative flex items-center justify-center">
-                <!-- Rotating Hologram Ring -->
-                <div class="absolute -inset-4 rounded-full border-2 border-dashed border-teal-500/50 animate-spin" style="animation-duration: 10s;"></div>
-                <div class="absolute -inset-8 rounded-full border border-teal-500/20 animate-pulse"></div>
-
-                <div class="relative p-3.5 rounded-3xl bg-white shadow-2xl shadow-teal-500/50 ring-4 ring-teal-500/50">
-                    <img src="assets/club_alpha_logo.png" alt="Club Alpha" class="w-16 h-16 object-contain">
+                <div class="absolute -inset-4 rounded-full border-2 border-dashed border-teal-500/50 animate-spin" style="animation-duration: 8s;"></div>
+                <div class="relative p-3.5 rounded-3xl bg-white shadow-2xl shadow-teal-500/40 ring-4 ring-teal-500/40">
+                    <img src="assets/club_alpha_logo.png" alt="Club Alpha" class="w-14 h-14 object-contain">
                 </div>
             </div>
 
-            <!-- Title & Subtitle -->
             <div class="space-y-1">
-                <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">CLUB ALPHA <span class="text-teal-400">by STIEL</span></h3>
-                <p class="text-xs text-slate-400 font-mono">Initialisation de la Suite Décisionnelle DWH & IA</p>
+                <h3 class="font-heading text-xl font-extrabold text-white">CLUB ALPHA <span class="text-teal-400">by STIEL</span></h3>
+                <p class="text-xs text-slate-400 font-mono">Ouverture instantanée du Cockpit DWH &amp; Agent IA...</p>
             </div>
 
-            <!-- PROGRESS BAR HIGH QUALITY WITH GLOW -->
             <div class="w-full space-y-2">
-                <div class="w-full h-3 bg-slate-900 rounded-full p-0.5 border border-slate-700/80 overflow-hidden relative">
-                    <div id="splashProgressBar" class="h-full rounded-full bg-gradient-to-r from-teal-500 via-cyan-400 to-emerald-400 transition-all duration-150 progress-glow" style="width: 0%"></div>
+                <div class="w-full h-2.5 bg-slate-900 rounded-full p-0.5 border border-slate-700/80 overflow-hidden">
+                    <div id="splashProgressBar" class="h-full rounded-full bg-gradient-to-r from-teal-500 via-cyan-400 to-emerald-400 transition-all duration-75 progress-glow" style="width: 0%"></div>
                 </div>
                 <div class="flex items-center justify-between text-xs font-mono">
-                    <span id="splashStepLabel" class="text-slate-400 text-left truncate mr-2">Connexion sécurisée au cluster DWH...</span>
+                    <span id="splashStepLabel" class="text-slate-300 truncate mr-2">Préchargement du cache DWH...</span>
                     <span id="splashPercentLabel" class="font-extrabold text-teal-400">0%</span>
                 </div>
-            </div>
-
-            <!-- Dynamic Live Terminal Log -->
-            <div class="w-full p-3 rounded-xl bg-slate-950/90 border border-slate-800 font-mono text-[11px] text-left space-y-1 shadow-inner h-24 overflow-hidden">
-                <div class="text-teal-400 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping"></span>
-                    <span id="terminalLogLine1">[DWH] Initialisation du protocole TLS 1.3...</span>
-                </div>
-                <div id="terminalLogLine2" class="text-slate-400">[AUTH] Vérification du jeton d'accès STIEL...</div>
-                <div id="terminalLogLine3" class="text-slate-500">[PostgreSQL] 57.131.30.69:5432 connecté avec succès</div>
-            </div>
-
-            <!-- Certified Badge -->
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] text-emerald-400 font-semibold font-mono">
-                <i class="fa-solid fa-lock text-xs"></i>
-                <span>Chiffrement Bancaire TLS 1.3</span>
             </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // 1. Interactive Phone Screen Carousel
+        // 1. Interactive Cursor Spotlight on Vault Card
+        const vaultCard = document.getElementById('loginCardWrapper');
+        if (vaultCard) {
+            vaultCard.addEventListener('mousemove', (e) => {
+                const rect = vaultCard.getBoundingClientRect();
+                vaultCard.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                vaultCard.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        }
+
+        // 2. Background Pre-Warming of /dashboard & /embedded_data.js so transition is < 100ms
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.location.protocol.startsWith('http')) {
+                    fetch('/dashboard', { credentials: 'same-origin' }).catch(() => {});
+                    fetch('/embedded_data.js', { credentials: 'same-origin' }).catch(() => {});
+                }
+            }, 300);
+
+            // Sync Live 30-Day Trial Status from /api/agent-ia/trial
+            fetch('/api/agent-ia/trial')
+                .then(r => r.ok ? r.json() : null)
+                .then(data => {
+                    if (!data) return;
+                    const daysLeft = (typeof data.days_remaining === 'number') ? data.days_remaining : 30;
+                    const totalDays = data.trial_duration_days || 30;
+                    const ring = document.getElementById('trialSvgRing');
+                    const numEl = document.getElementById('trialRingDaysNum');
+                    const pillEl = document.getElementById('trialBadgePill');
+                    const hdrBadge = document.getElementById('headerTrialDaysBadge');
+
+                    if (numEl) numEl.textContent = `${daysLeft}J`;
+                    if (pillEl) pillEl.textContent = daysLeft > 0 ? `J-${daysLeft} Restants` : 'Expiré • Contacter 98573031';
+                    if (hdrBadge) hdrBadge.textContent = daysLeft > 0 ? `${daysLeft} Jours Actifs` : 'Contacter +216 98 573 031';
+                    if (ring) {
+                        const circumference = 125.6;
+                        const ratio = Math.max(0.05, Math.min(1, daysLeft / totalDays));
+                        ring.style.strokeDashoffset = String(circumference * (1 - ratio));
+                    }
+                })
+                .catch(() => {});
+        });
+
+        // 3. Interactive Phone Screen Carousel
         const screenImages = [
             'assets/screen_1.png',
             'assets/screen_2.png',
@@ -497,7 +686,6 @@
             'assets/screen_4.png'
         ];
         let currentScreenIdx = 0;
-        let autoScreenInterval = null;
 
         function selectAppScreen(screenNum) {
             currentScreenIdx = screenNum - 1;
@@ -507,10 +695,8 @@
                 setTimeout(() => {
                     img.src = screenImages[currentScreenIdx];
                     img.style.opacity = '1';
-                }, 150);
+                }, 140);
             }
-
-            // Update pills
             for (let i = 1; i <= 4; i++) {
                 const pill = document.getElementById(`screenPill${i}`);
                 if (!pill) continue;
@@ -519,41 +705,17 @@
                     pill.className = "cursor-pointer p-3 rounded-xl bg-teal-500/10 border border-teal-500/40 hover:border-teal-400 transition-all flex items-center justify-between group";
                     if (dot) dot.className = "w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
                 } else {
-                    pill.className = "cursor-pointer p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex items-center justify-between group";
+                    pill.className = "cursor-pointer p-3 rounded-xl bg-slate-900/55 border border-white/[0.07] hover:border-white/20 transition-all flex items-center justify-between group";
                     if (dot) dot.className = "w-2 h-2 rounded-full bg-slate-700";
                 }
             }
         }
+        setInterval(() => {
+            currentScreenIdx = (currentScreenIdx + 1) % 4;
+            selectAppScreen(currentScreenIdx + 1);
+        }, 4500);
 
-        // Auto rotate carousel every 4.5s
-        function startAutoScreenRotation() {
-            autoScreenInterval = setInterval(() => {
-                currentScreenIdx = (currentScreenIdx + 1) % 4;
-                selectAppScreen(currentScreenIdx + 1);
-            }, 4500);
-        }
-        startAutoScreenRotation();
-
-        // 2. Role Selector
-        function selectRole(role) {
-            const btnDir = document.getElementById('roleBtnDirection');
-            const btnComm = document.getElementById('roleBtnCommercial');
-            const btnAdmin = document.getElementById('roleBtnAdmin');
-            const inputUser = document.getElementById('inputUsername');
-            const inputPass = document.getElementById('inputPassword');
-
-            const activeClass = "py-2 px-1 rounded-lg font-bold bg-teal-600 text-white shadow-sm transition";
-            const inactiveClass = "py-2 px-1 rounded-lg font-bold text-slate-400 hover:text-white transition";
-
-            if (btnDir) btnDir.className = (role === 'direction') ? activeClass : inactiveClass;
-            if (btnComm) btnComm.className = (role === 'commercial') ? activeClass : inactiveClass;
-            if (btnAdmin) btnAdmin.className = (role === 'admin') ? activeClass : inactiveClass;
-
-            // No auto-fill
-            // No auto-fill
-        }
-
-        // 3. Password Visibility Toggle
+        // 4. Password Visibility Toggle
         function togglePasswordVisibility() {
             const input = document.getElementById('inputPassword');
             const icon = document.getElementById('passwordEyeIcon');
@@ -577,7 +739,31 @@
             return 'club_alpha_by_stiel_suite_bi_ia_pr_dictive.html';
         }
 
-        // 4. Credential Verification & High-Quality Splash Loading Sequence
+        // 5. 1-Click Instant Executive Free Trial Launcher
+        function startInstantTrialDemo() {
+            const userInput = document.getElementById('inputUsername');
+            const passInput = document.getElementById('inputPassword');
+            const btn = document.getElementById('btnInstantTrial');
+
+            if (btn) {
+                btn.innerHTML = `<span class="flex items-center gap-2 text-emerald-300"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Activation du Pass Évaluation 30J...</span></span><span class="font-mono text-[10px] text-white">100%</span>`;
+            }
+            if (userInput) userInput.value = 'clubalpha';
+            if (passInput) passInput.value = 'club.alpha';
+
+            try {
+                localStorage.setItem('club_alpha_trial_mode', 'active_30d');
+                if (!localStorage.getItem('club_alpha_trial_start_ts')) {
+                    localStorage.setItem('club_alpha_trial_start_ts', String(Date.now()));
+                }
+            } catch (e) {}
+
+            setTimeout(() => {
+                startHighQualityLoadingSequence(true);
+            }, 180);
+        }
+
+        // 6. Standard Login Verification
         function handleLoginSubmit(event) {
             if (event) event.preventDefault();
 
@@ -588,7 +774,6 @@
             const user = (userInput ? userInput.value : '').trim().toLowerCase();
             const pass = (passInput ? passInput.value : '').trim();
 
-            // Strict authentication: official credentials only
             const uNorm = user.replace(/[\.\s_-]/g, '');
             const pNorm = pass.replace(/[\.\s_-]/g, '');
             const isValid = (uNorm === 'clubalpha' && (pNorm === 'clubalpha' || pass === 'club.alpha' || pass === 'clubalpha' || pass === 'stiel2026' || pass === 'admin')) ||
@@ -600,11 +785,9 @@
 
             if (isValid) {
                 if (errBox) errBox.classList.add('hidden');
-                startHighQualityLoadingSequence();
+                startHighQualityLoadingSequence(false);
             } else {
-                if (errBox) {
-                    errBox.classList.remove('hidden');
-                }
+                if (errBox) errBox.classList.remove('hidden');
                 if (passInput) {
                     passInput.classList.add('border-rose-500');
                     setTimeout(() => passInput.classList.remove('border-rose-500'), 2500);
@@ -612,7 +795,8 @@
             }
         }
 
-        function startHighQualityLoadingSequence() {
+        // 7. Ultra-Fast Loading Sequence (~450ms total)
+        function startHighQualityLoadingSequence(isInstantTrial) {
             const destUrl = getTargetDashboardUrl();
             const splash = document.getElementById('splashOverlay');
 
@@ -629,45 +813,106 @@
             }
 
             splash.classList.remove('hidden');
-
             const progressBar = document.getElementById('splashProgressBar');
             const percentLabel = document.getElementById('splashPercentLabel');
             const stepLabel = document.getElementById('splashStepLabel');
-            const log1 = document.getElementById('terminalLogLine1');
 
-            let currentProgress = 0;
-
-            const steps = [
-                { threshold: 15, step: "Établissement du tunnel chiffré TLS 1.3...", log: "[TUNNEL] Échange de clés ECDHE-RSA certifié..." },
-                { threshold: 35, step: "Authentification du compte Direction STIEL...", log: "[AUTH] Profil validé : Rôle Direction Générale & Ventes" },
-                { threshold: 55, step: "Interrogation du cluster DWH (57.131.30.69)...", log: "[DWH] Synchronisation des 179 chantiers et 172 électriciens..." },
-                { threshold: 80, step: "Compilation des matrices Power BI & Pareto ABC...", log: "[BI] Moteur ApexCharts & modélisation SHAP initialisés..." },
-                { threshold: 95, step: "Chargement des quotas commerciaux & du rapport PDF...", log: "[READY] Environnement décisionnel prêt à l'emploi" },
-                { threshold: 100, step: "Connexion réussie ! Bienvenue sur Club Alpha.", log: "[SUCCESS] Redirection vers la Suite Décisionnelle..." }
-            ];
-
+            let currentProgress = 20;
             const interval = setInterval(() => {
-                const increment = Math.floor(Math.random() * 8) + 6;
-                currentProgress = Math.min(100, currentProgress + increment);
-
+                currentProgress = Math.min(100, currentProgress + (isInstantTrial ? 28 : 22));
                 if (progressBar) progressBar.style.width = `${currentProgress}%`;
                 if (percentLabel) percentLabel.textContent = `${currentProgress}%`;
 
-                for (let s of steps) {
-                    if (currentProgress >= s.threshold) {
-                        if (stepLabel) stepLabel.textContent = s.step;
-                        if (log1) log1.textContent = s.log;
-                    }
+                if (currentProgress < 60) {
+                    if (stepLabel) stepLabel.textContent = "Validation du Pass Direction & Cache Gzip...";
+                } else if (currentProgress < 95) {
+                    if (stepLabel) stepLabel.textContent = "Synchronisation DWH (172 artisans, 179 chantiers)...";
+                } else {
+                    if (stepLabel) stepLabel.textContent = "Ouverture immédiate du Cockpit...";
                 }
 
                 if (currentProgress >= 100) {
                     clearInterval(interval);
-                    setTimeout(() => {
-                        window.location.href = destUrl;
-                    }, 250);
+                    window.location.href = destUrl;
                 }
-            }, 35);
+            }, 65);
         }
+    </script>
+    <!-- UNIVERSAL SVG ICON RESOLVER ENGINE (ZERO TOFU GUARANTEE) -->
+    <script>
+    (function() {
+        const WHATSAPP_SVG_ICON = '<svg class="w-4 h-4 inline-block shrink-0 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>';
+
+        const FA_TO_LUCIDE_MAP = {
+            "arrow-right-long": "arrow-right",
+            "bolt": "zap",
+            "camera": "camera",
+            "chart-line": "trending-up",
+            "chart-pie": "pie-chart",
+            "circle-exclamation": "alert-circle",
+            "circle-notch": "loader-2",
+            "crown": "crown",
+            "database": "database",
+            "eye": "eye",
+            "eye-slash": "eye-off",
+            "gift": "gift",
+            "key": "key",
+            "layer-group": "layers",
+            "location-crosshairs": "crosshair",
+            "lock": "lock",
+            "map-location-dot": "map",
+            "phone": "phone",
+            "robot": "bot",
+            "shield-halved": "shield",
+            "sparkles": "sparkles",
+            "user-shield": "shield-check",
+            "whatsapp": "message-circle"
+        };
+
+        function resolveAllIcons() {
+            try {
+                document.querySelectorAll('i[class*="fa-"]').forEach(el => {
+                    const cls = el.className || '';
+                    if (cls.includes('fa-whatsapp') || cls.includes('whatsapp')) {
+                        if (!el.dataset.resolved) {
+                            el.innerHTML = WHATSAPP_SVG_ICON;
+                            el.classList.remove('fa-brands', 'fa-whatsapp');
+                            el.style.display = 'inline-flex';
+                            el.style.alignItems = 'center';
+                            el.style.justifyContent = 'center';
+                            el.dataset.resolved = 'true';
+                        }
+                        return;
+                    }
+                    if (!el.hasAttribute('data-lucide')) {
+                        const match = cls.match(/fa-([a-z0-9\-]+)/g);
+                        if (match) {
+                            for (const m of match) {
+                                const iconName = m.replace('fa-', '');
+                                if (FA_TO_LUCIDE_MAP[iconName]) {
+                                    el.setAttribute('data-lucide', FA_TO_LUCIDE_MAP[iconName]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch(e) {}
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', resolveAllIcons);
+        } else {
+            resolveAllIcons();
+        }
+        if (window.requestIdleCallback) {
+            window.requestIdleCallback(resolveAllIcons, { timeout: 800 });
+        }
+        window.resolveAllIcons = resolveAllIcons;
+    })();
     </script>
 </body>
 </html>
