@@ -3020,10 +3020,10 @@
 
                 <!-- Table Container -->
                 <div class="border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto max-h-[420px] overflow-y-auto custom-scrollbar">
                         <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="bg-slate-50/90 dark:bg-slate-800/60 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] select-none">
+                            <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900 shadow-sm">
+                                <tr class="bg-slate-50/95 dark:bg-slate-900/95 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] select-none">
                                     <th onclick="sortChantiersTable('id')" class="py-3 px-3 cursor-pointer hover:text-blue-600 transition">
                                         <div class="flex items-center gap-1.5"><span>ID</span><i id="sortIcon_ch_id" class="fa-solid fa-sort-down text-blue-600 text-xs" data-lucide="arrow-up-down"></i></div>
                                     </th>
@@ -3161,8 +3161,8 @@
                         <span class="text-xs font-mono text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-magnifying-glass mr-1" data-lucide="search"></i>Inspection 3 vues par dossier</span>
                     </div>
 
-                    <!-- Photo Cards Grid -->
-                    <div id="photoGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <!-- Photo Cards Grid (Scrollable container so 185 chantiers don't stretch page) -->
+                    <div id="photoGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 max-h-[540px] overflow-y-auto pr-1.5 custom-scrollbar">
                         <!-- Dynamically populated by JS -->
                     </div>
                 </div>
@@ -3295,8 +3295,9 @@
                         <span class="text-xs font-mono text-slate-400">Dim_Commercant</span>
                     </div>
 
+                    <div class="overflow-x-auto max-h-[380px] overflow-y-auto custom-scrollbar pr-1">
                     <table class="w-full text-left border-collapse text-xs">
-                        <thead>
+                        <thead class="sticky top-0 z-10 bg-white dark:bg-slate-900 shadow-sm">
                             <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 uppercase text-[11px]">
                                 <th class="py-2.5 px-2">Commercial &amp; Région</th>
                                 <th class="py-2.5 px-2">Chantiers Audit.</th>
@@ -3380,6 +3381,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <!-- Panneau d'Alertes Automatiques (SLA > 48h & Anomalies Geofencing > 300m) -->
@@ -3698,7 +3700,7 @@
                                 </div>
                                 <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-teal-500/15 text-teal-300 border border-teal-500/30">Cliquer p/ filtrer</span>
                             </div>
-                            <div id="iaRegionalBarsContainer" class="space-y-2 my-1">
+                            <div id="iaRegionalBarsContainer" class="space-y-2 my-1 max-h-[210px] overflow-y-auto pr-1 custom-scrollbar">
                                 <!-- Dynamically populated with live governorate bars -->
                                 <div class="space-y-1">
                                     <div class="flex justify-between text-[11px]"><span class="text-slate-300 font-semibold">Nabeul &amp; Cap Bon</span><span class="font-mono text-rose-300 font-bold">5 artisans</span></div>
@@ -4065,10 +4067,10 @@
                             </div>
                         </div>
 
-                        <div class="overflow-x-auto">
+                        <div class="overflow-x-auto max-h-[460px] overflow-y-auto custom-scrollbar">
                             <table class="w-full text-left text-xs border-collapse">
-                                <thead>
-                                    <tr class="bg-slate-900/90 text-slate-400 font-mono text-[11px] uppercase border-b border-slate-800 select-none">
+                                <thead class="sticky top-0 z-10 bg-slate-900 shadow-md">
+                                    <tr class="bg-slate-900/95 text-slate-400 font-mono text-[11px] uppercase border-b border-slate-800 select-none">
                                         <th class="py-3 px-4">Électricien &amp; Contact</th>
                                         <th class="py-3 px-3">Gouvernorat</th>
                                         <th class="py-3 px-3">Cadence Historique</th>
@@ -4643,10 +4645,10 @@
 
                 <!-- Table Container -->
                 <div class="border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto max-h-[420px] overflow-y-auto custom-scrollbar">
                         <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="bg-slate-50/90 dark:bg-slate-800/60 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] select-none">
+                            <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900 shadow-sm">
+                                <tr class="bg-slate-50/95 dark:bg-slate-900/95 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] select-none">
                                     <th onclick="sortUsersTable('name')" class="py-3 px-3 cursor-pointer hover:text-blue-600 transition">
                                         <div class="flex items-center gap-1.5"><span>Utilisateur</span><i id="sortIcon_u_name" class="fa-solid fa-sort text-[10px] text-slate-400" data-lucide="arrow-up-down"></i></div>
                                     </th>
@@ -10640,10 +10642,10 @@
                         </div>
                     </div>
 
-                    <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm max-h-[280px] overflow-y-auto custom-scrollbar">
                         <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="bg-slate-50 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] border-b border-slate-200 dark:border-slate-800">
+                            <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900 shadow-sm">
+                                <tr class="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] border-b border-slate-200 dark:border-slate-800">
                                     <th class="py-2.5 px-3">Produit STIEL</th>
                                     <th class="py-2.5 px-3">Gamme</th>
                                     <th class="py-2.5 px-3 text-center">Quantité Saisie</th>
@@ -10800,10 +10802,10 @@
                     <span id="uhmChantiersTableCount" class="font-mono text-xs text-slate-400">1 chantier</span>
                 </h4>
 
-                <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm max-h-[300px] overflow-y-auto custom-scrollbar">
                     <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="bg-slate-50 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] border-b border-slate-200 dark:border-slate-800">
+                        <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900 shadow-sm">
+                            <tr class="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 font-bold uppercase text-[11px] border-b border-slate-200 dark:border-slate-800">
                                 <th class="py-2.5 px-3">ID</th>
                                 <th class="py-2.5 px-3">Titre du Chantier</th>
                                 <th class="py-2.5 px-3">Gouvernorat</th>
