@@ -393,7 +393,85 @@ class AlphaRagEngine:
         if extra_sections:
             matched_artisan_str = "\n\n".join(extra_sections) + "\n\n"
 
+        # --- CONSTRUCTION DES TABLES INTÉGRALES (100% DES LIGNES POSTGRESQL) ---
+        # 1. Statistiques mensuelles (Inscriptions & Chantiers par mois)
+        users_by_month = {}
+        for u in users.values():
+            ym = str(u.get("created_at") or "")[:7]
+            if ym:
+                users_by_month[ym] = users_by_month.get(ym, 0) + 1
+        ch_by_month = {}
+        for c in chantiers:
+            ym = str(c.get("created_at") or "")[:7]
+            if ym:
+                ch_by_month[ym] = ch_by_month.get(ym, 0) + 1
+        all_months = sorted(set(list(users_by_month.keys()) + list(ch_by_month.keys())))
+        monthly_str = "\n".join(
+            f"  - Mois {m} : {users_by_month.get(m, 0)} nouveaux inscrits | {ch_by_month.get(m, 0)} chantiers déclarés"
+            for m in all_months
+        )
+
+        # 2. Liste intégrale des 12 Produits STIEL
+        all_prods = self.get_top_products(50)
+        all_prods_str = "\n".join(
+            f"  #{i} {p.get('nom')} (Gamme: {p.get('gamme')}) : {p.get('volume_total')} unités posées sur {p.get('nb_chantiers', 0)} chantiers — CA: {p.get('ca_total', 0):.1f} DT"
+            for i, p in enumerate(all_prods, 1)
+        )
+
+        # 3. Liste intégrale des Gouvernorats
+        all_gouvs_str = "\n".join(
+            f"  - {g['gouvernorat']} : {g['chantiers']} chantiers ({g['points']} pts)"
+            for g in gouvs
+        )
+
+        # 4. Liste intégrale des Artisans en Churn
+        all_churn_str = churn_str
+        if churn_data and churn_data.get("artisans"):
+            s = churn_data["summary"]
+            c_all = [f"Total à risque : {s['count']} artisans (dont {s['critiques']} critiques >45j sans chantier, CA menacé : {s['ca_menace']} DT/mois). Liste complète :"]
+            for i, a in enumerate(churn_data["artisans"], 1):
+                c_all.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, Tél: {a['phone']}) — {a['total_chantiers']} ch., {a.get('points',0)} pts, inactif depuis {a['days_since_last']}j ({a['diagnostic']})")
+            all_churn_str = "\n".join(c_all)
+
+        # 5. Table intégrale des 174 Utilisateurs (triés par ordre chronologique d'inscription du 1er au 174ème)
+        ch_count_by_user = {}
+        for c in chantiers:
+            el = (c.get("electricien") or "").strip().lower()
+            if el:
+                ch_count_by_user[el] = ch_count_by_user.get(el, 0) + 1
+        sorted_all_users = sorted(
+            users.values(),
+            key=lambda x: str(x.get("created_at") or "9999")
+        )
+        all_users_lines = []
+        for idx, u in enumerate(sorted_all_users, 1):
+            fn = u.get("full_name") or "Sans nom"
+            em = u.get("email") or "—"
+            ph = u.get("phone") or "—"
+            pts = int(float(u.get("solde_points") or 0))
+            dt = str(u.get("created_at") or "")[:16].replace("T", " ")
+            n_ch = ch_count_by_user.get(fn.strip().lower(), 0)
+            all_users_lines.append(f"  [Inscrit #{idx}] {fn} | Email: {em} | Tél: {ph} | Points: {pts} pts | Chantiers: {n_ch} | Date: {dt}")
+        all_users_table_str = "\n".join(all_users_lines)
+
+        # 6. Table intégrale des 185 Chantiers (triés par ID décroissant)
+        sorted_all_ch = sorted(chantiers, key=lambda x: int(x.get("id") or 0), reverse=True)
+        all_ch_lines = []
+        for c in sorted_all_ch:
+            cid = c.get("id")
+            ctitle = c.get("title") or "Sans titre"
+            cel = c.get("electricien") or "Inconnu"
+            cgv = c.get("gouvernorat") or "—"
+            ccm = c.get("commercial") or "—"
+            cst = c.get("status") or "valid"
+            cpts = int(c.get("total_points") or 0)
+            cdt = str(c.get("created_at") or "")[:16].replace("T", " ")
+            cph = len(c.get("photos") or [])
+            all_ch_lines.append(f"  [Chantier #{cid}] '{ctitle}' | Élec: {cel} | Gouv: {cgv} | Comm: {ccm} | Statut: {cst} | Points: {cpts} pts | Photos: {cph} | Date: {cdt}")
+        all_chantiers_table_str = "\n".join(all_ch_lines)
+
         return f"""=== BASE DE DONNÉES POSTGRESQL TEMPS RÉEL : CLUB ALPHA BY STIEL (57.131.30.69) ===
+Tables PostgreSQL officielles : users (174 inscrits), sheet (185 chantiers), sheet_item (lignes articles), outlet (12 produits STIEL), gift (6 cadeaux fidélité), picture (579 photos HD).
 Date et heure exactes (Tunis) : {date_fr}
 
 {matched_artisan_str}1. CHIFFRES GLOBAUX DWH :
@@ -429,11 +507,26 @@ Date et heure exactes (Tunis) : {date_fr}
 7. RÉPARTITION PAR GOUVERNORAT (TUNISIE) :
 {gouvs_str}
 
-8. ARTISANS EN RISQUE DE CHURN (À RELANCER SUR WHATSAPP) :
-{churn_str}
+8. ARTISANS EN RISQUE DE CHURN (LISTE COMPLÈTE À RELANCER SUR WHATSAPP) :
+{all_churn_str}
 
 9. CATALOGUE CADEAUX FIDÉLITÉ :
 {gifts_str}
+
+10. ÉVOLUTION MENSUELLE (INSCRIPTIONS & CHANTIERS PAR MOIS) :
+{monthly_str}
+
+11. LISTE INTÉGRALE DES 12 PRODUITS STIEL :
+{all_prods_str}
+
+12. LISTE INTÉGRALE DES GOUVERNORATS :
+{all_gouvs_str}
+
+13. TABLE INTÉGRALE DES {total_users} UTILISATEURS INSCRITS (TRIÉS CHRONOLOGIQUEMENT DU #1 PLUS ANCIEN AU #{total_users} PLUS RÉCENT) :
+{all_users_table_str}
+
+14. TABLE INTÉGRALE DES {total_chantiers} CHANTIERS (AVEC ID, TITRE, ÉLECTRICIEN, GOUVERNORAT, COMMERCIAL, STATUT, POINTS, PHOTOS, DATE) :
+{all_chantiers_table_str}
 """
 
     def _instant_deterministic_answer(self, q):
@@ -782,7 +875,7 @@ Date et heure exactes (Tunis) : {date_fr}
                     "generationConfig": {"temperature": 0.0, "maxOutputTokens": 280}
                 }
                 try:
-                    resp = requests.post(url, json=payload, timeout=6)
+                    resp = requests.post(url, json=payload, timeout=12)
                     if resp.status_code == 200:
                         data = resp.json()
                         parts = data["candidates"][0].get("content", {}).get("parts", [])
