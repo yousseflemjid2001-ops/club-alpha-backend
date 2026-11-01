@@ -97,12 +97,41 @@ class AlphaRagEngine:
         rows.sort(key=lambda x: (x["chantiers"], x["solde_points"]), reverse=True)
         return rows[:limit]
 
-    def get_latest_users(self, limit=5):
+    def get_latest_users(self, limit=8):
         snap = self._get_live_Snapshot()
         users = snap.get("users", {})
         if users:
-            sorted_u = sorted(users.values(), key=lambda x: str(x.get("created_at", "")), reverse=True)
+            sorted_u = sorted(
+                [u for u in users.values() if u.get("created_at")],
+                key=lambda x: str(x.get("created_at", "")),
+                reverse=True
+            )
             return sorted_u[:limit]
+        return []
+
+    def get_first_users(self, limit=10):
+        """Retourne les tout premiers utilisateurs inscrits dans l'application (ordre chronologique croissant)."""
+        snap = self._get_live_Snapshot()
+        users = snap.get("users", {})
+        if users:
+            sorted_u = sorted(
+                [u for u in users.values() if u.get("created_at")],
+                key=lambda x: str(x.get("created_at", "9999"))
+            )
+            return sorted_u[:limit]
+        return []
+
+    def get_first_active_electricians(self, limit=8):
+        """Retourne les premiers électriciens inscrits ayant un solde de points > 0 (hors comptes de test)."""
+        snap = self._get_live_Snapshot()
+        users = snap.get("users", {})
+        if users:
+            active = [
+                u for u in users.values()
+                if u.get("created_at") and float(u.get("solde_points") or 0) > 0
+                and "test" not in (u.get("full_name") or "").lower()
+            ]
+            return sorted(active, key=lambda x: str(x.get("created_at", "9999")))[:limit]
         return []
 
     def get_top_products(self, limit=6):
@@ -182,10 +211,12 @@ class AlphaRagEngine:
         valid_chantiers = sum(1 for c in chantiers if c.get("status") == "valid") or 163
         pending_chantiers = sum(1 for c in chantiers if c.get("status") == "pending") or 22
 
-        top_pts = self.get_top_electricians_by_points(8)
-        top_ch = self.get_top_electricians_by_chantiers(6)
-        latest_u = self.get_latest_users(5)
-        top_prods = self.get_top_products(6)
+        top_pts = self.get_top_electricians_by_points(10)
+        top_ch = self.get_top_electricians_by_chantiers(8)
+        first_u = self.get_first_users(10)
+        first_active_u = self.get_first_active_electricians(8)
+        latest_u = self.get_latest_users(8)
+        top_prods = self.get_top_products(8)
         comms = self.get_commercials_ranking()
         gouvs = self.get_governorates_ranking()
         churn_data = self.get_live_churn()
@@ -203,10 +234,30 @@ class AlphaRagEngine:
             f"  #{i} {e['full_name']} : {e['chantiers']} chantiers ({e['solde_points']} pts, Commercial: {e['commercial']})"
             for i, e in enumerate(top_ch, 1)
         )
+        first_str = "\n".join(
+            f"  #{i} (Plus ancien #{i}) {u.get('full_name')} ({u.get('email')}) — Inscrit le {str(u.get('created_at',''))[:16].replace('T',' ')} — {int(float(u.get('solde_points') or 0))} pts"
+            for i, u in enumerate(first_u, 1)
+        )
+        first_active_str = "\n".join(
+            f"  #{i} {u.get('full_name')} ({u.get('email')}) — Inscrit le {str(u.get('created_at',''))[:16].replace('T',' ')} — {int(float(u.get('solde_points') or 0))} pts"
+            for i, u in enumerate(first_active_u, 1)
+        )
         latest_str = "\n".join(
-            f"  #{i} {u.get('full_name')} ({u.get('email')}) — Inscrit le {str(u.get('created_at',''))[:16].replace('T',' ')} — {int(u.get('solde_points',0))} pts"
+            f"  #{i} (Plus récent #{i}) {u.get('full_name')} ({u.get('email')}) — Inscrit le {str(u.get('created_at',''))[:16].replace('T',' ')} — {int(float(u.get('solde_points') or 0))} pts"
             for i, u in enumerate(latest_u, 1)
         )
+        # Premier et dernier chantier déclarés
+        ch_by_date = sorted([c for c in chantiers if c.get("created_at")], key=lambda x: str(x.get("created_at", "")))
+        first_ch_str = ""
+        if ch_by_date:
+            fc = ch_by_date[0]
+            lc = ch_by_date[-1]
+            max_c = max(chantiers, key=lambda x: int(x.get("total_points", 0)))
+            first_ch_str = (
+                f"  - 1er chantier déclaré (le plus ancien) : Chantier #{fc.get('id')} '{fc.get('title')}' par {fc.get('electricien')} ({fc.get('gouvernorat')}) le {str(fc.get('created_at',''))[:16].replace('T',' ')} ({fc.get('total_points')} pts)\n"
+                f"  - Dernier chantier déclaré (le plus récent) : Chantier #{lc.get('id')} '{lc.get('title')}' par {lc.get('electricien')} ({lc.get('gouvernorat')}) le {str(lc.get('created_at',''))[:16].replace('T',' ')} ({lc.get('total_points')} pts)\n"
+                f"  - Chantier record en points : Chantier #{max_c.get('id')} '{max_c.get('title')}' par {max_c.get('electricien')} avec {max_c.get('total_points')} pts"
+            )
         prods_str = "\n".join(
             f"  #{i} {p.get('nom')} ({p.get('gamme')}) : {p.get('volume_total')} unités posées sur {p.get('nb_chantiers', 0)} chantiers — CA: {p.get('ca_total', 0):.1f} DT"
             for i, p in enumerate(top_prods, 1)
@@ -303,6 +354,42 @@ class AlphaRagEngine:
                     m_lines.append(f"  * {m.get('full_name')} | Solde: {int(m.get('solde_points',0))} pts | Tél: {m.get('phone','N/A')} | Email: {m.get('email')} | Chantiers ({len(u_ch)}): {ch_detail}")
                 extra_sections.append("\n".join(m_lines))
 
+        # D. Focus Chantier spécifique (par numéro #ID ou titre) ou Chantiers en attente
+        import re
+        ch_ids = re.findall(r'\b(\d{1,3})\b', ql_clean)
+        if ch_ids and chantiers:
+            found_ch = [c for c in chantiers if str(c.get("id")) in ch_ids]
+            if found_ch:
+                c_lines = ["CHANTIER(S) SPÉCIFIQUE(S) TROUVÉ(S) DANS POSTGRESQL :"]
+                for c in found_ch[:5]:
+                    c_lines.append(
+                        f"  * Chantier #{c.get('id')} '{c.get('title')}' | Électricien: {c.get('electricien')} | "
+                        f"Commercial/Parrain: {c.get('commercial')} | Gouvernorat: {c.get('gouvernorat')} | "
+                        f"Statut: {c.get('status')} | Points: {c.get('total_points')} pts | Date: {str(c.get('created_at',''))[:16]} | "
+                        f"Photos: {len(c.get('photos', []))} preuves HD"
+                    )
+                extra_sections.append("\n".join(c_lines))
+
+        # E. Focus Chantiers en attente (pending) si demandé
+        if any(w in ql_clean for w in ["attente", "pending", "non valide", "a valider", "en cours"]):
+            pend_list = [c for c in chantiers if c.get("status") == "pending"]
+            if pend_list:
+                p_lines = [f"LISTE EXACTE DES {len(pend_list)} CHANTIERS EN ATTENTE DE VALIDATION :"]
+                for c in pend_list[:12]:
+                    p_lines.append(f"  * #{c.get('id')} '{c.get('title')}' — Électricien: {c.get('electricien')} ({c.get('gouvernorat')}, Commercial: {c.get('commercial')}) — {c.get('total_points')} pts — Créé le {str(c.get('created_at',''))[:10]}")
+                extra_sections.append("\n".join(p_lines))
+
+        # F. Focus Comptes à 0 point ou moins de points
+        if any(w in ql_clean for w in ["zero", "0 point", "sans point", "moins de point", "minimum", "plus bas", "faible"]):
+            zero_u = [u for u in users.values() if float(u.get("solde_points") or 0) == 0]
+            min_active_u = sorted([u for u in users.values() if float(u.get("solde_points") or 0) > 0], key=lambda x: float(x.get("solde_points") or 0))[:6]
+            z_lines = [
+                f"ANALYSE DES COMPTES À 0 POINT OU FAIBLE SOLDE :",
+                f"  - Nombre de comptes avec 0 point : {len(zero_u)} comptes sur {len(users)}.",
+                f"  - Électriciens actifs ayant les plus petits soldes (> 0 pt) : " + ", ".join(f"{u.get('full_name')} ({int(float(u.get('solde_points') or 0))} pts)" for u in min_active_u)
+            ]
+            extra_sections.append("\n".join(z_lines))
+
         if extra_sections:
             matched_artisan_str = "\n\n".join(extra_sections) + "\n\n"
 
@@ -321,8 +408,17 @@ Date et heure exactes (Tunis) : {date_fr}
 3. TOP ÉLECTRICIENS PAR NOMBRE DE CHANTIERS DÉCLARÉS :
 {top_ch_str}
 
-4. DERNIERS ÉLECTRICIENS INSCRits (NOUVEAUX ADHÉRENTS) :
+4A. TOUT PREMIERS UTILISATEURS INSCRITS DANS L'APPLICATION (ORDRE CHRONOLOGIQUE CROISSANT — LES PLUS ANCIENS DEPUIS FÉVRIER 2026) :
+{first_str}
+
+4B. PREMIERS ÉLECTRICIENS ACTIFS INSCRITS (AVEC POINTS > 0, HORS COMPTES DE TEST) :
+{first_active_str}
+
+4C. DERNIERS ÉLECTRICIENS INSCRITS (LES PLUS RÉCENTS — OCTOBRE 2026) :
 {latest_str}
+
+4D. CHRONOLOGIE & RECORDS DES CHANTIERS :
+{first_ch_str}
 
 5. TOP PRODUITS / BEST-SELLERS STIEL (LES PLUS VENDUS / POSÉS) :
 {prods_str}
