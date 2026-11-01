@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://club-alpha-backend.onrender.com/api/"
+      "destination": "https://club-alpha-backend.onrender.com/api/$1"
     },
     {
       "source": "/dashboard",
@@ -15,6 +15,15 @@
     }
   ],
   "headers": [
+    {
+      "source": "/(dashboard|login|index|dashboard\\.html|login\\.html|index\\.html|$)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
     {
       "source": "/favicon.ico",
       "headers": [
@@ -30,15 +39,6 @@
     },
     {
       "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.(js|css|png|ico|svg|webp)",
       "headers": [
         {
           "key": "Cache-Control",
