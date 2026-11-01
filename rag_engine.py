@@ -232,9 +232,63 @@ class AlphaRagEngine:
                 c_lines.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, Tél: {a['phone']}) — {a['total_chantiers']} chantiers au total, inactif depuis {a['days_since_last']} jours ({a['diagnostic']})")
             churn_str = "\n".join(c_lines)
 
-        # Recherche dynamique d'un artisan spécifique si son nom est dans la question
+        # Recherche dynamique approfondie (Artisan, Gouvernorat/Ville, ou Commercial mentionné dans la question)
         matched_artisan_str = ""
         ql = (query or "").lower()
+        ql_clean = ql.replace("é", "e").replace("è", "e").replace("ê", "e").replace("à", "a")
+        extra_sections = []
+
+        # A. Focus Gouvernorat / Ville spécifique (ex: Sfax, Sousse, Tunis, Monastir, Nabeul, Bizerte...)
+        if chantiers:
+            all_gouvs = set(c.get("gouvernorat", "") for c in chantiers if c.get("gouvernorat"))
+            for gv in all_gouvs:
+                gv_low = gv.lower().replace("é", "e").replace("è", "e")
+                # Check if governorate name or main city word is in query
+                gv_tokens = [t for t in gv_low.split() if len(t) >= 4 and t not in ("grand",)]
+                if gv_low in ql_clean or any(tok in ql_clean for tok in gv_tokens):
+                    gv_ch = [c for c in chantiers if c.get("gouvernorat") == gv]
+                    gv_pts = sum(int(c.get("total_points", 0)) for c in gv_ch)
+                    gv_valid = sum(1 for c in gv_ch if c.get("status") == "valid")
+                    gv_pending = len(gv_ch) - gv_valid
+                    pct_nat = round((len(gv_ch) / max(len(chantiers), 1)) * 100, 1)
+                    # Top artisans in this governorate
+                    art_map = {}
+                    comm_counts = {}
+                    for c in gv_ch:
+                        el = c.get("electricien") or "Inconnu"
+                        art_map.setdefault(el, {"ch": 0, "pts": 0})
+                        art_map[el]["ch"] += 1
+                        art_map[el]["pts"] += int(c.get("total_points", 0))
+                        cm = c.get("commercial") or "Ali Ben Romdhane"
+                        comm_counts[cm] = comm_counts.get(cm, 0) + 1
+                    top_gv_arts = sorted(art_map.items(), key=lambda x: (x[1]["pts"], x[1]["ch"]), reverse=True)[:5]
+                    main_comm = max(comm_counts.items(), key=lambda x: x[1])[0] if comm_counts else "Slim"
+                    gv_lines = [
+                        f"FOCUS DÉTAILLÉ GOUVERNORAT DE {gv.upper()} (DONNÉES POSTGRESQL RÉELLES) :",
+                        f"  - Volume d'activité à {gv} : {len(gv_ch)} chantiers ({pct_nat}% du national), dont {gv_valid} validés et {gv_pending} en attente, totalisant {gv_pts} points.",
+                        f"  - Commercial STIEL référent sur la zone {gv} : {main_comm} ({', '.join(f'{k}: {v} ch.' for k,v in comm_counts.items())}).",
+                        f"  - Top Électriciens actifs à {gv} : " + ", ".join(f"{name} ({info['ch']} chantiers, {info['pts']} pts)" for name, info in top_gv_arts),
+                        f"  - Derniers chantiers enregistrés à {gv} : " + "; ".join(f"Chantier #{c.get('id')} '{c.get('title')}' par {c.get('electricien')} ({c.get('total_points')} pts, statut: {c.get('status')})" for c in gv_ch[:5])
+                    ]
+                    if churn_data and churn_data.get("artisans"):
+                        gv_churn = [a for a in churn_data["artisans"] if gv_low in (a.get("gouvernorat") or "").lower()]
+                        if gv_churn:
+                            gv_lines.append("  - Artisans en risque de Churn à " + gv + " : " + ", ".join(f"{a['nom']} (Tél: {a['phone']}, inactif depuis {a['days_since_last']}j, {a['total_chantiers']} ch.)" for a in gv_churn[:5]))
+                    extra_sections.append("\n".join(gv_lines))
+
+        # B. Focus Commercial spécifique (Slim, Ali Ben Romdhane, Mourad, Hichem, Nizar)
+        for c_obj in comms:
+            c_name = c_obj["nom"]
+            c_tokens = [t.lower() for t in c_name.split() if len(t) >= 4 and t.lower() not in ("ben",)]
+            if c_name.lower() in ql_clean or any(tok in ql_clean for tok in c_tokens):
+                c_ch = [ch for ch in chantiers if (ch.get("commercial") or "").lower() == c_name.lower()]
+                extra_sections.append(
+                    f"FOCUS COMMERCIAL {c_name.upper()} : Région {c_obj['region']} | Tél: {c_obj['phone']} | "
+                    f"{c_obj['chantiers']} chantiers supervisés | {c_obj['nb_electriciens']} artisans suivis | {c_obj['points']} pts générés. "
+                    f"Exemples de chantiers : " + ", ".join(f"#{ch.get('id')} ({ch.get('electricien')}, {ch.get('gouvernorat')}, {ch.get('total_points')} pts)" for ch in c_ch[:5])
+                )
+
+        # C. Focus Artisan spécifique
         if len(ql) >= 3 and users:
             matches = []
             for u in users.values():
@@ -243,9 +297,14 @@ class AlphaRagEngine:
                     matches.append(u)
             if matches:
                 m_lines = ["ARTISAN(S) TROUVÉ(S) DANS POSTGRESQL POUR CETTE REQUÊTE :"]
-                for m in matches[:3]:
-                    m_lines.append(f"  * {m.get('full_name')} | Solde: {int(m.get('solde_points',0))} pts | Email: {m.get('email')} | Inscrit: {str(m.get('created_at',''))[:10]}")
-                matched_artisan_str = "\n".join(m_lines) + "\n\n"
+                for m in matches[:4]:
+                    u_ch = [c for c in chantiers if (c.get("electricien") or "").lower() == (m.get("full_name") or "").lower()]
+                    ch_detail = ", ".join(f"#{c.get('id')} '{c.get('title')}' ({c.get('total_points')} pts, {c.get('gouvernorat')})" for c in u_ch[:4]) or "Aucun chantier"
+                    m_lines.append(f"  * {m.get('full_name')} | Solde: {int(m.get('solde_points',0))} pts | Tél: {m.get('phone','N/A')} | Email: {m.get('email')} | Chantiers ({len(u_ch)}): {ch_detail}")
+                extra_sections.append("\n".join(m_lines))
+
+        if extra_sections:
+            matched_artisan_str = "\n\n".join(extra_sections) + "\n\n"
 
         return f"""=== BASE DE DONNÉES POSTGRESQL TEMPS RÉEL : CLUB ALPHA BY STIEL (57.131.30.69) ===
 Date et heure exactes (Tunis) : {date_fr}
@@ -567,9 +626,6 @@ Date et heure exactes (Tunis) : {date_fr}
                             t_part, a_part = txt.split("REPONSE:", 1)
                             transcript = t_part.replace("TRANSCRIPTION:", "").strip()
                             answer = a_part.strip()
-                        det = self._instant_deterministic_answer(transcript)
-                        if det:
-                            answer = det
                         return {"transcript": transcript, "response": answer}
                 except Exception as e:
                     print(f"[RAG AUDIO] Erreur {model_candidate}: {e}")
@@ -587,23 +643,25 @@ Date et heure exactes (Tunis) : {date_fr}
 
         followups = self.get_dynamic_followups(q)
 
-        # 1. Vérification déterministe instantanée (< 5ms, 100% exact sur les classements DWH, 0 token API)
-        det_answer = self._instant_deterministic_answer(q)
-        if det_answer:
-            return {
-                "response": det_answer,
-                "thought": "Extraction SQL déterministe directe depuis PostgreSQL (57.131.30.69) • 0 token API consommé • Zéro hallucination.",
-                "thoughts_tokens": 0,
-                "response_time_ms": max(int((time.time() - t0) * 1000), 5),
-                "confidence": "100%",
-                "sources": ["DWH PostgreSQL (57.131.30.69)"],
-                "suggested_followups": followups,
-                "llm_engine": "PostgreSQL Direct + Gemini Flash-Lite (0 Token)"
-            }
+        # 1. Salutations pures ou heure exacte -> Réponse instantanée (< 5ms)
+        ql_simple = q.lower().strip()
+        if ql_simple in {"bonjour", "salut", "slt", "salam", "aslema", "hello", "hi", "bonsoir", "bjr", "aide", "help", "menu", "start", "date", "heure"}:
+            det_greet = self._instant_deterministic_answer(q)
+            if det_greet:
+                return {
+                    "response": det_greet,
+                    "thought": "Réponse instantanée Agent AI Fidness connectée à PostgreSQL (57.131.30.69).",
+                    "thoughts_tokens": 0,
+                    "response_time_ms": max(int((time.time() - t0) * 1000), 5),
+                    "confidence": "100%",
+                    "sources": ["DWH PostgreSQL (57.131.30.69)"],
+                    "suggested_followups": followups,
+                    "llm_engine": "Agent AI Fidness Direct"
+                }
 
-        # 2. Appel Gemini Flash-Lite (sans réflexion coûteuse en tokens, température 0.0, 100% ancré DWH)
+        # 2. Appel Gemini 3.5 Flash-Lite en priorité avec contexte PostgreSQL ciblé (compréhension fine de la question)
         dwh_context = self.get_dwh_context(q)
-        if self.api_key:
+        if self.api_key and not fast_only:
             system_prompt = (
                 "Tu es Alpha Copilot, l'assistant décisionnel officiel et exclusif de Club Alpha by STIEL Tunisie (système RAG d'entreprise strict).\n"
                 "RÈGLES ABSOLUES DE PÉRIMÈTRE MÉTIER (STRICT RAG GUARDRAILS) :\n"
