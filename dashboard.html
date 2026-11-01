@@ -9274,7 +9274,7 @@
             const loc = window.location;
             if (loc.port === '8086') return '/' + raw + q;
             if (loc.protocol === 'file:' || loc.hostname === 'localhost' || loc.hostname === '127.0.0.1') return 'http://localhost:8086/' + raw + q;
-            return '/' + raw + q;
+            return 'https://club-alpha-backend.onrender.com/' + raw + q;
         }
         window.resolvePhotoUrl = resolvePhotoUrl;
 
@@ -10372,7 +10372,7 @@
         // =========================================================================
         async function syncDatabaseLive() {
             try {
-                const apiBase = (window.location.protocol === 'http:' && window.location.port === '8086') ? '' : 'http://localhost:8086';
+                const apiBase = (window.location.protocol === 'http:' && window.location.port === '8086') ? '' : (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') ? 'https://club-alpha-backend.onrender.com' : 'http://localhost:8086';
                 const [resGen, resComm, resLoyalty, resChurn, resChantiers, resPhotos] = await Promise.all([
                     fetch(`${apiBase}/api/kpis/general`).catch(() => null),
                     fetch(`${apiBase}/api/kpis/commercials`).catch(() => null),
@@ -11620,7 +11620,7 @@
             }
 
             try {
-                const apiBase = (window.location.protocol === 'http:' && window.location.port === '8086') ? '' : 'http://localhost:8086';
+                const apiBase = (window.location.protocol === 'http:' && window.location.port === '8086') ? '' : (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') ? 'https://club-alpha-backend.onrender.com' : 'http://localhost:8086';
                 const t0 = performance.now();
                 const [statusRes, resGen, resComm, resChurn, resChantiers, resUsers] = await Promise.all([
                     fetch(`${apiBase}/api/status`).then(r => r.json()).catch(() => null),
@@ -16633,7 +16633,7 @@
     <script>
     // ===== AGENT IA FIDNESS : churn en direct, essai 30 jours, offres WhatsApp avec suivi =====
     (function () {
-        const API = (window.location.port === '8086') ? '' : 'http://localhost:8086';
+        const API = (window.location.port === '8086') ? '' : (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') ? 'https://club-alpha-backend.onrender.com' : 'http://localhost:8086';
         const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         const fr = (n) => Number(n || 0).toLocaleString('fr-FR');
         window.liveChurn = { artisans: [], byId: {}, summary: null };

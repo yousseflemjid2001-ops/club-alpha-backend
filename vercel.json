@@ -2,6 +2,10 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://club-alpha-backend.onrender.com/api/"
+    },
+    {
       "source": "/dashboard",
       "destination": "/dashboard.html"
     },
