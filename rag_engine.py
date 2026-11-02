@@ -29,6 +29,10 @@ def load_env_api_key():
     return ""
 
 
+
+PALMARES_YTD_ELECTRICIENS = [{"rank": 1, "name": "Walid Bouazizi", "code": "EL-2023-014", "region": "Grand Tunis", "gouv": "Tunis", "tier": "PLATINE", "chantiers": 142, "ca": 46900, "points": 6420, "churn": 9, "status": "Ambassadeur ⭐"}, {"rank": 2, "name": "Bilel Guesmi", "code": "EL-2023-088", "region": "Grand Tunis", "gouv": "Tunis", "tier": "PLATINE", "chantiers": 118, "ca": 38450, "points": 5190, "churn": 12, "status": "Très Actif"}, {"rank": 3, "name": "Mohamed Ali Karray", "code": "EL-2024-032", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "PLATINE", "chantiers": 104, "ca": 34120, "points": 4680, "churn": 14, "status": "Leader Sud"}, {"rank": 4, "name": "Anis Gharbi", "code": "EL-2024-109", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "OR", "chantiers": 76, "ca": 24800, "points": 2850, "churn": 78, "status": "À Risque ⚠️"}, {"rank": 5, "name": "Sami Khelifi", "code": "EL-2024-177", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "OR", "chantiers": 68, "ca": 21950, "points": 2640, "churn": 22, "status": "Régulier"}, {"rank": 6, "name": "Nabil Tounsi", "code": "EL-2025-045", "region": "Grand Tunis", "gouv": "Tunis", "tier": "OR", "chantiers": 62, "ca": 19800, "points": 2310, "churn": 18, "status": "En Hausse 📈"}, {"rank": 7, "name": "Tarek Maalej", "code": "EL-2025-288", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "ARGENT", "chantiers": 44, "ca": 14200, "points": 1790, "churn": 54, "status": "Cible Palier Or"}, {"rank": 8, "name": "Hichem Mejri", "code": "EL-2025-112", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "tier": "ARGENT", "chantiers": 39, "ca": 12450, "points": 1520, "churn": 31, "status": "Régulier"}, {"rank": 9, "name": "Mourad Ayari", "code": "EL-2025-304", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 34, "ca": 10890, "points": 1280, "churn": 25, "status": "Actif"}, {"rank": 10, "name": "Lotfi Ben Amor", "code": "EL-2026-019", "region": "Sousse & Sahel", "gouv": "Monastir", "tier": "ARGENT", "chantiers": 28, "ca": 9240, "points": 1050, "churn": 42, "status": "Nouveau"}, {"rank": 11, "name": "Sofiane Trabelsi", "code": "EL-2024-055", "region": "Grand Tunis", "gouv": "Ariana", "tier": "OR", "chantiers": 58, "ca": 18600, "points": 2240, "churn": 16, "status": "Très Actif"}, {"rank": 12, "name": "Karim Chaabane", "code": "EL-2024-092", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "OR", "chantiers": 54, "ca": 17400, "points": 2120, "churn": 24, "status": "Régulier"}, {"rank": 13, "name": "Youssef Ben Amor", "code": "EL-2024-118", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "OR", "chantiers": 51, "ca": 16800, "points": 2050, "churn": 19, "status": "En Hausse 📈"}, {"rank": 14, "name": "Zied Mahjoub", "code": "EL-2024-142", "region": "Grand Tunis", "gouv": "Ben Arous", "tier": "OR", "chantiers": 48, "ca": 15900, "points": 1980, "churn": 28, "status": "Fidèle"}, {"rank": 15, "name": "Riadh Dridi", "code": "EL-2024-165", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "OR", "chantiers": 45, "ca": 14850, "points": 1840, "churn": 22, "status": "Actif"}, {"rank": 16, "name": "Ramzi Hammami", "code": "EL-2024-190", "region": "Nabeul (Cap Bon)", "gouv": "Hammamet", "tier": "ARGENT", "chantiers": 42, "ca": 13700, "points": 1710, "churn": 33, "status": "Régulier"}, {"rank": 17, "name": "Khaled Jlassi", "code": "EL-2025-012", "region": "Grand Tunis", "gouv": "Manouba", "tier": "ARGENT", "chantiers": 40, "ca": 12900, "points": 1620, "churn": 15, "status": "En Hausse 📈"}, {"rank": 18, "name": "Kais Oueslati", "code": "EL-2025-038", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 38, "ca": 12300, "points": 1540, "churn": 29, "status": "Régulier"}, {"rank": 19, "name": "Bassem Jerbi", "code": "EL-2025-064", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "ARGENT", "chantiers": 36, "ca": 11800, "points": 1460, "churn": 38, "status": "Cible Or"}, {"rank": 20, "name": "Mounir Cherif", "code": "EL-2025-090", "region": "Sousse & Sahel", "gouv": "Monastir", "tier": "ARGENT", "chantiers": 35, "ca": 11400, "points": 1400, "churn": 21, "status": "Fidèle"}, {"rank": 21, "name": "Fakhri Baccouche", "code": "EL-2025-115", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 33, "ca": 10700, "points": 1320, "churn": 26, "status": "Actif"}, {"rank": 22, "name": "Marwen Mansouri", "code": "EL-2025-139", "region": "Bizerte & Nord", "gouv": "Mateur", "tier": "ARGENT", "chantiers": 31, "ca": 10200, "points": 1260, "churn": 45, "status": "À Surveiller ⚠️"}, {"rank": 23, "name": "Amin Rekik", "code": "EL-2025-162", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "ARGENT", "chantiers": 30, "ca": 9800, "points": 1200, "churn": 17, "status": "En Hausse 📈"}, {"rank": 24, "name": "Hamza Louati", "code": "EL-2025-188", "region": "Sfax & Sud", "gouv": "Mahres", "tier": "ARGENT", "chantiers": 29, "ca": 9450, "points": 1160, "churn": 30, "status": "Régulier"}, {"rank": 25, "name": "Firas Zaier", "code": "EL-2025-212", "region": "Grand Tunis", "gouv": "Ariana", "tier": "ARGENT", "chantiers": 28, "ca": 9100, "points": 1120, "churn": 19, "status": "Actif"}, {"rank": 26, "name": "Wajdi Ben Salah", "code": "EL-2025-236", "region": "Sousse & Sahel", "gouv": "Mahdia", "tier": "ARGENT", "chantiers": 27, "ca": 8800, "points": 1080, "churn": 36, "status": "Régulier"}, {"rank": 27, "name": "Saber Snoussi", "code": "EL-2025-260", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "tier": "ARGENT", "chantiers": 26, "ca": 8500, "points": 1040, "churn": 23, "status": "Fidèle"}, {"rank": 28, "name": "Imed Ben Salem", "code": "EL-2025-284", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 25, "ca": 8200, "points": 1010, "churn": 27, "status": "Actif"}, {"rank": 29, "name": "Hatem Riahi", "code": "EL-2025-308", "region": "Bizerte & Nord", "gouv": "Béja", "tier": "ARGENT", "chantiers": 24, "ca": 7900, "points": 970, "churn": 34, "status": "Régulier"}, {"rank": 30, "name": "Chokri Belhadj", "code": "EL-2025-332", "region": "Grand Tunis", "gouv": "Ben Arous", "tier": "ARGENT", "chantiers": 23, "ca": 7600, "points": 930, "churn": 18, "status": "En Progression 📈"}, {"rank": 31, "name": "Mehdi Sellami", "code": "EL-2025-356", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 22, "ca": 7250, "points": 890, "churn": 41, "status": "Potentiel"}, {"rank": 32, "name": "Wissem Chebbi", "code": "EL-2025-380", "region": "Grand Tunis", "gouv": "Tunis", "tier": "BRONZE", "chantiers": 21, "ca": 6900, "points": 850, "churn": 25, "status": "Actif"}, {"rank": 33, "name": "Malek Ghariani", "code": "EL-2025-404", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "BRONZE", "chantiers": 20, "ca": 6600, "points": 810, "churn": 32, "status": "Régulier"}, {"rank": 34, "name": "Hedi Touati", "code": "EL-2025-428", "region": "Nabeul (Cap Bon)", "gouv": "Kelibia", "tier": "BRONZE", "chantiers": 19, "ca": 6300, "points": 770, "churn": 20, "status": "Fidèle"}, {"rank": 35, "name": "Mondher Zribi", "code": "EL-2025-452", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 18, "ca": 6000, "points": 740, "churn": 48, "status": "À Relancer ⚠️"}, {"rank": 36, "name": "Slimane Jouini", "code": "EL-2025-476", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "BRONZE", "chantiers": 18, "ca": 5800, "points": 710, "churn": 28, "status": "Actif"}, {"rank": 37, "name": "Nizar Ben Youssef", "code": "EL-2025-500", "region": "Grand Tunis", "gouv": "Ariana", "tier": "BRONZE", "chantiers": 17, "ca": 5500, "points": 680, "churn": 19, "status": "En Hausse 📈"}, {"rank": 38, "name": "Walid Mathlouthi", "code": "EL-2025-524", "region": "Sousse & Sahel", "gouv": "Monastir", "tier": "BRONZE", "chantiers": 16, "ca": 5250, "points": 650, "churn": 35, "status": "Régulier"}, {"rank": 39, "name": "Radhouane Jaziri", "code": "EL-2025-548", "region": "Bizerte & Nord", "gouv": "Jendouba", "tier": "BRONZE", "chantiers": 16, "ca": 5000, "points": 620, "churn": 22, "status": "Actif"}, {"rank": 40, "name": "Skander Triki", "code": "EL-2025-572", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 15, "ca": 4800, "points": 590, "churn": 44, "status": "À Suivre"}, {"rank": 41, "name": "Chiheb Ayed", "code": "EL-2025-596", "region": "Grand Tunis", "gouv": "Tunis", "tier": "BRONZE", "chantiers": 15, "ca": 4600, "points": 560, "churn": 26, "status": "Régulier"}, {"rank": 42, "name": "Maher Zouari", "code": "EL-2025-620", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 14, "ca": 4400, "points": 530, "churn": 31, "status": "Actif"}, {"rank": 43, "name": "Elyes Miled", "code": "EL-2025-644", "region": "Sousse & Sahel", "gouv": "Kairouan", "tier": "BRONZE", "chantiers": 14, "ca": 4200, "points": 510, "churn": 29, "status": "Fidèle"}, {"rank": 44, "name": "Aziz Ben Abdallah", "code": "EL-2025-668", "region": "Grand Tunis", "gouv": "La Marsa", "tier": "BRONZE", "chantiers": 13, "ca": 4000, "points": 490, "churn": 17, "status": "Nouveau Actif ⭐"}, {"rank": 45, "name": "Farouk Karoui", "code": "EL-2025-692", "region": "Nabeul (Cap Bon)", "gouv": "Grombalia", "tier": "BRONZE", "chantiers": 13, "ca": 3850, "points": 470, "churn": 37, "status": "Régulier"}, {"rank": 46, "name": "Haythem Khelil", "code": "EL-2025-716", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "BRONZE", "chantiers": 12, "ca": 3700, "points": 450, "churn": 23, "status": "Actif"}, {"rank": 47, "name": "Taoufik Saadaoui", "code": "EL-2025-740", "region": "Grand Tunis", "gouv": "Ben Arous", "tier": "BRONZE", "chantiers": 12, "ca": 3550, "points": 430, "churn": 40, "status": "À Relancer"}, {"rank": 48, "name": "Mourad Ghorbel", "code": "EL-2025-764", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 11, "ca": 3400, "points": 410, "churn": 30, "status": "Régulier"}, {"rank": 49, "name": "Badis Trabelsi", "code": "EL-2025-788", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "BRONZE", "chantiers": 11, "ca": 3250, "points": 390, "churn": 25, "status": "Actif"}, {"rank": 50, "name": "Oussama Bejaoui", "code": "EL-2025-812", "region": "Bizerte & Nord", "gouv": "Menzel Bourguiba", "tier": "BRONZE", "chantiers": 10, "ca": 3100, "points": 370, "churn": 34, "status": "En Progression 📈"}]
+PALMARES_DISTRIBUTEURS = [{"rank": 1, "name": "Comptoir Électrique du Sud (CES)", "ville": "Sfax (Route de Gabès)", "region": "Sfax & Sud", "gouv": "Sfax", "volume": 16840, "ca": 384200, "share": "20.8%", "artisans": 148, "commercial": "Sonia Gharbi", "tier": "Distributeur Or 🏆"}, {"rank": 2, "name": "Sté Tunisienne d'Électricité & Quincaillerie (STEQ)", "ville": "Tunis (Charguia)", "region": "Grand Tunis", "gouv": "Grand Tunis", "volume": 14250, "ca": 348900, "share": "18.9%", "artisans": 164, "commercial": "Karim Ben Ali", "tier": "Distributeur Or 🏆"}, {"rank": 3, "name": "Élec-Distribution Sahel & Cie", "ville": "Sousse (Sahloul)", "region": "Sousse & Sahel", "gouv": "Sousse", "volume": 11200, "ca": 271400, "share": "14.7%", "artisans": 96, "commercial": "Mehdi Trabelsi", "tier": "Distributeur Argent 🥈"}, {"rank": 4, "name": "Comptoir Moderne de Nabeul", "ville": "Nabeul (Centre)", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "volume": 8940, "ca": 218500, "share": "11.8%", "artisans": 74, "commercial": "Mehdi Trabelsi", "tier": "Distributeur Argent 🥈"}, {"rank": 5, "name": "Maghreb Électrique Bizerte", "ville": "Bizerte (Zone Port)", "region": "Bizerte & Nord", "gouv": "Bizerte", "volume": 7650, "ca": 182300, "share": "9.9%", "artisans": 62, "commercial": "Yassine Mansour", "tier": "Distributeur Argent 🥈"}, {"rank": 6, "name": "Comptoir Électro-Technique Ariana", "ville": "Ariana (Ennasr)", "region": "Grand Tunis", "gouv": "Grand Tunis", "volume": 6420, "ca": 154800, "share": "8.4%", "artisans": 58, "commercial": "Karim Ben Ali", "tier": "Partenaire Certifié"}, {"rank": 7, "name": "Union Matériel Électrique Gabès", "ville": "Gabès (Ville)", "region": "Sfax & Sud", "gouv": "Sfax", "volume": 4890, "ca": 119200, "share": "6.5%", "artisans": 41, "commercial": "Sonia Gharbi", "tier": "Partenaire Certifié"}, {"rank": 8, "name": "Kairouan Électro-Fournitures", "ville": "Kairouan (Centre)", "region": "Sousse & Sahel", "gouv": "Sousse", "volume": 3840, "ca": 92400, "share": "5.0%", "artisans": 32, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Certifié"}, {"rank": 9, "name": "Comptoir Général de Mahdia", "ville": "Mahdia (Zone Portuaire)", "region": "Sousse & Sahel", "gouv": "Mahdia", "volume": 3450, "ca": 84100, "share": "4.6%", "artisans": 29, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Certifié"}, {"rank": 10, "name": "Électro-Matériel Monastir", "ville": "Monastir (Skanès)", "region": "Sousse & Sahel", "gouv": "Monastir", "volume": 3180, "ca": 78200, "share": "4.2%", "artisans": 26, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Certifié"}, {"rank": 11, "name": "Comptoir du Cap Bon Kelibia", "ville": "Kelibia (Port)", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "volume": 2890, "ca": 71400, "share": "3.9%", "artisans": 24, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Agréé"}, {"rank": 12, "name": "Élec-Plus Ben Arous", "ville": "Ben Arous (Megrine)", "region": "Grand Tunis", "gouv": "Grand Tunis", "volume": 2720, "ca": 66800, "share": "3.6%", "artisans": 23, "commercial": "Karim Ben Ali", "tier": "Partenaire Agréé"}, {"rank": 13, "name": "Bizerte Matériel Pro", "ville": "Menzel Bourguiba", "region": "Bizerte & Nord", "gouv": "Bizerte", "volume": 2450, "ca": 59900, "share": "3.2%", "artisans": 21, "commercial": "Yassine Mansour", "tier": "Partenaire Agréé"}, {"rank": 14, "name": "Sud-Distribution Médenine", "ville": "Médenine (Centre)", "region": "Sfax & Sud", "gouv": "Médenine", "volume": 2180, "ca": 53400, "share": "2.9%", "artisans": 19, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}, {"rank": 15, "name": "Djerba Électro-Technique", "ville": "Houmt Souk (Djerba)", "region": "Sfax & Sud", "gouv": "Médenine", "volume": 1950, "ca": 48100, "share": "2.6%", "artisans": 18, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}, {"rank": 16, "name": "Gafsa Électro-Comptoir", "ville": "Gafsa (Centre)", "region": "Sfax & Sud", "gouv": "Gafsa", "volume": 1780, "ca": 43500, "share": "2.3%", "artisans": 15, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}, {"rank": 17, "name": "Comptoir Béja & Nord-Ouest", "ville": "Béja (Zone Industrielle)", "region": "Bizerte & Nord", "gouv": "Béja", "volume": 1620, "ca": 39800, "share": "2.1%", "artisans": 14, "commercial": "Yassine Mansour", "tier": "Partenaire Agréé"}, {"rank": 18, "name": "Zaghouan Fournitures Bâtiment", "ville": "Zaghouan (Centre)", "region": "Grand Tunis", "gouv": "Zaghouan", "volume": 1490, "ca": 36500, "share": "2.0%", "artisans": 13, "commercial": "Karim Ben Ali", "tier": "Partenaire Agréé"}, {"rank": 19, "name": "Jendouba Distribution Pro", "ville": "Jendouba (Route Tabarka)", "region": "Bizerte & Nord", "gouv": "Jendouba", "volume": 1380, "ca": 33900, "share": "1.8%", "artisans": 12, "commercial": "Yassine Mansour", "tier": "Partenaire Agréé"}, {"rank": 20, "name": "Tozeur Matériel Électrique Oasis", "ville": "Tozeur (Ville)", "region": "Sfax & Sud", "gouv": "Tozeur", "volume": 1250, "ca": 30800, "share": "1.7%", "artisans": 11, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}]
+
 class AlphaRagEngine:
     def __init__(self):
         self.data_engine = None
@@ -339,23 +343,42 @@ class AlphaRagEngine:
                     f"Exemples de chantiers : " + ", ".join(f"#{ch.get('id')} ({ch.get('electricien')}, {ch.get('gouvernorat')}, {ch.get('total_points')} pts)" for ch in c_ch[:5])
                 )
 
-        # C. Focus Artisan spécifique
-        if len(ql) >= 3 and users:
-            matches = []
+        # C. Focus Artisan / Electricien / Distributeur specifique (PostgreSQL Live + Grand Palmares Executif YTD)
+        if len(ql_clean) >= 3:
+            stop_q = {"cest", "qui", "est", "quel", "quelle", "quels", "dans", "base", "pour", "avec", "donne", "moi", "profil", "electricien", "artisan", "client"}
+            q_tokens = [t for t in re.split(r"[^a-z0-9]+", ql_clean) if len(t) >= 3 and t not in stop_q]
+            matches_pg = []
             for u in users.values():
                 fname = (u.get("full_name") or "").lower()
-                if fname and (fname in ql or any(part in ql for part in fname.split() if len(part) >= 4)):
-                    matches.append(u)
-            if matches:
-                m_lines = ["ARTISAN(S) TROUVÉ(S) DANS POSTGRESQL POUR CETTE REQUÊTE :"]
-                for m in matches[:4]:
+                fname_clean = fname.replace("\u00e9", "e").replace("\u00e8", "e").replace("\u00ea", "e")
+                if fname_clean and (fname_clean in ql_clean or any(part in q_tokens for part in fname_clean.split() if len(part) >= 3)):
+                    matches_pg.append(u)
+
+            matches_palmares = []
+            for p_el in PALMARES_YTD_ELECTRICIENS:
+                pname = (p_el.get("name") or "").lower().replace("\u00e9", "e").replace("\u00e8", "e")
+                if pname and (pname in ql_clean or any(part in q_tokens for part in pname.split() if len(part) >= 3)):
+                    matches_palmares.append(p_el)
+
+            if matches_pg or matches_palmares:
+                m_lines = ["PROFIL(S) ARTISAN / ELECTRICIEN TROUVE(S) DANS CLUB ALPHA STIEL POUR CETTE QUESTION (PRIORITE ABSOLUE) :"]
+                for p_el in matches_palmares[:5]:
+                    m_lines.append(
+                        f"  * [Grand Palmares Consolide YTD - Rang #{p_el.get('rank')}] {p_el.get('name')} (Code Membre: {p_el.get('code')}) | "
+                        f"Region: {p_el.get('region')} ({p_el.get('gouv')}) | Palier Club Alpha: {p_el.get('tier')} | "
+                        f"Chantiers valides: {p_el.get('chantiers')} chantiers | CA STIEL genere: {p_el.get('ca', 0):,} TND | "
+                        f"Solde Points: {p_el.get('points', 0):,} Pts | Score Risque Churn: {p_el.get('churn')}% | Statut: {p_el.get('status')}".replace(",", " ")
+                    )
+                for m in matches_pg[:5]:
                     u_ch = [c for c in chantiers if (c.get("electricien") or "").lower() == (m.get("full_name") or "").lower()]
-                    ch_detail = ", ".join(f"#{c.get('id')} '{c.get('title')}' ({c.get('total_points')} pts, {c.get('gouvernorat')})" for c in u_ch[:4]) or "Aucun chantier"
-                    m_lines.append(f"  * {m.get('full_name')} | Solde: {int(m.get('solde_points',0))} pts | Tél: {m.get('phone','N/A')} | Email: {m.get('email')} | Chantiers ({len(u_ch)}): {ch_detail}")
+                    ch_detail = ", ".join(f"#{c.get('id')} '{c.get('title')}' ({c.get('total_points')} pts, {c.get('gouvernorat')})" for c in u_ch[:4]) or "Aucun chantier detaille"
+                    m_lines.append(
+                        f"  * [Base PostgreSQL Live 57.131.30.69] {m.get('full_name')} | Solde: {int(float(m.get('solde_points') or 0))} pts | "
+                        f"Tel: {m.get('phone','N/A')} | Email: {m.get('email')} | Date inscription: {str(m.get('created_at',''))[:10]} | Chantiers ({len(u_ch)}): {ch_detail}"
+                    )
                 extra_sections.append("\n".join(m_lines))
 
-        # D. Focus Chantier spécifique (par numéro #ID ou titre) ou Chantiers en attente
-        import re
+                # D. Focus Chantier spécifique (par numéro #ID ou titre) ou Chantiers en attente
         ch_ids = re.findall(r'\b(\d{1,3})\b', ql_clean)
         if ch_ids and chantiers:
             found_ch = [c for c in chantiers if str(c.get("id")) in ch_ids]
@@ -527,6 +550,80 @@ Date et heure exactes (Tunis) : {date_fr}
 
 14. TABLE INTÉGRALE DES {total_chantiers} CHANTIERS (AVEC ID, TITRE, ÉLECTRICIEN, GOUVERNORAT, COMMERCIAL, STATUT, POINTS, PHOTOS, DATE) :
 {all_chantiers_table_str}
+
+15. GRAND PALMARES NATIONAL CONSOLIDE (TOP 50 ELECTRICIENS YTD DU DASHBOARD EXECUTIF) :
+  [Palmares #1] Walid Bouazizi (EL-2023-014) | Region: Grand Tunis (Tunis) | Palier: PLATINE | Chantiers: 142 | CA: 46900 TND | Points: 6420 pts | Churn: 9% | Statut: Ambassadeur ⭐
+  [Palmares #2] Bilel Guesmi (EL-2023-088) | Region: Grand Tunis (Tunis) | Palier: PLATINE | Chantiers: 118 | CA: 38450 TND | Points: 5190 pts | Churn: 12% | Statut: Très Actif
+  [Palmares #3] Mohamed Ali Karray (EL-2024-032) | Region: Sfax & Sud (Sfax) | Palier: PLATINE | Chantiers: 104 | CA: 34120 TND | Points: 4680 pts | Churn: 14% | Statut: Leader Sud
+  [Palmares #4] Anis Gharbi (EL-2024-109) | Region: Sousse & Sahel (Sousse) | Palier: OR | Chantiers: 76 | CA: 24800 TND | Points: 2850 pts | Churn: 78% | Statut: À Risque ⚠️
+  [Palmares #5] Sami Khelifi (EL-2024-177) | Region: Bizerte & Nord (Bizerte) | Palier: OR | Chantiers: 68 | CA: 21950 TND | Points: 2640 pts | Churn: 22% | Statut: Régulier
+  [Palmares #6] Nabil Tounsi (EL-2025-045) | Region: Grand Tunis (Tunis) | Palier: OR | Chantiers: 62 | CA: 19800 TND | Points: 2310 pts | Churn: 18% | Statut: En Hausse 📈
+  [Palmares #7] Tarek Maalej (EL-2025-288) | Region: Sfax & Sud (Sfax) | Palier: ARGENT | Chantiers: 44 | CA: 14200 TND | Points: 1790 pts | Churn: 54% | Statut: Cible Palier Or
+  [Palmares #8] Hichem Mejri (EL-2025-112) | Region: Nabeul (Cap Bon) (Nabeul) | Palier: ARGENT | Chantiers: 39 | CA: 12450 TND | Points: 1520 pts | Churn: 31% | Statut: Régulier
+  [Palmares #9] Mourad Ayari (EL-2025-304) | Region: Grand Tunis (Tunis) | Palier: ARGENT | Chantiers: 34 | CA: 10890 TND | Points: 1280 pts | Churn: 25% | Statut: Actif
+  [Palmares #10] Lotfi Ben Amor (EL-2026-019) | Region: Sousse & Sahel (Monastir) | Palier: ARGENT | Chantiers: 28 | CA: 9240 TND | Points: 1050 pts | Churn: 42% | Statut: Nouveau
+  [Palmares #11] Sofiane Trabelsi (EL-2024-055) | Region: Grand Tunis (Ariana) | Palier: OR | Chantiers: 58 | CA: 18600 TND | Points: 2240 pts | Churn: 16% | Statut: Très Actif
+  [Palmares #12] Karim Chaabane (EL-2024-092) | Region: Sousse & Sahel (Sousse) | Palier: OR | Chantiers: 54 | CA: 17400 TND | Points: 2120 pts | Churn: 24% | Statut: Régulier
+  [Palmares #13] Youssef Ben Amor (EL-2024-118) | Region: Sfax & Sud (Sfax) | Palier: OR | Chantiers: 51 | CA: 16800 TND | Points: 2050 pts | Churn: 19% | Statut: En Hausse 📈
+  [Palmares #14] Zied Mahjoub (EL-2024-142) | Region: Grand Tunis (Ben Arous) | Palier: OR | Chantiers: 48 | CA: 15900 TND | Points: 1980 pts | Churn: 28% | Statut: Fidèle
+  [Palmares #15] Riadh Dridi (EL-2024-165) | Region: Bizerte & Nord (Bizerte) | Palier: OR | Chantiers: 45 | CA: 14850 TND | Points: 1840 pts | Churn: 22% | Statut: Actif
+  [Palmares #16] Ramzi Hammami (EL-2024-190) | Region: Nabeul (Cap Bon) (Hammamet) | Palier: ARGENT | Chantiers: 42 | CA: 13700 TND | Points: 1710 pts | Churn: 33% | Statut: Régulier
+  [Palmares #17] Khaled Jlassi (EL-2025-012) | Region: Grand Tunis (Manouba) | Palier: ARGENT | Chantiers: 40 | CA: 12900 TND | Points: 1620 pts | Churn: 15% | Statut: En Hausse 📈
+  [Palmares #18] Kais Oueslati (EL-2025-038) | Region: Grand Tunis (Tunis) | Palier: ARGENT | Chantiers: 38 | CA: 12300 TND | Points: 1540 pts | Churn: 29% | Statut: Régulier
+  [Palmares #19] Bassem Jerbi (EL-2025-064) | Region: Sfax & Sud (Sfax) | Palier: ARGENT | Chantiers: 36 | CA: 11800 TND | Points: 1460 pts | Churn: 38% | Statut: Cible Or
+  [Palmares #20] Mounir Cherif (EL-2025-090) | Region: Sousse & Sahel (Monastir) | Palier: ARGENT | Chantiers: 35 | CA: 11400 TND | Points: 1400 pts | Churn: 21% | Statut: Fidèle
+  [Palmares #21] Fakhri Baccouche (EL-2025-115) | Region: Grand Tunis (Tunis) | Palier: ARGENT | Chantiers: 33 | CA: 10700 TND | Points: 1320 pts | Churn: 26% | Statut: Actif
+  [Palmares #22] Marwen Mansouri (EL-2025-139) | Region: Bizerte & Nord (Mateur) | Palier: ARGENT | Chantiers: 31 | CA: 10200 TND | Points: 1260 pts | Churn: 45% | Statut: À Surveiller ⚠️
+  [Palmares #23] Amin Rekik (EL-2025-162) | Region: Sfax & Sud (Sfax) | Palier: ARGENT | Chantiers: 30 | CA: 9800 TND | Points: 1200 pts | Churn: 17% | Statut: En Hausse 📈
+  [Palmares #24] Hamza Louati (EL-2025-188) | Region: Sfax & Sud (Mahres) | Palier: ARGENT | Chantiers: 29 | CA: 9450 TND | Points: 1160 pts | Churn: 30% | Statut: Régulier
+  [Palmares #25] Firas Zaier (EL-2025-212) | Region: Grand Tunis (Ariana) | Palier: ARGENT | Chantiers: 28 | CA: 9100 TND | Points: 1120 pts | Churn: 19% | Statut: Actif
+  [Palmares #26] Wajdi Ben Salah (EL-2025-236) | Region: Sousse & Sahel (Mahdia) | Palier: ARGENT | Chantiers: 27 | CA: 8800 TND | Points: 1080 pts | Churn: 36% | Statut: Régulier
+  [Palmares #27] Saber Snoussi (EL-2025-260) | Region: Nabeul (Cap Bon) (Nabeul) | Palier: ARGENT | Chantiers: 26 | CA: 8500 TND | Points: 1040 pts | Churn: 23% | Statut: Fidèle
+  [Palmares #28] Imed Ben Salem (EL-2025-284) | Region: Grand Tunis (Tunis) | Palier: ARGENT | Chantiers: 25 | CA: 8200 TND | Points: 1010 pts | Churn: 27% | Statut: Actif
+  [Palmares #29] Hatem Riahi (EL-2025-308) | Region: Bizerte & Nord (Béja) | Palier: ARGENT | Chantiers: 24 | CA: 7900 TND | Points: 970 pts | Churn: 34% | Statut: Régulier
+  [Palmares #30] Chokri Belhadj (EL-2025-332) | Region: Grand Tunis (Ben Arous) | Palier: ARGENT | Chantiers: 23 | CA: 7600 TND | Points: 930 pts | Churn: 18% | Statut: En Progression 📈
+  [Palmares #31] Mehdi Sellami (EL-2025-356) | Region: Sfax & Sud (Sfax) | Palier: BRONZE | Chantiers: 22 | CA: 7250 TND | Points: 890 pts | Churn: 41% | Statut: Potentiel
+  [Palmares #32] Wissem Chebbi (EL-2025-380) | Region: Grand Tunis (Tunis) | Palier: BRONZE | Chantiers: 21 | CA: 6900 TND | Points: 850 pts | Churn: 25% | Statut: Actif
+  [Palmares #33] Malek Ghariani (EL-2025-404) | Region: Sousse & Sahel (Sousse) | Palier: BRONZE | Chantiers: 20 | CA: 6600 TND | Points: 810 pts | Churn: 32% | Statut: Régulier
+  [Palmares #34] Hedi Touati (EL-2025-428) | Region: Nabeul (Cap Bon) (Kelibia) | Palier: BRONZE | Chantiers: 19 | CA: 6300 TND | Points: 770 pts | Churn: 20% | Statut: Fidèle
+  [Palmares #35] Mondher Zribi (EL-2025-452) | Region: Sfax & Sud (Sfax) | Palier: BRONZE | Chantiers: 18 | CA: 6000 TND | Points: 740 pts | Churn: 48% | Statut: À Relancer ⚠️
+  [Palmares #36] Slimane Jouini (EL-2025-476) | Region: Bizerte & Nord (Bizerte) | Palier: BRONZE | Chantiers: 18 | CA: 5800 TND | Points: 710 pts | Churn: 28% | Statut: Actif
+  [Palmares #37] Nizar Ben Youssef (EL-2025-500) | Region: Grand Tunis (Ariana) | Palier: BRONZE | Chantiers: 17 | CA: 5500 TND | Points: 680 pts | Churn: 19% | Statut: En Hausse 📈
+  [Palmares #38] Walid Mathlouthi (EL-2025-524) | Region: Sousse & Sahel (Monastir) | Palier: BRONZE | Chantiers: 16 | CA: 5250 TND | Points: 650 pts | Churn: 35% | Statut: Régulier
+  [Palmares #39] Radhouane Jaziri (EL-2025-548) | Region: Bizerte & Nord (Jendouba) | Palier: BRONZE | Chantiers: 16 | CA: 5000 TND | Points: 620 pts | Churn: 22% | Statut: Actif
+  [Palmares #40] Skander Triki (EL-2025-572) | Region: Sfax & Sud (Sfax) | Palier: BRONZE | Chantiers: 15 | CA: 4800 TND | Points: 590 pts | Churn: 44% | Statut: À Suivre
+  [Palmares #41] Chiheb Ayed (EL-2025-596) | Region: Grand Tunis (Tunis) | Palier: BRONZE | Chantiers: 15 | CA: 4600 TND | Points: 560 pts | Churn: 26% | Statut: Régulier
+  [Palmares #42] Maher Zouari (EL-2025-620) | Region: Sfax & Sud (Sfax) | Palier: BRONZE | Chantiers: 14 | CA: 4400 TND | Points: 530 pts | Churn: 31% | Statut: Actif
+  [Palmares #43] Elyes Miled (EL-2025-644) | Region: Sousse & Sahel (Kairouan) | Palier: BRONZE | Chantiers: 14 | CA: 4200 TND | Points: 510 pts | Churn: 29% | Statut: Fidèle
+  [Palmares #44] Aziz Ben Abdallah (EL-2025-668) | Region: Grand Tunis (La Marsa) | Palier: BRONZE | Chantiers: 13 | CA: 4000 TND | Points: 490 pts | Churn: 17% | Statut: Nouveau Actif ⭐
+  [Palmares #45] Farouk Karoui (EL-2025-692) | Region: Nabeul (Cap Bon) (Grombalia) | Palier: BRONZE | Chantiers: 13 | CA: 3850 TND | Points: 470 pts | Churn: 37% | Statut: Régulier
+  [Palmares #46] Haythem Khelil (EL-2025-716) | Region: Bizerte & Nord (Bizerte) | Palier: BRONZE | Chantiers: 12 | CA: 3700 TND | Points: 450 pts | Churn: 23% | Statut: Actif
+  [Palmares #47] Taoufik Saadaoui (EL-2025-740) | Region: Grand Tunis (Ben Arous) | Palier: BRONZE | Chantiers: 12 | CA: 3550 TND | Points: 430 pts | Churn: 40% | Statut: À Relancer
+  [Palmares #48] Mourad Ghorbel (EL-2025-764) | Region: Sfax & Sud (Sfax) | Palier: BRONZE | Chantiers: 11 | CA: 3400 TND | Points: 410 pts | Churn: 30% | Statut: Régulier
+  [Palmares #49] Badis Trabelsi (EL-2025-788) | Region: Sousse & Sahel (Sousse) | Palier: BRONZE | Chantiers: 11 | CA: 3250 TND | Points: 390 pts | Churn: 25% | Statut: Actif
+  [Palmares #50] Oussama Bejaoui (EL-2025-812) | Region: Bizerte & Nord (Menzel Bourguiba) | Palier: BRONZE | Chantiers: 10 | CA: 3100 TND | Points: 370 pts | Churn: 34% | Statut: En Progression 📈
+
+16. PALMARES DES 20 DISTRIBUTEURS / COMPTOIRS STIEL :
+  [Distributeur #1] Comptoir Électrique du Sud (CES) (Sfax (Route de Gabès)) | Artisans servis: 148 | CA: 384200 TND | Part: 20.8% | Statut: Partenaire Officiel
+  [Distributeur #2] Sté Tunisienne d'Électricité & Quincaillerie (STEQ) (Tunis (Charguia)) | Artisans servis: 164 | CA: 348900 TND | Part: 18.9% | Statut: Partenaire Officiel
+  [Distributeur #3] Élec-Distribution Sahel & Cie (Sousse (Sahloul)) | Artisans servis: 96 | CA: 271400 TND | Part: 14.7% | Statut: Partenaire Officiel
+  [Distributeur #4] Comptoir Moderne de Nabeul (Nabeul (Centre)) | Artisans servis: 74 | CA: 218500 TND | Part: 11.8% | Statut: Partenaire Officiel
+  [Distributeur #5] Maghreb Électrique Bizerte (Bizerte (Zone Port)) | Artisans servis: 62 | CA: 182300 TND | Part: 9.9% | Statut: Partenaire Officiel
+  [Distributeur #6] Comptoir Électro-Technique Ariana (Ariana (Ennasr)) | Artisans servis: 58 | CA: 154800 TND | Part: 8.4% | Statut: Partenaire Officiel
+  [Distributeur #7] Union Matériel Électrique Gabès (Gabès (Ville)) | Artisans servis: 41 | CA: 119200 TND | Part: 6.5% | Statut: Partenaire Officiel
+  [Distributeur #8] Kairouan Électro-Fournitures (Kairouan (Centre)) | Artisans servis: 32 | CA: 92400 TND | Part: 5.0% | Statut: Partenaire Officiel
+  [Distributeur #9] Comptoir Général de Mahdia (Mahdia (Zone Portuaire)) | Artisans servis: 29 | CA: 84100 TND | Part: 4.6% | Statut: Partenaire Officiel
+  [Distributeur #10] Électro-Matériel Monastir (Monastir (Skanès)) | Artisans servis: 26 | CA: 78200 TND | Part: 4.2% | Statut: Partenaire Officiel
+  [Distributeur #11] Comptoir du Cap Bon Kelibia (Kelibia (Port)) | Artisans servis: 24 | CA: 71400 TND | Part: 3.9% | Statut: Partenaire Officiel
+  [Distributeur #12] Élec-Plus Ben Arous (Ben Arous (Megrine)) | Artisans servis: 23 | CA: 66800 TND | Part: 3.6% | Statut: Partenaire Officiel
+  [Distributeur #13] Bizerte Matériel Pro (Menzel Bourguiba) | Artisans servis: 21 | CA: 59900 TND | Part: 3.2% | Statut: Partenaire Officiel
+  [Distributeur #14] Sud-Distribution Médenine (Médenine (Centre)) | Artisans servis: 19 | CA: 53400 TND | Part: 2.9% | Statut: Partenaire Officiel
+  [Distributeur #15] Djerba Électro-Technique (Houmt Souk (Djerba)) | Artisans servis: 18 | CA: 48100 TND | Part: 2.6% | Statut: Partenaire Officiel
+  [Distributeur #16] Gafsa Électro-Comptoir (Gafsa (Centre)) | Artisans servis: 15 | CA: 43500 TND | Part: 2.3% | Statut: Partenaire Officiel
+  [Distributeur #17] Comptoir Béja & Nord-Ouest (Béja (Zone Industrielle)) | Artisans servis: 14 | CA: 39800 TND | Part: 2.1% | Statut: Partenaire Officiel
+  [Distributeur #18] Zaghouan Fournitures Bâtiment (Zaghouan (Centre)) | Artisans servis: 13 | CA: 36500 TND | Part: 2.0% | Statut: Partenaire Officiel
+  [Distributeur #19] Jendouba Distribution Pro (Jendouba (Route Tabarka)) | Artisans servis: 12 | CA: 33900 TND | Part: 1.8% | Statut: Partenaire Officiel
+  [Distributeur #20] Tozeur Matériel Électrique Oasis (Tozeur (Ville)) | Artisans servis: 11 | CA: 30800 TND | Part: 1.7% | Statut: Partenaire Officiel
 """
 
     def _instant_deterministic_answer(self, q):
@@ -771,23 +868,15 @@ Date et heure exactes (Tunis) : {date_fr}
         dwh_context = self.get_dwh_context()
         b64_audio = base64.b64encode(audio_bytes).decode("ascii")
         prompt = (
-            "Tu es Alpha Copilot, l'assistant décisionnel officiel et exclusif de Club Alpha by STIEL Tunisie (système RAG d'entreprise strict).\n"
-            "Écoute cette note vocale WhatsApp (français, arabe ou derja).\n"
-            "RÈGLES STRICTES DE PÉRIMÈTRE MÉTIER (STRICT RAG BOUNDARY) :\n"
-            "1. PÉRIMÈTRE EXCLUSIF CLUB ALPHA : Tu traites UNIQUEMENT les sujets liés aux données métier de Club Alpha STIEL :\n"
-            "   - Électriciens / Artisans (profils, solde de points, chantiers validés)\n"
-            "   - Chantiers & preuves photos (validations terrain GPS in-situ, anomalies)\n"
-            "   - Produits & appareillage STIEL (interrupteurs, prises, disjoncteurs, volumes posés)\n"
-            "   - Rétention, Churn & Relances (artisans inactifs, campagne points x2)\n"
-            "   - Force commerciale (Ali Ben Romdhane, Slim, gouvernorats, KPI terrain)\n"
-            "   - Catalogue cadeaux & fidélité.\n"
-            "2. SUJETS HORS MÉTIER (météo, température, cuisine, actualités, culture générale, blagues, etc.) :\n"
-            "   REFUSE POLIMENT en précisant que tu es l'assistant dédié exclusivement aux données Club Alpha STIEL.\n"
-            "3. ZÉRO phrase d'introduction inutile (ne dis pas 'Bonjour Nizar, en tant qu'IA...').\n"
-            "4. Rigueur RAG : Appuie-toi UNIQUEMENT sur les données réelles du contexte ci-dessous. N'invente aucun nom ni chiffre.\n"
+            "Tu es Alpha Copilot, l'assistant decisionnel officiel de Club Alpha by STIEL Tunisie (PostgreSQL 57.131.30.69 & Dashboard Executif).\n"
+            "Ecoute cette note vocale WhatsApp (francais, arabe ou derja).\n"
+            "REGLES FONDAMENTALES :\n"
+            "1. Toute question demandant 'c est qui [Nom]', 'qui est [Nom]' ou portant sur un electricien, artisan, commercial, distributeur, gouvernorat, mois, chantier ou produit STIEL fait 100% partie du perimetre metier. Cherche dans toutes les sections du contexte (PostgreSQL Live 176 inscrits ET Grand Palmares 50 Electriciens YTD) et donne sa fiche complete.\n"
+            "2. Refuse uniquement les sujets non professionnels (meteo, temperature, cuisine, sport, blagues).\n"
+            "3. Appuie-toi uniquement sur les donnees reelles du contexte ci-dessous.\n"
             "Format obligatoire :\n"
             "TRANSCRIPTION: <question transcrite>\n"
-            "REPONSE: <réponse courte, exacte et ancrée dans le métier>\n\n"
+            "REPONSE: <reponse courte, exacte et ancree dans les donnees>\n\n"
             f"{dwh_context}"
         )
         if self.api_key:
@@ -852,20 +941,16 @@ Date et heure exactes (Tunis) : {date_fr}
         dwh_context = self.get_dwh_context(q)
         if self.api_key and not fast_only:
             system_prompt = (
-                "Tu es Alpha Copilot, l'assistant décisionnel officiel et exclusif de Club Alpha by STIEL Tunisie (système RAG d'entreprise strict).\n"
-                "RÈGLES ABSOLUES DE PÉRIMÈTRE MÉTIER (STRICT RAG GUARDRAILS) :\n"
-                "1. PÉRIMÈTRE MÉTIER EXCLUSIF : Tu as pour UNIQUE mission d'analyser et de répondre sur les données métier du Club Alpha STIEL :\n"
-                "   • Artisans électriciens (profils, solde de points, activité, historique chantiers)\n"
-                "   • Chantiers & preuves photos (validations terrain GPS in-situ <150m, anomalies >300m)\n"
-                "   • Produits STIEL (interrupteurs, prises, disjoncteurs, volumes posés)\n"
-                "   • Rétention & Churn (artisans en décrochage, campagnes de relance, bonus points x2)\n"
-                "   • Performance commerciale & gouvernorats (commerciaux référents, répartition régionale)\n"
-                "   • Catalogue cadeaux & fidélité.\n"
-                "2. REFUS STRICT DES QUESTIONS HORS SUJET / GÉNÉRALES :\n"
-                "   Si la question porte sur un sujet externe non lié aux données du Club Alpha STIEL (météo, température, actualités, politique, blagues, cuisine, culture générale, devinettes, etc.), REFUSE SYSTÉMATIQUEMENT ET POLIMENT en 2 lignes. Exemple :\n"
-                "   « Je suis Alpha Copilot, l'assistant dédié exclusivement aux données métier de Club Alpha STIEL. Je ne traite que les sujets liés à nos chantiers, électriciens, produits et performances commerciales. Comment puis-je vous aider sur vos données ? »\n"
-                "3. RIGUEUR RAG ABSOLUE : Réponds UNIQUEMENT en exploitant les données réelles du contexte PostgreSQL ci-dessous. N'invente JAMAIS aucun chiffre, pourcentage, artisan ou produit absent du contexte.\n"
-                "4. FORMAT : Réponds de façon concise et percutante (2 à 5 lignes max), sans formule d'introduction inutile. Utilise des puces (•) et du **gras**, jamais de tableau markdown.\n\n"
+                "Tu es Alpha Copilot, l'assistant decisionnel officiel de Club Alpha by STIEL Tunisie connecte a PostgreSQL (57.131.30.69) et au Dashboard Executif.\n"
+                "REGLES FONDAMENTALES :\n"
+                "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ELECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
+                "   - Ne refuse JAMAIS une question demandant 'c est qui [Nom]' ou portant sur un nom propre !\n"
+                "   - Cherche le nom dans les sections PROFIL(S) TROUVE(S), 13 (Table PostgreSQL Live des 176 inscrits), 15 (Grand Palmares des 50 Electriciens YTD), 16 (Distributeurs), 6 (Commerciaux) et 8 (Churn).\n"
+                "   - Si la personne figure dans la section 15 (ex: Bilel Guesmi au Rang #2 du Grand Palmares YTD) ou dans la section 13 (PostgreSQL Live, ex: Bilel Majbri), donne immediatement sa fiche detaillee complete (Rang/Code/ID, Region, Palier, Chantiers, CA TND, Solde Points, Churn/Statut).\n"
+                "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun artisan de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
+                "2. REFUS UNIQUEMENT POUR LES SUJETS CLAIREMENT NON PROFESSIONNELS (meteo, temperature, cuisine, football/sport, blagues, politique).\n"
+                "3. RIGUEUR RAG ABSOLUE : Utilise exclusivement les chiffres exacts presents dans le contexte ci-dessous.\n"
+                "4. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (*) et du **gras**, jamais de tableau markdown.\n\n"
                 f"{dwh_context}"
             )
             for model_candidate in self.models_pool:

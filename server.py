@@ -1975,7 +1975,13 @@ def send_meta_whatsapp_voice_note(to_phone, spoken_text, phone_number_id=None):
 
 
 _SERVER_BOOT_TIMESTAMP = time.time()
-_WA_LAST_INTERACTION_BY_PHONE = {}
+# Initialiser avec l'heure actuelle pour ?viter d'envoyer le message par d?faut lors d'une conversation d?j? en cours
+_WA_LAST_INTERACTION_BY_PHONE = {
+    "21620214144": time.time(),
+    "21698573031": time.time()
+}
+_WA_COLD_BOOT_RECAP_SENT = set()
+WA_INACTIVITY_HOURS_THRESHOLD = 4 * 3600  # 4 heures d'inactivit? avant un nouveau r?cap de d?but de conversation
 
 def _render_keep_alive_loop():
     """Ping automatique toutes les 8 minutes pour éviter que Render n'entre en mode Sleep."""
@@ -2077,22 +2083,29 @@ def api_whatsapp_voice_webhook():
 
     def _process_and_reply(phone, msg_type, text_in, media_id):
         try:
+            clean_phone = "".join([c for c in str(phone) if c.isdigit()])
             now_ts = time.time()
-            last_user_ts = _WA_LAST_INTERACTION_BY_PHONE.get(phone, 0)
-            is_cold_or_new_session = (
-                data_engine.cached_data is None
-                or (now_ts - _SERVER_BOOT_TIMESTAMP < 120)
-                or (now_ts - last_user_ts > 300)
-            )
-            _WA_LAST_INTERACTION_BY_PHONE[phone] = now_ts
+            last_user_ts = _WA_LAST_INTERACTION_BY_PHONE.get(clean_phone, now_ts)
+            _WA_LAST_INTERACTION_BY_PHONE[clean_phone] = now_ts
 
-            # 1. Envoi IMMÉDIAT (< 50ms) du Récapitulatif Total de la Dernière Semaine
-            # si le serveur sort de veille / redémarre ou lors du 1er message après inactivité
-            if is_cold_or_new_session:
+            # Attendre jusqu'? 1.2s si le cache PostgreSQL est en train de finir son chargement initial
+            wait_init = 0
+            while data_engine.cached_data is None and wait_init < 4:
+                time.sleep(0.3)
+                wait_init += 1
+
+            # Le message par d?faut (R?capitulatif de la semaine) est envoy? UNIQUEMENT :
+            # 1) Si la conversation red?marre apr?s plusieurs heures d'inactivit? (>= 4 heures), OU
+            # 2) Si le serveur sort d'un vrai mode Sleep profond (cache PostgreSQL toujours non charg? apr?s 1.2s) et une seule fois !
+            is_after_several_hours = (now_ts - last_user_ts) >= WA_INACTIVITY_HOURS_THRESHOLD
+            is_true_cold_sleep = (data_engine.cached_data is None) and (clean_phone not in _WA_COLD_BOOT_RECAP_SENT)
+
+            if is_after_several_hours or is_true_cold_sleep:
+                _WA_COLD_BOOT_RECAP_SENT.add(clean_phone)
                 recap_msg = _build_default_weekly_recap_message(text_in or "Note vocale")
                 send_meta_whatsapp_message(phone, recap_msg)
 
-            # S'assure que le cache PostgreSQL a fini son chargement initial si le serveur vient de démarrer
+            # S'assure que le cache PostgreSQL a fini son chargement si le serveur sortait de veille
             wait_loops = 0
             while data_engine.cached_data is None and wait_loops < 25:
                 time.sleep(0.3)
