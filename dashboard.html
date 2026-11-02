@@ -1478,15 +1478,16 @@
                     </div>
 
                     <!-- Interactive SVG Technical Blueprint / Photo Proof Container -->
-                    <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-900 flex items-center justify-center min-h-[340px]">
-                        <div id="modalSvgContainer" class="w-full h-full flex items-center justify-center transition-transform duration-300 p-2">
+                    <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-900 flex flex-col items-center justify-center min-h-[340px] p-2">
+                        <div id="modalSvgContainer" class="w-full flex-1 flex items-center justify-center transition-transform duration-300">
                             <!-- Injected dynamically via JS -->
                         </div>
-                        <!-- Watermark EXIF Overlay -->
-                        <div class="absolute bottom-3 left-3 right-3 bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-lg px-3 py-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-300">
-                            <span><i class="fa-regular fa-clock text-teal-400 mr-1" data-lucide="clock"></i>Horodatage Certifié: <strong id="modalTimestamp">24/09/2026 14:32:18 CET</strong></span>
-                            <span><i class="fa-solid fa-fingerprint text-amber-400 mr-1" data-lucide="fingerprint"></i>pHash Anti-Doublon: <strong id="modalPhash" class="text-emerald-400">8f94e2b01c4a (Unique ✓)</strong></span>
-                        </div>
+                    </div>
+
+                    <!-- Watermark EXIF Info bar (Positionné PROPREMENT en dessous, NE COUVRE PLUS JAMAIS LES PHOTOS NI LA GALERIE) -->
+                    <div class="mt-2.5 bg-slate-900/95 border border-slate-800 rounded-xl px-4 py-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-300 gap-2 shadow-sm">
+                        <span><i class="fa-regular fa-clock text-teal-400 mr-1.5" data-lucide="clock"></i>Horodatage Certifié: <strong id="modalTimestamp" class="text-white">24/09/2026 14:32:18 CET</strong></span>
+                        <span><i class="fa-solid fa-fingerprint text-amber-400 mr-1.5" data-lucide="fingerprint"></i>pHash Anti-Doublon: <strong id="modalPhash" class="text-emerald-400">8f94e2b01c4a (Unique ✓)</strong></span>
                     </div>
 
                     <!-- Articles detected on this installation -->
