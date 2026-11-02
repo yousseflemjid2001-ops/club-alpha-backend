@@ -553,7 +553,7 @@ class AlphaRagEngine:
             s = churn_data["summary"]
             c_lines = [f"Total à risque : {s['count']} artisans (dont {s['critiques']} critiques >45j sans chantier, CA menacé : {s['ca_menace']} DT/mois). Top 5 à relancer :"]
             for i, a in enumerate(churn_data["artisans"][:5], 1):
-                c_lines.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, Tél: {a['phone']}) — {a['total_chantiers']} chantiers au total, inactif depuis {a['days_since_last']} jours ({a['diagnostic']})")
+                c_lines.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, T?l: {a['phone']}) ? {a['total_chantiers']} chantiers, inactif {a['days_since_last']}j ({a['diagnostic']}) ? Action recommand?e : {a.get('recommandation')}")
             churn_str = "\n".join(c_lines)
 
         # Recherche dynamique approfondie (Artisan, Gouvernorat/Ville, ou Commercial mentionné dans la question)
@@ -793,7 +793,7 @@ class AlphaRagEngine:
             s = churn_data["summary"]
             c_all = [f"Total à risque : {s['count']} artisans (dont {s['critiques']} critiques >45j sans chantier, CA menacé : {s['ca_menace']} DT/mois). Liste complète :"]
             for i, a in enumerate(churn_data["artisans"], 1):
-                c_all.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, Tél: {a['phone']}) — {a['total_chantiers']} ch., {a.get('points',0)} pts, inactif depuis {a['days_since_last']}j ({a['diagnostic']})")
+                c_all.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, T?l: {a['phone']}) ? {a['total_chantiers']} ch., {a.get('points',0)} pts, inactif {a['days_since_last']}j ({a['diagnostic']}) ? Recommandation : {a.get('recommandation')}")
             all_churn_str = "\n".join(c_all)
 
         # 5. Table intégrale des 174 Utilisateurs (triés par ordre chronologique d'inscription du 1er au 174ème)
@@ -1202,7 +1202,7 @@ Date et heure exactes (Tunis) : {date_fr}
                 s = d["summary"]
                 lines = [f"🚨 **{s['count']} artisans en risque Churn** ({s['critiques']} critiques > 45j, enjeu : **{s['ca_menace']:,} DT/mois**). **Top 5 prioritaires à relancer** :".replace(",", " ")]
                 for i, a in enumerate(d["artisans"][:5], 1):
-                    lines.append(f"{i}. **{a['nom']}** ({a['gouvernorat']}) — 📞 **{a['phone']}** — {a['total_chantiers']} chantiers, inactif depuis **{a['days_since_last']} j** (*{a['diagnostic']}*)")
+                    lines.append(f"{i}. **{a['nom']}** ({a['gouvernorat']}) ? ?? **{a['phone']}** ? {a['total_chantiers']} ch., inactif **{a['days_since_last']} j** (*{a['diagnostic']}*)\n   ? *Action Proactive* : {a.get('recommandation')}")
                 return "\n".join(lines)
 
         # 9. Top / Meilleur Électricien / Classement
