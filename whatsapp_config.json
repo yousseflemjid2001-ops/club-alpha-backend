@@ -1,7 +1,11 @@
 {
   "phone_number_id": "1387014821165400",
   "waba_id": "1747076623045523",
-  "access_token": "EAAUjvZAtE5vgBS2wZB3YWXmZCNwZA0eCZBVq2hUZCZAqrpp4qtZA34q9HMjA580bjIVXBBefiUAwzLJbNbCZBrW2FV4BIaMnkFtZBC5AssAhp138Wo12jwn9dyrNfmMP0ZAqEgQkMYWJSKZCNsboVXtxW94lIo2kwktr5DuNKkVgU1M2SZAnFIZCylj71p4wDaOVE7C7GiJSb55csRUZBJxLP0biyQPl7pFa67ecokkmf7mkJJ1ftEfX0T9u3Y1TeWQs3SmQMswMFJ2hlpI2jBlElNbNGpvi3noYpBSjjUmVvmPFQZDZD",
+  "access_token": "EAAUjvZAtE5vgBSzIIqVToI9I7CiFou71G9apSbxGsG6UqvYS86hSIc4ZC9hraAgK2ZB5yF01tYSAfKzLZA0LgFwhvLVhs54BLrQNtpneja1Yf4Yfi4YzbIl1ByOdwfwYLcNMqPZCorc0akRnF8uOR5jizETcMZAjgnJw5Bqx2W3cVjTfR5IZCftWs2rMsumZAbGfAAZDZD",
   "verify_token": "club_alpha_stiel_voice_2026",
-  "test_recipient": "21620214144"
+  "test_recipient": "21620214144",
+  "authorized_recipients": [
+    "21620214144",
+    "21698573031"
+  ]
 }
