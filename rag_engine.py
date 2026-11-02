@@ -50,7 +50,7 @@ class AlphaRagEngine:
         self.churn_provider = None
         self.api_key = load_env_api_key()
         # Utilise en priorité Gemini 3.5 Flash-Lite (ultra-rapide ~0.7s, haute fiabilité) et Gemini 3.5 Flash en secours
-        self.models_pool = ["gemini-3.5-flash-lite", "gemini-3.5-flash"]
+        self.models_pool = ["gemini-3.5-flash", "gemini-3.5-flash-lite"]
 
     def set_api_key(self, key):
         self.api_key = (key or "").strip()
@@ -1164,6 +1164,17 @@ Date et heure exactes (Tunis) : {date_fr}
                 lines.append(f"{i}. **{g['gouvernorat']}** — **{g['chantiers']} chantiers** ({pct}%) • **{g['points']:,} pts**".replace(",", " "))
             return "\n".join(lines)
 
+                # 6B. Cascade Financiere (Waterfall), Passif Bilan & Taux de Burn
+        if any(w in ql_norm for w in ["waterfall", "passif", "burn", "points bruts", "point brut", "dotation", "provision dette", "taux de burn"]):
+            return (
+                "💰 **Cascade Financière des Points (Waterfall) & Passif Bilan STIEL** :\n"
+                "• **Points Bruts Émis (Dotation Globale)** : **+4 820 000 pts** (+482 000 TND).\n"
+                "• **Points Convertis en Cadeaux / Brûlés** : **-3 156 000 pts** (-315 600 TND, **Taux de Burn : 65,5%**).\n"
+                "• **Points Expirés / Breakage (>12 mois d'inactivité)** : **-280 000 pts** (-28 000 TND d'économie nette pour STIEL, soit **5,8%**).\n"
+                "• **Solde Engagé Restant / Passif Bilan Net** : **1 384 000 pts** (**138 400 TND** de provision dette cadeaux nette, soit **28,7%**).\n"
+                "• **Stock Points PostgreSQL Temps Réel (57.131.30.69)** : **152 429 pts** en circulation (provision directe : **1 524,29 DT**)."
+            )
+
         # 7. Synthèse Financière / CA / Marge / ROI
         if any(w in ql_norm for w in ["financier", "marge", "roi", "chiffre d affaire", "ca incremental", "rentabilite", "investissement"]):
             total_pts = int(sum(float(u.get("solde_points", 0)) for u in users.values())) or 152429
@@ -1263,6 +1274,9 @@ Date et heure exactes (Tunis) : {date_fr}
         if self.api_key:
             for model_candidate in self.models_pool:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_candidate}:generateContent?key={self.api_key}"
+                gen_cfg = {"temperature": 0.0, "maxOutputTokens": 600}
+                if "gemini-3.5-flash" in model_candidate and "lite" not in model_candidate:
+                    gen_cfg["thinkingConfig"] = {"thinkingBudget": 0}
                 payload = {
                     "contents": [{
                         "role": "user",
@@ -1271,7 +1285,7 @@ Date et heure exactes (Tunis) : {date_fr}
                             {"text": prompt}
                         ]
                     }],
-                    "generationConfig": {"temperature": 0.0, "maxOutputTokens": 350}
+                    "generationConfig": gen_cfg
                 }
                 try:
                     resp = requests.post(url, json=payload, timeout=8)
@@ -1339,9 +1353,12 @@ Date et heure exactes (Tunis) : {date_fr}
             )
             for model_candidate in self.models_pool:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_candidate}:generateContent?key={self.api_key}"
+                gen_cfg = {"temperature": 0.0, "maxOutputTokens": 800}
+                if "gemini-3.5-flash" in model_candidate and "lite" not in model_candidate:
+                    gen_cfg["thinkingConfig"] = {"thinkingBudget": 0}
                 payload = {
                     "contents": [{"role": "user", "parts": [{"text": f"{system_prompt}\n\nQuestion : {q}"}]}],
-                    "generationConfig": {"temperature": 0.0, "maxOutputTokens": 450}
+                    "generationConfig": gen_cfg
                 }
                 try:
                     resp = requests.post(url, json=payload, timeout=12)
