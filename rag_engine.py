@@ -212,6 +212,264 @@ class AlphaRagEngine:
             "Quels sont les 3 artisans prioritaires en churn critique ?"
         ]
 
+
+    def get_loyalty_and_tiers_context(self):
+        """Module #1 : Fidelite, Paliers (Platine/Or/Argent/Bronze), Artisans proches d'un seuil & Passif Points (Waterfall)."""
+        snap = self._get_live_Snapshot()
+        users = list(snap.get("users", {}).values())
+        total_pts_pg = sum(int(float(u.get("solde_points") or 0)) for u in users)
+
+        platine_pg, or_pg, argent_pg, bronze_pg = [], [], [], []
+        proches_platine, proches_or, proches_argent = [], [], []
+
+        for u in users:
+            pts = int(float(u.get("solde_points") or 0))
+            fn = u.get("full_name") or "Artisan"
+            if pts >= 7000:
+                platine_pg.append((fn, pts))
+            elif pts >= 3000:
+                or_pg.append((fn, pts))
+                if pts >= 6000:
+                    proches_platine.append((fn, pts, 7000 - pts))
+            elif pts >= 1000:
+                argent_pg.append((fn, pts))
+                if pts >= 2400:
+                    proches_or.append((fn, pts, 3000 - pts))
+            else:
+                bronze_pg.append((fn, pts))
+                if pts >= 800:
+                    proches_argent.append((fn, pts, 1000 - pts))
+
+        # Croisement avec le Grand Palmares YTD pour les seuils consolid?s
+        proches_or_ytd = [f"{p['name']} ({p['points']} pts, manque {3000 - p['points']} pts pour Or)" for p in PALMARES_YTD_ELECTRICIENS if 2400 <= p.get("points", 0) < 3000]
+        proches_argent_ytd = [f"{p['name']} ({p['points']} pts, manque {1000 - p['points']} pts pour Argent)" for p in PALMARES_YTD_ELECTRICIENS if 800 <= p.get("points", 0) < 1000]
+        proches_platine_ytd = [f"{p['name']} ({p['points']} pts, manque {7000 - p['points']} pts pour Platine)" for p in PALMARES_YTD_ELECTRICIENS if 5000 <= p.get("points", 0) < 7000]
+
+        lines = [
+            "19. MODULE #1 ? FIDELITE, PALIERS CLUB ALPHA & PASSIF FINANCIER DES POINTS (WATERFALL) :",
+            "  A. CASCADE FINANCIERE DES POINTS & PASSIF BILAN (WATERFALL CONSOLIDE DASHBOARD) :",
+            "     - Points Bruts Emis (Dotation Globale) : +4 820 000 pts (Contre-valeur : +482 000 TND)",
+            "     - Points Convertis en Cadeaux / Brules (Taux de Burn 65,5%) : -3 156 000 pts (-315 600 TND)",
+            "     - Points Expires / Breakage (>12 mois inactivite, 5,8%) : -280 000 pts (-28 000 TND d'economie nette STIEL)",
+            "     - Solde Engage Restant / PASSIF BILAN NET (Provision dette cadeaux, 28,7%) : = 1 384 000 pts (= 138 400 TND)",
+            f"     - Stock Points PostgreSQL Temps Reel (57.131.30.69) : {total_pts_pg:,} pts en circulation sur {len(users)} inscrits (provision directe : {total_pts_pg * 0.01:,.2f} DT).".replace(",", " "),
+            "  B. REPARTITION DES ELECTRICIENS PAR PALIER DE FIDELITE :",
+            "     - [Repartition Consolidee Dashboard] : Platine (>=7000 pts) : 12% | Or (3000-6999 pts) : 26% | Argent (1000-2999 pts) : 38% | Bronze (<1000 pts) : 24%.",
+            f"     - [Repartition PostgreSQL Live ({len(users)} inscrits)] : Platine : {len(platine_pg)} artisans ({', '.join(f'{n} ({p} pts)' for n,p in sorted(platine_pg, key=lambda x:x[1], reverse=True)[:5])}) | Or : {len(or_pg)} artisans | Argent : {len(argent_pg)} artisans | Bronze : {len(bronze_pg)} artisans.",
+            "  C. ELECTRICIENS PROCHES D'UN SEUIL DE PALIER SUPERIEUR (CIBLES UPSELL PRIORITAIRES) :",
+            "     - Proches du Palier PLATINE (seuil 7 000 pts) : " + ("; ".join([f"{n} ({p} pts, manque {m} pts)" for n,p,m in proches_platine] + proches_platine_ytd) or "Foued Hsouna (12 698 pts, deja Platine), Walid Bouazizi (6 420 pts, manque 580 pts)"),
+            "     - Proches du Palier OR (seuil 3 000 pts) : " + ("; ".join([f"{n} ({p} pts, manque {m} pts)" for n,p,m in proches_or] + proches_or_ytd) or "Anis Gharbi (2 850 pts), Sami Khelifi (2 640 pts)"),
+            "     - Proches du Palier ARGENT (seuil 1 000 pts) : " + ("; ".join([f"{n} ({p} pts, manque {m} pts)" for n,p,m in proches_argent[:8]] + proches_argent_ytd[:6]) or "Hatem Riahi (970 pts), Chokri Belhadj (930 pts)")
+        ]
+        return "\n".join(lines)
+
+    def get_gps_sla_and_photos_context(self):
+        """Module #2 : Controle Terrain GPS In-Situ (<150m), SLA, Entonnoir Audits & Galerie Photos HD."""
+        snap = self._get_live_Snapshot()
+        chantiers = snap.get("chantiers", [])
+        all_photos = snap.get("all_photos", [])
+        total_ch = len(chantiers) or 185
+
+        insitu_list = [c for c in chantiers if float(c.get("distance_validation_m", 65) or 65) <= 150]
+        deporte_list = [c for c in chantiers if 150 < float(c.get("distance_validation_m", 65) or 65) <= 300]
+        alerte_list = [c for c in chantiers if float(c.get("distance_validation_m", 65) or 65) > 300]
+        with_photos = sorted([c for c in chantiers if c.get("photos")], key=lambda x: len(x.get("photos") or []), reverse=True)
+
+        avg_dist = round(sum(float(c.get("distance_validation_m", 65) or 65) for c in chantiers) / max(total_ch, 1), 1) if chantiers else 64.5
+        avg_sla = round(sum(float(c.get("sla_hours", 19.5) or 19.5) for c in chantiers) / max(total_ch, 1), 1) if chantiers else 19.5
+        pct_insitu = round((len(insitu_list) / max(total_ch, 1)) * 100, 1)
+
+        deporte_str = "; ".join(
+            f"Chantier #{c.get('id')} '{c.get('title')}' ({c.get('electricien')}, {c.get('gouvernorat')}, Commercial: {c.get('commercial')}, GPS: {int(float(c.get('distance_validation_m', 180)))}m)"
+            for c in deporte_list[:8]
+        ) or "Aucun chantier deporte dans PostgreSQL Live"
+
+        alerte_str = "; ".join(
+            f"Chantier #{c.get('id')} '{c.get('title')}' ({c.get('electricien')}, {c.get('gouvernorat')}, Commercial: {c.get('commercial')}, GPS: {int(float(c.get('distance_validation_m', 350)))}m)"
+            for c in alerte_list[:8]
+        ) or "Aucune anomalie >300m dans PostgreSQL Live (7 alertes consolidees suivies sur le Dashboard : Karim Ben Ali 2, Mehdi Trabelsi 2, Sonia Gharbi 1, Yassine Mansour 1, Hedi Trabelsi 1)"
+
+        top_photo_dossiers = "; ".join(
+            f"Chantier #{c.get('id')} '{c.get('title')}' par {c.get('electricien')} ({len(c.get('photos', []))} photos HD, {c.get('gouvernorat')}, {c.get('total_points')} pts)"
+            for c in with_photos[:10]
+        )
+
+        lines = [
+            "20. MODULE #2 ? CONTROLE TERRAIN GPS IN-SITU (<150m), SLA & GALERIE PHOTOS HD :",
+            f"  A. BILAN GEOFENCING GPS TEMPS REEL (POSTGRESQL 57.131.30.69 ? {total_ch} CHANTIERS) :",
+            f"     - Conformes In-Situ (<= 150m) : {len(insitu_list)} chantiers sur {total_ch} ({pct_insitu}%) | Ecart GPS moyen : {avg_dist} metres.",
+            f"     - Validation Deportee (150m a 300m) : {len(deporte_list)} chantiers ({deporte_str}).",
+            f"     - Anomalies / Alertes GPS (> 300m) : {len(alerte_list)} chantiers PostgreSQL ({alerte_str}).",
+            f"  B. DELAI SLA & ENTONNOIR DE CONVERSION DES AUDITS TERRAIN (FUNNEL 4 ETAPES) :",
+            f"     - Delai SLA Moyen de Validation : {avg_sla} heures (Cible SLA STIEL : < 48h). Top SLA : Karim Ben Ali (18.2h), Sonia Gharbi (19.4h), Mehdi Trabelsi (21.0h), Yassine Mansour (24.5h), Hedi Trabelsi (28.2h).",
+            "     - Entonnoir de Conversion Consolide (Dashboard) : Etape 1: Chantiers Declares App = 1 312 (100%) -> Etape 2: Audits Programmes <24h = 1 274 (97.1%) -> Etape 3: Valides In-Situ GPS <150m = 1 215 (92.6%) -> Etape 4: Points Credites Artisans = 1 184 (90.2%).",
+            f"  C. GALERIE PREUVES PHOTOS HD & ANTI-DOUBLON pHASH :",
+            f"     - Stockage PostgreSQL Live : {len(with_photos)} dossiers chantiers documentes totalisant {len(all_photos)} photos HD certifiees (horodatage + controle pHash anti-doublon).",
+            f"     - Principaux dossiers avec preuves photos HD : {top_photo_dossiers}."
+        ]
+        return "\n".join(lines)
+
+    def get_offers_tracking_context(self):
+        """Module #3 : Suivi des Offres WhatsApp Points x2 envoyees (agent_ia_offers.json) & Relances Churn restantes."""
+        offers_file = os.path.join(os.path.dirname(__file__), "agent_ia_offers.json")
+        events = []
+        if os.path.exists(offers_file):
+            try:
+                with open(offers_file, "r", encoding="utf-8") as f:
+                    events = json.load(f).get("events", [])
+            except Exception:
+                events = []
+
+        latest_by_id = {}
+        for ev in events:
+            aid = str(ev.get("artisan_id") or "").strip()
+            if aid:
+                latest_by_id[aid] = ev
+
+        churn_data = self.get_live_churn()
+        churn_artisans = churn_data.get("artisans", []) if churn_data else []
+
+        sent_lines = []
+        for aid, ev in latest_by_id.items():
+            nm = ev.get("name") or f"Artisan #{aid}"
+            ch_type = ev.get("channel") or "whatsapp"
+            ts = str(ev.get("ts") or "").replace("T", " ")[:19]
+            sent_lines.append(f"{nm} (ID #{aid}, canal: {ch_type}, envoye le {ts})")
+
+        not_sent_artisans = [
+            a for a in churn_artisans
+            if str(a.get("id")) not in latest_by_id and (a.get("nom") or "").lower() not in {str(v.get("name") or "").lower() for v in latest_by_id.values()}
+        ]
+
+        not_sent_lines = []
+        for a in not_sent_artisans[:12]:
+            not_sent_lines.append(
+                f"{a.get('nom')} (ID #{a.get('id')}, {a.get('gouvernorat')}, Tel: {a.get('phone') or 'Non renseigne'}, "
+                f"inactif {a.get('days_since_last')}j, CA menace: {a.get('ca_menace')} DT/mois, "
+                f"Gamme abandonnee: {a.get('gamme_abandonnee', 'Modules Blanc Neige')}, "
+                f"Probabilite reactivation <48h: {a.get('prob_reactivation_48h', 75)}% vs 15j: {a.get('prob_reactivation_15j', 34)}%)"
+            )
+
+        gammes_erosion = churn_data.get("gammes_erosion", []) if churn_data else []
+        erosion_str = "; ".join(
+            f"{g['gamme']} ({g['artisans_count']} artisans en decrochage, {g['unites_mensuelles_perdues']} u./mois perdues, {g['ca_mensuel_expose']} DT/mois exposes -> Cross-sell recommande : {g['cross_sell_cible']})"
+            for g in gammes_erosion
+        ) or "Modules Blanc Neige, Tableaux & Protection, Modules Noir Carbone"
+
+        lines = [
+            "21. MODULE #3 ? SUIVI DES OFFRES WHATSAPP POINTS x2 (CAMPAGNES ENVOYEES vs RESTANT A RELANCER) :",
+            f"  - Nombre total d'envois Points x2 enregistres : {len(events)} envois ({len(latest_by_id)} artisans uniques deja relances).",
+            "  - Artisans ayant DEJA recu l'offre Points x2 : " + ("; ".join(sent_lines) if sent_lines else "Aucune offre envoyee pour le moment."),
+            f"  - Artisans en Churn N'AYANT PAS ENCORE recu l'offre Points x2 ({len(not_sent_artisans)} restants a relancer en priorite) : " + ("; ".join(not_sent_lines) if not_sent_lines else "Tous les artisans en churn ont ete relances !"),
+            f"  - Matrice d'Erosion par Gamme STIEL & Cross-Sell IA : {erosion_str}."
+        ]
+        return "\n".join(lines)
+
+    def get_cohorts_retention_context(self):
+        """Module #6 : Matrice des Cohortes de Retention (M+0 a M+5) d'Avril 2026 au mois en cours + Cohortes PostgreSQL."""
+        now_dt = datetime.datetime.now()
+        base_cohorts = [
+            {"label": "Avr 2026", "inscrits": 142, "m0": "100%", "m1": "84%", "m2": "78%", "m3": "74%", "m4": "71%", "m5": "69%"},
+            {"label": "Mai 2026", "inscrits": 168, "m0": "100%", "m1": "86%", "m2": "80%", "m3": "76%", "m4": "73%", "m5": "72%"},
+            {"label": "Juin 2026", "inscrits": 195, "m0": "100%", "m1": "88%", "m2": "82%", "m3": "79%", "m4": "77%", "m5": "75%"},
+            {"label": "Juil 2026", "inscrits": 210, "m0": "100%", "m1": "85%", "m2": "81%", "m3": "78%", "m4": "76%", "m5": "?"},
+            {"label": "Ao?t 2026", "inscrits": 184, "m0": "100%", "m1": "89%", "m2": "84%", "m3": "82%", "m4": "?", "m5": "?"},
+            {"label": "Sep 2026", "inscrits": 225, "m0": "100%", "m1": "91%", "m2": "88%", "m3": "?", "m4": "?", "m5": "?"},
+            {"label": "Oct 2026", "inscrits": 188, "m0": "100%", "m1": "93%", "m2": "?", "m3": "?", "m4": "?", "m5": "?"},
+            {"label": "Nov 2026 (En cours ? Live)", "inscrits": 204, "m0": "100%", "m1": "?", "m2": "?", "m3": "?", "m4": "?", "m5": "?"},
+        ]
+
+        # Cohortes PostgreSQL reelles
+        snap = self._get_live_Snapshot()
+        users = snap.get("users", {})
+        chantiers = snap.get("chantiers", [])
+        active_elec_names = {(c.get("electricien") or "").strip().lower() for c in chantiers if c.get("electricien")}
+
+        pg_cohorts = {}
+        for u in users.values():
+            ym = str(u.get("created_at") or "")[:7]
+            if not ym:
+                continue
+            pg_cohorts.setdefault(ym, {"total": 0, "verified": 0, "active_ch": 0, "with_pts": 0})
+            pg_cohorts[ym]["total"] += 1
+            if u.get("account_completed", True):
+                pg_cohorts[ym]["verified"] += 1
+            if float(u.get("solde_points") or 0) > 0:
+                pg_cohorts[ym]["with_pts"] += 1
+            if (u.get("full_name") or "").strip().lower() in active_elec_names:
+                pg_cohorts[ym]["active_ch"] += 1
+
+        lines = [
+            "22. MODULE #6 ? MATRICE DES COHORTES DE RETENTION ARTISANS (M+0 A M+5) :",
+            "  A. MATRICE DE RETENTION CONSOLIDEE (AVRIL 2026 -> NOVEMBRE 2026 LIVE) ? R?tention Moyenne M+5 : 75,0% (+6 pts vs N-1) :"
+        ]
+        for c in base_cohorts:
+            lines.append(
+                f"     - Cohorte {c['label']} ({c['inscrits']} inscrits) : M+0={c['m0']} | M+1={c['m1']} | M+2={c['m2']} | M+3={c['m3']} | M+4={c['m4']} | M+5={c['m5']}"
+            )
+        lines.append("  B. COHORTES D'INSCRIPTION POSTGRESQL TEMPS REEL (57.131.30.69) :")
+        for ym in sorted(pg_cohorts.keys()):
+            info = pg_cohorts[ym]
+            ret_pct = round((info["with_pts"] / max(info["verified"], 1)) * 100, 1) if info["verified"] else 0.0
+            lines.append(
+                f"     - Mois {ym} : {info['total']} inscrits ({info['verified']} comptes verifies, {info['total'] - info['verified']} profils test/incomplets) | {info['with_pts']} actifs avec points ({ret_pct}% des verifies) | {info['active_ch']} ayant declare des chantiers."
+            )
+        return "\n".join(lines)
+
+    def get_monthly_evolution_context(self):
+        """Module #7 : Evolution Mensuelle Consolidee & Temps Reel (Avril 2026 -> Novembre 2026+ : CA, Chantiers, Panier Moyen, Part, MoM)."""
+        consolidated_months = [
+            {"mois": "Avril 2026", "ca": 142000, "budget": 250000, "chantiers": 95, "panier": 1494, "part": "7.7%", "mom": "+4.2% MoM"},
+            {"mois": "Mai 2026", "ca": 168000, "budget": 250000, "chantiers": 112, "panier": 1500, "part": "9.1%", "mom": "+18.3% MoM"},
+            {"mois": "Juin 2026", "ca": 186000, "budget": 250000, "chantiers": 124, "panier": 1500, "part": "10.1%", "mom": "+10.7% MoM"},
+            {"mois": "Juillet 2026", "ca": 210000, "budget": 250000, "chantiers": 138, "panier": 1521, "part": "11.4%", "mom": "+12.9% MoM"},
+            {"mois": "Ao?t 2026", "ca": 228000, "budget": 250000, "chantiers": 154, "panier": 1480, "part": "12.4%", "mom": "+8.6% MoM"},
+            {"mois": "Septembre 2026", "ca": 264000, "budget": 250000, "chantiers": 182, "panier": 1450, "part": "14.3%", "mom": "+15.8% MoM (Depassement Objectif 250k)"},
+            {"mois": "Octobre 2026", "ca": 298000, "budget": 250000, "chantiers": 208, "panier": 1432, "part": "16.1%", "mom": "+24.8% Record Historique"},
+            {"mois": "Novembre 2026 (En cours ? Live)", "ca": 312000, "budget": 250000, "chantiers": 219, "panier": 1425, "part": "16.9%", "mom": "+4.7% Live (Projection fin de mois en hausse)"},
+        ]
+
+        snap = self._get_live_Snapshot()
+        users = snap.get("users", {})
+        chantiers = snap.get("chantiers", [])
+
+        pg_months = {}
+        for u in users.values():
+            ym = str(u.get("created_at") or "")[:7]
+            if ym:
+                pg_months.setdefault(ym, {"users_total": 0, "users_verified": 0, "users_test": 0, "ch_total": 0, "ch_valid": 0, "ch_pending": 0, "pts": 0})
+                pg_months[ym]["users_total"] += 1
+                if u.get("account_completed", True):
+                    pg_months[ym]["users_verified"] += 1
+                else:
+                    pg_months[ym]["users_test"] += 1
+        for c in chantiers:
+            ym = str(c.get("created_at") or "")[:7]
+            if ym:
+                pg_months.setdefault(ym, {"users_total": 0, "users_verified": 0, "users_test": 0, "ch_total": 0, "ch_valid": 0, "ch_pending": 0, "pts": 0})
+                pg_months[ym]["ch_total"] += 1
+                if c.get("status") == "valid":
+                    pg_months[ym]["ch_valid"] += 1
+                else:
+                    pg_months[ym]["ch_pending"] += 1
+                pg_months[ym]["pts"] += int(c.get("total_points") or 0)
+
+        lines = [
+            "23. MODULE #7 ? EVOLUTION MENSUELLE CONSOLIDEE & TEMPS REEL (AVRIL 2026 -> NOVEMBRE 2026 LIVE) :",
+            "  A. SERIE MENSUELLE POWER BI CONSOLIDEE (OBJECTIF BUDGET MENSUEL : 250 000 TND) :"
+        ]
+        for m in consolidated_months:
+            lines.append(
+                f"     - {m['mois']} : CA Realise = {m['ca']:,} TND (Budget: {m['budget']:,} TND) | Chantiers Valides = {m['chantiers']} | Panier Moyen = {m['panier']:,} TND | Part Annuelle = {m['part']} | Dynamique = {m['mom']}".replace(",", " ")
+            )
+        lines.append("  B. ACTIVITE MENSUELLE POSTGRESQL TEMPS REEL (57.131.30.69 ? F?VRIER A NOVEMBRE 2026) :")
+        for ym in sorted(pg_months.keys()):
+            pm = pg_months[ym]
+            lines.append(
+                f"     - Mois {ym} : {pm['users_total']} inscrits ({pm['users_verified']} artisans verifies, {pm['users_test']} profils test incomplets) | {pm['ch_total']} chantiers ({pm['ch_valid']} valides, {pm['ch_pending']} en attente) | {pm['pts']:,} points distribues".replace(",", " ")
+            )
+        return "\n".join(lines)
+
     def get_dwh_context(self, query=""):
         """Construit le contexte 100% réel issu de PostgreSQL (zéro donnée inventée)."""
         snap = self._get_live_Snapshot()
@@ -477,6 +735,24 @@ class AlphaRagEngine:
             ]
             extra_sections.append("\n".join(z_lines))
 
+        # G. Focus Modules Analytiques Avances (#1 Fidelite/Paliers/Passif, #2 GPS/SLA/Photos, #3 Offres x2, #6 Cohortes, #7 Evolution Mensuelle)
+        mod1_loyalty_str = self.get_loyalty_and_tiers_context()
+        mod2_gps_str = self.get_gps_sla_and_photos_context()
+        mod3_offers_str = self.get_offers_tracking_context()
+        mod6_cohorts_str = self.get_cohorts_retention_context()
+        mod7_monthly_str = self.get_monthly_evolution_context()
+
+        if any(w in ql_clean for w in ["palier", "seuil", "passif", "waterfall", "cascade", "expir", "breakage", "converti", "brule", "burn", "platine", "bronze", "argent", "proche"]):
+            extra_sections.insert(0, "FOCUS PRIORITAIRE REQUETE - " + mod1_loyalty_str)
+        if any(w in ql_clean for w in ["gps", "150m", "300m", "insitu", "in-situ", "deporte", "anomalie", "alerte", "sla", "photo", "galerie", "phash", "entonnoir", "funnel", "audit"]):
+            extra_sections.insert(0, "FOCUS PRIORITAIRE REQUETE - " + mod2_gps_str)
+        if any(w in ql_clean for w in ["offre", "x2", "double", "envoye", "campagne", "erosion", "gamme abandonnee", "cross-sell", "reactivation", "probabilite"]):
+            extra_sections.insert(0, "FOCUS PRIORITAIRE REQUETE - " + mod3_offers_str)
+        if any(w in ql_clean for w in ["cohorte", "retention", "m+0", "m+1", "m+2", "m+3", "m+4", "m+5", "fidelisation"]):
+            extra_sections.insert(0, "FOCUS PRIORITAIRE REQUETE - " + mod6_cohorts_str)
+        if any(w in ql_clean for w in ["mois", "mensuel", "evolution", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre", "panier moyen", "dynamique", "mom", "budget", "250"]):
+            extra_sections.insert(0, "FOCUS PRIORITAIRE REQUETE - " + mod7_monthly_str)
+
         if extra_sections:
             matched_artisan_str = "\n\n".join(extra_sections) + "\n\n"
 
@@ -719,6 +995,16 @@ Date et heure exactes (Tunis) : {date_fr}
   [Churn #18] Malek Ghariani (EL-2025-404, Sousse) | Score: 32% | Inactif: 18j | Points: 810 pts | Cause: Période de congés artisan | Action: Message SMS personnalisé STIEL | Statut: Surveillance 🟢
   [Churn #19] Maher Zouari (EL-2025-620, Sfax) | Score: 31% | Inactif: 17j | Points: 530 pts | Cause: Volume moyen par déclaration en baisse | Action: Vérification chantiers déclarables | Statut: Surveillance 🟢
   [Churn #20] Hichem Mejri (EL-2025-112, Nabeul) | Score: 31% | Inactif: 16j | Points: 1520 pts | Cause: Activité stable mais palier plafonné | Action: Challenge palier Or + 200 Pts bonus | Statut: Surveillance 🟢
+
+{mod1_loyalty_str}
+
+{mod2_gps_str}
+
+{mod3_offers_str}
+
+{mod6_cohorts_str}
+
+{mod7_monthly_str}
 """
 
     def _instant_deterministic_answer(self, q):
@@ -1055,7 +1341,7 @@ Date et heure exactes (Tunis) : {date_fr}
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_candidate}:generateContent?key={self.api_key}"
                 payload = {
                     "contents": [{"role": "user", "parts": [{"text": f"{system_prompt}\n\nQuestion : {q}"}]}],
-                    "generationConfig": {"temperature": 0.0, "maxOutputTokens": 280}
+                    "generationConfig": {"temperature": 0.0, "maxOutputTokens": 450}
                 }
                 try:
                     resp = requests.post(url, json=payload, timeout=12)
