@@ -209,12 +209,12 @@ class AlphaRagEngine:
         return [
             "Qui est le meilleur électricien (Top Points & Chantiers) ?",
             "Quel est le produit STIEL le plus vendu ?",
-            "Quels sont les 3 artisans prioritaires en churn critique ?"
+            "Quels sont les 3 ?lectriciens prioritaires en churn critique ?"
         ]
 
 
     def get_loyalty_and_tiers_context(self):
-        """Module #1 : Fidelite, Paliers (Platine/Or/Argent/Bronze), Artisans proches d'un seuil & Passif Points (Waterfall)."""
+        """Module #1 : Fidelite, Paliers (Platine/Or/Argent/Bronze), ?lectriciens proches d'un seuil & Passif Points (Waterfall)."""
         snap = self._get_live_Snapshot()
         users = list(snap.get("users", {}).values())
         total_pts_pg = sum(int(float(u.get("solde_points") or 0)) for u in users)
@@ -352,15 +352,15 @@ class AlphaRagEngine:
 
         gammes_erosion = churn_data.get("gammes_erosion", []) if churn_data else []
         erosion_str = "; ".join(
-            f"{g['gamme']} ({g['artisans_count']} artisans en decrochage, {g['unites_mensuelles_perdues']} u./mois perdues, {g['ca_mensuel_expose']} DT/mois exposes -> Cross-sell recommande : {g['cross_sell_cible']})"
+            f"{g['gamme']} ({g['artisans_count']} ?lectriciens en d?crochage, {g['unites_mensuelles_perdues']} u./mois perdues, {g['ca_mensuel_expose']} DT/mois exposes -> Cross-sell recommande : {g['cross_sell_cible']})"
             for g in gammes_erosion
         ) or "Modules Blanc Neige, Tableaux & Protection, Modules Noir Carbone"
 
         lines = [
             "21. MODULE #3 ? SUIVI DES OFFRES WHATSAPP POINTS x2 (CAMPAGNES ENVOYEES vs RESTANT A RELANCER) :",
-            f"  - Nombre total d'envois Points x2 enregistres : {len(events)} envois ({len(latest_by_id)} artisans uniques deja relances).",
-            "  - Artisans ayant DEJA recu l'offre Points x2 : " + ("; ".join(sent_lines) if sent_lines else "Aucune offre envoyee pour le moment."),
-            f"  - Artisans en Churn N'AYANT PAS ENCORE recu l'offre Points x2 ({len(not_sent_artisans)} restants a relancer en priorite) : " + ("; ".join(not_sent_lines) if not_sent_lines else "Tous les artisans en churn ont ete relances !"),
+            f"  - Nombre total d'envois Points x2 enregistres : {len(events)} envois ({len(latest_by_id)} ?lectriciens uniques deja relances).",
+            "  - ?lectriciens ayant D?J? re?u l'offre Points x2 : " + ("; ".join(sent_lines) if sent_lines else "Aucune offre envoyee pour le moment."),
+            f"  - ?lectriciens en Churn N'AYANT PAS ENCORE recu l'offre Points x2 ({len(not_sent_artisans)} restants a relancer en priorite) : " + ("; ".join(not_sent_lines) if not_sent_lines else "Tous les ?lectriciens en churn ont ete relances !"),
             f"  - Matrice d'Erosion par Gamme STIEL & Cross-Sell IA : {erosion_str}."
         ]
         return "\n".join(lines)
@@ -400,7 +400,7 @@ class AlphaRagEngine:
                 pg_cohorts[ym]["active_ch"] += 1
 
         lines = [
-            "22. MODULE #6 ? MATRICE DES COHORTES DE RETENTION ARTISANS (M+0 A M+5) :",
+            "22. MODULE #6 ? MATRICE DES COHORTES DE RETENTION ?LECTRICIENS (M+0 A M+5) :",
             "  A. MATRICE DE RETENTION CONSOLIDEE (AVRIL 2026 -> NOVEMBRE 2026 LIVE) ? R?tention Moyenne M+5 : 75,0% (+6 pts vs N-1) :"
         ]
         for c in base_cohorts:
@@ -466,7 +466,7 @@ class AlphaRagEngine:
         for ym in sorted(pg_months.keys()):
             pm = pg_months[ym]
             lines.append(
-                f"     - Mois {ym} : {pm['users_total']} inscrits ({pm['users_verified']} artisans verifies, {pm['users_test']} profils test incomplets) | {pm['ch_total']} chantiers ({pm['ch_valid']} valides, {pm['ch_pending']} en attente) | {pm['pts']:,} points distribues".replace(",", " ")
+                f"     - Mois {ym} : {pm['users_total']} inscrits ({pm['users_verified']} ?lectriciens v?rifi?s, {pm['users_test']} profils test incomplets) | {pm['ch_total']} chantiers ({pm['ch_valid']} valides, {pm['ch_pending']} en attente) | {pm['pts']:,} points distribues".replace(",", " ")
             )
         return "\n".join(lines)
 
@@ -597,7 +597,7 @@ class AlphaRagEngine:
                     if churn_data and churn_data.get("artisans"):
                         gv_churn = [a for a in churn_data["artisans"] if gv_low in (a.get("gouvernorat") or "").lower()]
                         if gv_churn:
-                            gv_lines.append("  - Artisans en risque de Churn à " + gv + " : " + ", ".join(f"{a['nom']} (Tél: {a['phone']}, inactif depuis {a['days_since_last']}j, {a['total_chantiers']} ch.)" for a in gv_churn[:5]))
+                            gv_lines.append("  - ?lectriciens en risque de Churn à " + gv + " : " + ", ".join(f"{a['nom']} (Tél: {a['phone']}, inactif depuis {a['days_since_last']}j, {a['total_chantiers']} ch.)" for a in gv_churn[:5]))
                     extra_sections.append("\n".join(gv_lines))
 
         # B. Focus Commercial spécifique (Slim, Ali Ben Romdhane, Mourad, Hichem, Nizar)
@@ -608,7 +608,7 @@ class AlphaRagEngine:
                 c_ch = [ch for ch in chantiers if (ch.get("commercial") or "").lower() == c_name.lower()]
                 extra_sections.append(
                     f"FOCUS COMMERCIAL {c_name.upper()} : Région {c_obj['region']} | Tél: {c_obj['phone']} | "
-                    f"{c_obj['chantiers']} chantiers supervisés | {c_obj['nb_electriciens']} artisans suivis | {c_obj['points']} pts générés. "
+                    f"{c_obj['chantiers']} chantiers supervisés | {c_obj['nb_electriciens']} ?lectriciens suivis | {c_obj['points']} pts générés. "
                     f"Exemples de chantiers : " + ", ".join(f"#{ch.get('id')} ({ch.get('electricien')}, {ch.get('gouvernorat')}, {ch.get('total_points')} pts)" for ch in c_ch[:5])
                 )
 
@@ -686,7 +686,7 @@ class AlphaRagEngine:
                 if sc > 0:
                     exact_or_partial_lines.append((sc,
                         f"  * [Distributeur Officiel STIEL ? Rang #{dist.get('rank')}] {dist.get('name')} ({dist.get('ville')}) | "
-                        f"Artisans servis: {dist.get('artisans')} | CA STIEL: {dist.get('ca', 0):,} TND | Part: {dist.get('share', '')}".replace(",", " ")
+                        f"?lectriciens servis: {dist.get('artisans')} | CA STIEL: {dist.get('ca', 0):,} TND | Part: {dist.get('share', '')}".replace(",", " ")
                     ))
 
             if exact_or_partial_lines:
@@ -787,7 +787,7 @@ class AlphaRagEngine:
             for g in gouvs
         )
 
-        # 4. Liste intégrale des Artisans en Churn
+        # 4. Liste intégrale des ?lectriciens en Churn
         all_churn_str = churn_str
         if churn_data and churn_data.get("artisans"):
             s = churn_data["summary"]
@@ -872,7 +872,7 @@ Date et heure exactes (Tunis) : {date_fr}
 7. RÉPARTITION PAR GOUVERNORAT (TUNISIE) :
 {gouvs_str}
 
-8. ARTISANS EN RISQUE DE CHURN (LISTE COMPLÈTE À RELANCER SUR WHATSAPP) :
+8. ?LECTRICIENS EN RISQUE DE CHURN (LISTE COMPLÈTE À RELANCER SUR WHATSAPP) :
 {all_churn_str}
 
 9. CATALOGUE CADEAUX FIDÉLITÉ :
@@ -946,26 +946,26 @@ Date et heure exactes (Tunis) : {date_fr}
   [Palmares #50] Oussama Bejaoui (EL-2025-812) | Region: Bizerte & Nord (Menzel Bourguiba) | Palier: BRONZE | Chantiers: 10 | CA: 3100 TND | Points: 370 pts | Churn: 34% | Statut: En Progression 📈
 
 16. PALMARES DES 20 DISTRIBUTEURS / COMPTOIRS STIEL :
-  [Distributeur #1] Comptoir Électrique du Sud (CES) (Sfax (Route de Gabès)) | Artisans servis: 148 | CA: 384200 TND | Part: 20.8% | Statut: Partenaire Officiel
-  [Distributeur #2] Sté Tunisienne d'Électricité & Quincaillerie (STEQ) (Tunis (Charguia)) | Artisans servis: 164 | CA: 348900 TND | Part: 18.9% | Statut: Partenaire Officiel
-  [Distributeur #3] Élec-Distribution Sahel & Cie (Sousse (Sahloul)) | Artisans servis: 96 | CA: 271400 TND | Part: 14.7% | Statut: Partenaire Officiel
-  [Distributeur #4] Comptoir Moderne de Nabeul (Nabeul (Centre)) | Artisans servis: 74 | CA: 218500 TND | Part: 11.8% | Statut: Partenaire Officiel
-  [Distributeur #5] Maghreb Électrique Bizerte (Bizerte (Zone Port)) | Artisans servis: 62 | CA: 182300 TND | Part: 9.9% | Statut: Partenaire Officiel
-  [Distributeur #6] Comptoir Électro-Technique Ariana (Ariana (Ennasr)) | Artisans servis: 58 | CA: 154800 TND | Part: 8.4% | Statut: Partenaire Officiel
-  [Distributeur #7] Union Matériel Électrique Gabès (Gabès (Ville)) | Artisans servis: 41 | CA: 119200 TND | Part: 6.5% | Statut: Partenaire Officiel
-  [Distributeur #8] Kairouan Électro-Fournitures (Kairouan (Centre)) | Artisans servis: 32 | CA: 92400 TND | Part: 5.0% | Statut: Partenaire Officiel
-  [Distributeur #9] Comptoir Général de Mahdia (Mahdia (Zone Portuaire)) | Artisans servis: 29 | CA: 84100 TND | Part: 4.6% | Statut: Partenaire Officiel
-  [Distributeur #10] Électro-Matériel Monastir (Monastir (Skanès)) | Artisans servis: 26 | CA: 78200 TND | Part: 4.2% | Statut: Partenaire Officiel
-  [Distributeur #11] Comptoir du Cap Bon Kelibia (Kelibia (Port)) | Artisans servis: 24 | CA: 71400 TND | Part: 3.9% | Statut: Partenaire Officiel
-  [Distributeur #12] Élec-Plus Ben Arous (Ben Arous (Megrine)) | Artisans servis: 23 | CA: 66800 TND | Part: 3.6% | Statut: Partenaire Officiel
-  [Distributeur #13] Bizerte Matériel Pro (Menzel Bourguiba) | Artisans servis: 21 | CA: 59900 TND | Part: 3.2% | Statut: Partenaire Officiel
-  [Distributeur #14] Sud-Distribution Médenine (Médenine (Centre)) | Artisans servis: 19 | CA: 53400 TND | Part: 2.9% | Statut: Partenaire Officiel
-  [Distributeur #15] Djerba Électro-Technique (Houmt Souk (Djerba)) | Artisans servis: 18 | CA: 48100 TND | Part: 2.6% | Statut: Partenaire Officiel
-  [Distributeur #16] Gafsa Électro-Comptoir (Gafsa (Centre)) | Artisans servis: 15 | CA: 43500 TND | Part: 2.3% | Statut: Partenaire Officiel
-  [Distributeur #17] Comptoir Béja & Nord-Ouest (Béja (Zone Industrielle)) | Artisans servis: 14 | CA: 39800 TND | Part: 2.1% | Statut: Partenaire Officiel
-  [Distributeur #18] Zaghouan Fournitures Bâtiment (Zaghouan (Centre)) | Artisans servis: 13 | CA: 36500 TND | Part: 2.0% | Statut: Partenaire Officiel
-  [Distributeur #19] Jendouba Distribution Pro (Jendouba (Route Tabarka)) | Artisans servis: 12 | CA: 33900 TND | Part: 1.8% | Statut: Partenaire Officiel
-  [Distributeur #20] Tozeur Matériel Électrique Oasis (Tozeur (Ville)) | Artisans servis: 11 | CA: 30800 TND | Part: 1.7% | Statut: Partenaire Officiel
+  [Distributeur #1] Comptoir Électrique du Sud (CES) (Sfax (Route de Gabès)) | ?lectriciens servis: 148 | CA: 384200 TND | Part: 20.8% | Statut: Partenaire Officiel
+  [Distributeur #2] Sté Tunisienne d'Électricité & Quincaillerie (STEQ) (Tunis (Charguia)) | ?lectriciens servis: 164 | CA: 348900 TND | Part: 18.9% | Statut: Partenaire Officiel
+  [Distributeur #3] Élec-Distribution Sahel & Cie (Sousse (Sahloul)) | ?lectriciens servis: 96 | CA: 271400 TND | Part: 14.7% | Statut: Partenaire Officiel
+  [Distributeur #4] Comptoir Moderne de Nabeul (Nabeul (Centre)) | ?lectriciens servis: 74 | CA: 218500 TND | Part: 11.8% | Statut: Partenaire Officiel
+  [Distributeur #5] Maghreb Électrique Bizerte (Bizerte (Zone Port)) | ?lectriciens servis: 62 | CA: 182300 TND | Part: 9.9% | Statut: Partenaire Officiel
+  [Distributeur #6] Comptoir Électro-Technique Ariana (Ariana (Ennasr)) | ?lectriciens servis: 58 | CA: 154800 TND | Part: 8.4% | Statut: Partenaire Officiel
+  [Distributeur #7] Union Matériel Électrique Gabès (Gabès (Ville)) | ?lectriciens servis: 41 | CA: 119200 TND | Part: 6.5% | Statut: Partenaire Officiel
+  [Distributeur #8] Kairouan Électro-Fournitures (Kairouan (Centre)) | ?lectriciens servis: 32 | CA: 92400 TND | Part: 5.0% | Statut: Partenaire Officiel
+  [Distributeur #9] Comptoir Général de Mahdia (Mahdia (Zone Portuaire)) | ?lectriciens servis: 29 | CA: 84100 TND | Part: 4.6% | Statut: Partenaire Officiel
+  [Distributeur #10] Électro-Matériel Monastir (Monastir (Skanès)) | ?lectriciens servis: 26 | CA: 78200 TND | Part: 4.2% | Statut: Partenaire Officiel
+  [Distributeur #11] Comptoir du Cap Bon Kelibia (Kelibia (Port)) | ?lectriciens servis: 24 | CA: 71400 TND | Part: 3.9% | Statut: Partenaire Officiel
+  [Distributeur #12] Élec-Plus Ben Arous (Ben Arous (Megrine)) | ?lectriciens servis: 23 | CA: 66800 TND | Part: 3.6% | Statut: Partenaire Officiel
+  [Distributeur #13] Bizerte Matériel Pro (Menzel Bourguiba) | ?lectriciens servis: 21 | CA: 59900 TND | Part: 3.2% | Statut: Partenaire Officiel
+  [Distributeur #14] Sud-Distribution Médenine (Médenine (Centre)) | ?lectriciens servis: 19 | CA: 53400 TND | Part: 2.9% | Statut: Partenaire Officiel
+  [Distributeur #15] Djerba Électro-Technique (Houmt Souk (Djerba)) | ?lectriciens servis: 18 | CA: 48100 TND | Part: 2.6% | Statut: Partenaire Officiel
+  [Distributeur #16] Gafsa Électro-Comptoir (Gafsa (Centre)) | ?lectriciens servis: 15 | CA: 43500 TND | Part: 2.3% | Statut: Partenaire Officiel
+  [Distributeur #17] Comptoir Béja & Nord-Ouest (Béja (Zone Industrielle)) | ?lectriciens servis: 14 | CA: 39800 TND | Part: 2.1% | Statut: Partenaire Officiel
+  [Distributeur #18] Zaghouan Fournitures Bâtiment (Zaghouan (Centre)) | ?lectriciens servis: 13 | CA: 36500 TND | Part: 2.0% | Statut: Partenaire Officiel
+  [Distributeur #19] Jendouba Distribution Pro (Jendouba (Route Tabarka)) | ?lectriciens servis: 12 | CA: 33900 TND | Part: 1.8% | Statut: Partenaire Officiel
+  [Distributeur #20] Tozeur Matériel Électrique Oasis (Tozeur (Ville)) | ?lectriciens servis: 11 | CA: 30800 TND | Part: 1.7% | Statut: Partenaire Officiel
 
 17. TOP 5 COMMERCIAUX SLA (TABLEAU FORCE COMMERCIALE SLA DU DASHBOARD) :
   [Commercial SLA #1] Karim Ben Ali | Zone: Grand Tunis & Nord | Chantiers: 48 | SLA Moyen: 18.2h | In-Situ <150m: 91.7% | Conformite: 95.8% | Alertes: 2 | CA Valide: 624500 TND | Statut: Leader Nord
@@ -1066,7 +1066,7 @@ Date et heure exactes (Tunis) : {date_fr}
         if (any(w in ql_norm for w in date_explicit) or ql_norm in ["date", "heure", "jour"]) and not any(w in ql_norm for w in not_date_keywords):
             return f"📅 Aujourd'hui, nous sommes le **{date_fr}** (heure de Tunis)."
 
-        # 2. Recherche d'un artisan spécifique par son nom ou demande de script d'appel commercial
+        # 2. Recherche d'un ?lectricien spécifique par son nom ou demande de script d'appel commercial
         if users and len(ql_norm) >= 3:
             stop_words = {"analyse", "profil", "propose", "script", "appel", "commercial", "pour", "nizar", "electricien", "artisan", "chantier", "points", "combien", "quel", "quelle", "quels", "quelles", "dans", "avec", "sont", "plus", "moins", "tunis", "sfax", "sousse", "nabeul", "club", "alpha", "stiel"}
             matched_u = None
@@ -1089,7 +1089,7 @@ Date et heure exactes (Tunis) : {date_fr}
                 phone = u.get("phone") or "+216 24 144 256"
                 last_date = max((str(c.get("created_at", ""))[:10] for c in u_ch), default=str(u.get("created_at", ""))[:10])
                 lines = [
-                    f"👤 **Fiche Artisan PostgreSQL — {u.get('full_name')}** :",
+                    f"👤 **Fiche ?lectricien PostgreSQL — {u.get('full_name')}** :",
                     f"• **ID / Contact** : `#{uid}` • Tél : **{phone}** • Email : `{u.get('email') or 'N/A'}`",
                     f"• **Solde Fidélité** : **{pts:,} pts** ({len(u_ch)} chantiers déclarés, dernier actif : **{last_date}**)".replace(",", " "),
                     f"• **Commercial Référent** : **{comm}**",
@@ -1200,7 +1200,7 @@ Date et heure exactes (Tunis) : {date_fr}
             d = self.get_live_churn()
             if d and d.get("artisans"):
                 s = d["summary"]
-                lines = [f"🚨 **{s['count']} artisans en risque Churn** ({s['critiques']} critiques > 45j, enjeu : **{s['ca_menace']:,} DT/mois**). **Top 5 prioritaires à relancer** :".replace(",", " ")]
+                lines = [f"🚨 **{s['count']} ?lectriciens en risque Churn** ({s['critiques']} critiques > 45j, enjeu : **{s['ca_menace']:,} DT/mois**). **Top 5 prioritaires à relancer** :".replace(",", " ")]
                 for i, a in enumerate(d["artisans"][:5], 1):
                     lines.append(f"{i}. **{a['nom']}** ({a['gouvernorat']}) ? ?? **{a['phone']}** ? {a['total_chantiers']} ch., inactif **{a['days_since_last']} j** (*{a['diagnostic']}*)\n   ? *Action Proactive* : {a.get('recommandation')}")
                 return "\n".join(lines)
@@ -1229,7 +1229,7 @@ Date et heure exactes (Tunis) : {date_fr}
             comms = self.get_commercials_ranking()
             lines = ["👔 **Classement de la Force Commerciale STIEL (PostgreSQL Live)** :"]
             for i, c in enumerate(comms[:6], 1):
-                lines.append(f"{i}. **{c['nom']}** ({c['region']}) — **{c['chantiers']} chantiers audités**, {c['nb_electriciens']} artisans suivis (**{c['points']:,} pts**)".replace(",", " "))
+                lines.append(f"{i}. **{c['nom']}** ({c['region']}) — **{c['chantiers']} chantiers audités**, {c['nb_electriciens']} ?lectriciens suivis (**{c['points']:,} pts**)".replace(",", " "))
             return "\n".join(lines)
 
         # 13. Bilan exécutif / Chiffres clés / Total / Statistiques
@@ -1338,11 +1338,11 @@ Date et heure exactes (Tunis) : {date_fr}
             system_prompt = (
                 "Tu es Alpha Copilot, l'assistant decisionnel officiel de Club Alpha by STIEL Tunisie connecte a PostgreSQL (57.131.30.69) et au Dashboard Executif.\n"
                 "REGLES FONDAMENTALES :\n"
-                "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ELECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
+                "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ?LECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
                 "   - Ne refuse JAMAIS une question demandant 'c est qui [Nom]' ou portant sur un nom propre !\n"
                 "   - Cherche le nom dans les sections PROFIL(S) TROUVE(S), 13 (Table PostgreSQL Live des 176 inscrits), 15 (Grand Palmares des 50 Electriciens YTD), 16 (Distributeurs), 6 (Commerciaux) et 8 (Churn).\n"
                 "   - Si la personne figure dans la section 15 (ex: Bilel Guesmi au Rang #2 du Grand Palmares YTD) ou dans la section 13 (PostgreSQL Live, ex: Bilel Majbri), donne immediatement sa fiche detaillee complete (Rang/Code/ID, Region, Palier, Chantiers, CA TND, Solde Points, Churn/Statut).\n"
-                "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun artisan de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
+                "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun ?lectricien de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
                 "2. NOUVELLES INSCRIPTIONS & PROFILS TESTS :\n"
                 "   - Si on demande qui s'est inscrit aujourd'hui ou recemment, consulte la table des utilisateurs.\n"
                 "   - Si les nouveaux comptes ont 'account_completed: False' (ex: Janice Jacobs, Shaina Thames creees le 2026-11-02), precise explicitement qu'il s'agit d'inscriptions de test / comptes non finalises (sans numero de telephone tunisien ni chantier), et mentionne aussi le dernier electricien tunisien verifie (ex: Ali Kelibia le 27/10/2026).\n"
@@ -1389,7 +1389,7 @@ Date et heure exactes (Tunis) : {date_fr}
                 "Je n'ai pas trouvé de correspondance exacte dans la base PostgreSQL pour cette question.\n\n"
                 "💡 **Vous pouvez me demander par exemple** :\n"
                 "• *« Top électriciens par points »*\n"
-                "• *« Quels sont les artisans à relancer ? »*\n"
+                "• *« Quels sont les ?lectriciens à relancer ? »*\n"
                 "• *« Quel est le produit le plus vendu ? »*\n"
                 "• *« Bilan des chantiers récents »*"
             ),
