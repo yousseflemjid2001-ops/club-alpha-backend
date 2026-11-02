@@ -15942,8 +15942,8 @@
     const waBtn = document.getElementById('btnOfferWhatsApp');
 
     const firstName = name.split(' ')[0] || name;
-    const offerAction = reco ? reco : 'vos points fid?lit? sont DOUBL?S (x2) sur vos 2 prochains chantiers valid?s ce mois-ci !';
-    const msg = `Bonjour ${firstName}, Club Alpha by STIEL vous propose une action d?di?e : ${offerAction} ? tr?s bient?t sur vos installations. - Nizar Bentanfous (+216 93 554 201)`;
+    const offerAction = reco ? reco : 'vos points fidélité sont DOUBLÉS (x2) sur vos 2 prochains chantiers validès ce mois-ci !';
+    const msg = `Bonjour ${firstName}, Club Alpha by STIEL vous propose une action dédiée : ${offerAction} ? tr?s bientôt sur vos installations. - Nizar Bentanfous (+216 93 554 201)`;
 
         if (nameEl) nameEl.textContent = name;
         if (phoneEl) phoneEl.textContent = phone;
@@ -16706,28 +16706,28 @@
                 <td class="py-3.5 px-4">
                     ${(() => {
                         const recoTxt = a.recommandation || '';
-                        let rIcon = 'fa-solid fa-gift text-teal-400';
+                        let rEmoji = '\uD83C\uDF81';
                         let rBorder = 'border-teal-800/40 bg-teal-950/40 text-teal-200';
-                        if (recoTxt.includes('Visite') || recoTxt.includes('D?jeuner')) {
-                            rIcon = 'fa-solid fa-user-tie text-amber-400';
+                        if (recoTxt.includes('Visite') || recoTxt.includes('Déjeuner')) {
+                            rEmoji = '\uD83D\uDC54';
                             rBorder = 'border-amber-800/40 bg-amber-950/30 text-amber-200';
                         } else if (recoTxt.includes('Palier') || recoTxt.includes('Challenge')) {
-                            rIcon = 'fa-solid fa-trophy text-yellow-400';
+                            rEmoji = '\uD83C\uDFC6';
                             rBorder = 'border-yellow-800/40 bg-yellow-950/30 text-yellow-200';
                         } else if (recoTxt.includes('Luxe') || recoTxt.includes('architecte')) {
-                            rIcon = 'fa-solid fa-gem text-purple-400';
+                            rEmoji = '\uD83D\uDC8E';
                             rBorder = 'border-purple-800/40 bg-purple-950/30 text-purple-200';
-                        } else if (recoTxt.includes('S?curis?') || recoTxt.includes('Tableau')) {
-                            rIcon = 'fa-solid fa-shield-halved text-sky-400';
+                        } else if (recoTxt.includes('Sécurisé') || recoTxt.includes('Tableau')) {
+                            rEmoji = '\uD83D\uDEE1\uFE0F';
                             rBorder = 'border-sky-800/40 bg-sky-950/30 text-sky-200';
                         } else if (recoTxt.includes('Flash') || recoTxt.includes('WhatsApp')) {
-                            rIcon = 'fa-brands fa-whatsapp text-emerald-400';
+                            rEmoji = '\u26A1';
                             rBorder = 'border-emerald-800/40 bg-emerald-950/30 text-emerald-200';
-                        } else if (recoTxt.includes('Appel') || recoTxt.includes('Enqu?te')) {
-                            rIcon = 'fa-solid fa-phone-volume text-cyan-400';
+                        } else if (recoTxt.includes('Appel') || recoTxt.includes('Enquête')) {
+                            rEmoji = '\uD83D\uDCDE';
                             rBorder = 'border-cyan-800/40 bg-cyan-950/30 text-cyan-200';
                         }
-                        return `<div class="p-2.5 rounded-lg ${rBorder} border text-[11px] leading-snug flex items-start gap-2 shadow-sm"><i class="${rIcon} text-xs mt-0.5 flex-shrink-0"></i><span><strong>${esc(recoTxt)}</strong></span></div>`;
+                        return `<div class="p-2.5 rounded-lg ${rBorder} border text-[11px] leading-snug flex items-start gap-2 shadow-sm"><span class="text-xs leading-none shrink-0 select-none">${rEmoji}</span><span><strong>${esc(recoTxt)}</strong></span></div>`;
                     })()}
                 </td>
                 <td class="py-3.5 px-4 text-right">${actionHtml}${sentHtml}</td>
@@ -17061,7 +17061,7 @@
     <script id="dynamicTemporalVisualEngine">
     // =========================================================================
     // MOTEUR TEMPOREL AUTO-G?N?RATIF (MOIS EN COURS + MOIS FUTURS + DWH LIVE)
-    // G?n?re automatiquement Novembre 2026, D?cembre 2026, 2027... sur toutes
+    // Génère automatiquement Novembre 2026, Décembre 2026, 2027... sur toutes
     // les visualisations (Combo Chart, Power BI Focus Mode, Cohortes, Filtres)
     // =========================================================================
     (function() {
@@ -17069,7 +17069,7 @@
         const FR_MONTHS_SHORT = ['Jan', 'F\u00e9v', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Ao\u00fbt', 'Sep', 'Oct', 'Nov', 'D\u00e9c'];
         const FR_MONTHS_KEYS = ['jan', 'fev', 'mar', 'avr', 'mai', 'juin', 'juil', 'aout', 'sep', 'oct', 'nov', 'dec'];
 
-        // Base historique consolid?e (Avril 2026 -> Octobre 2026)
+        // Base historique consolidée (Avril 2026 -> Octobre 2026)
         const BASE_CONSOLIDATED_MONTHS = [
             { ym: '2026-04', year: 2026, mIdx: 3, code: 'mois_avr', short: 'Avr', full: 'Avril 2026', ca: 118000, ch: 72, dyn: 'Lancement Club', isRecord: false, isLive: false },
             { ym: '2026-05', year: 2026, mIdx: 4, code: 'mois_mai', short: 'Mai', full: 'Mai 2026', ca: 152000, ch: 95, dyn: '+28.8% MoM', isRecord: false, isLive: false },
@@ -17106,7 +17106,7 @@
                 maxMonth = 11;
             }
 
-            // Scanner ?galement les chantiers et utilisateurs PostgreSQL en direct pour d?tecter tout nouveau mois
+            // Scanner ?galement les chantiers et utilisateurs PostgreSQL en direct pour détecter tout nouveau mois
             const dwhByMonth = {};
             const chList = window.allChantiersList || window._realChantiersData || [];
             chList.forEach(ch => {
@@ -17138,7 +17138,7 @@
 
             const timeline = BASE_CONSOLIDATED_MONTHS.map(item => ({ ...item }));
 
-            // G?n?rer automatiquement tous les mois ? partir de Novembre 2026 (2026-11) jusqu'? (maxYear, maxMonth)
+            // Génèrer automatiquement tous les mois ? partir de Novembre 2026 (2026-11) jusqu'? (maxYear, maxMonth)
             let curY = 2026;
             let curM = 11;
             let prevCa = 298000;
@@ -17201,7 +17201,7 @@
             return timeline;
         };
 
-        // 1. Mise ? jour du Slicer P?riode (#filter-periode) et de MONTHS_DATA
+        // 1. Mise ? jour du Slicer Période (#filter-periode) et de MONTHS_DATA
         function syncPeriodSlicerAndMonthsData(timeline) {
             if (typeof MONTHS_DATA !== 'undefined') {
                 timeline.forEach(m => {
@@ -17391,7 +17391,7 @@
             `;
         }
 
-        // 3. Mise ? jour du Dataset Power BI Focus Mode (VUE GRAPHIQUE HAUTE D?FINITION + TABLE DE DONN?ES)
+        // 3. Mise ? jour du Dataset Power BI Focus Mode (VUE GRAPHIQUE HAUTE DÉFINITION + TABLE DE DONNÉES)
         function syncPbiFocusDatasetAndModal(timeline) {
             if (typeof pbiVisualDatasets === 'undefined' || !pbiVisualDatasets.combo) return;
 
@@ -17489,7 +17489,7 @@
             }
         };
 
-        // 4. Mise ? jour automatique de la Matrice de R?tention par Cohorte (#cohortRetentionTableBody)
+        // 4. Mise ? jour automatique de la Matrice de Rétention par Cohorte (#cohortRetentionTableBody)
         function renderDynamicCohortMatrix(timeline) {
             const tbody = document.getElementById('cohortRetentionTableBody');
             if (!tbody) return;
@@ -17528,7 +17528,7 @@
             }).join('');
         }
 
-        // Fonction ma?tresse appel?e au chargement et apr?s chaque synchronisation PostgreSQL
+        // Fonction ma?tresse appelée au chargement et après chaque synchronisation PostgreSQL
         window.refreshAllDynamicMonthVisualizations = function() {
             try {
                 const timeline = window.getDynamicMonthlyTimeline();
@@ -17541,7 +17541,7 @@
             }
         };
 
-        // Ex?cuter imm?diatement et lors du chargement DOM
+        // Exécuter imm?diatement et lors du chargement DOM
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
                 window.refreshAllDynamicMonthVisualizations();

@@ -1274,16 +1274,16 @@ COMM_MAP = {
     "Ben Arous": ("Ali Ben Romdhane", "?lec-Plus Ben Arous"),
     "Manouba": ("Nizar Bentanfous", "Comptoir ?lectro-Technique Ariana"),
     "Sousse": ("Zied Mzid", "?lec-Distribution Sahel (Sousse)"),
-    "Monastir": ("Zied Mzid", "?lectro-Mat?riel Monastir"),
-    "Mahdia": ("Zied Mzid", "Comptoir G?n?ral de Mahdia"),
-    "Sfax": ("Atef Berdaoui", "Comptoir ?lectrique du Sud (CES Route de Gab?s)"),
+    "Monastir": ("Zied Mzid", "?lectro-Matériel Monastir"),
+    "Mahdia": ("Zied Mzid", "Comptoir Général de Mahdia"),
+    "Sfax": ("Atef Berdaoui", "Comptoir ?lectrique du Sud (CES Route de Gabès)"),
     "Nabeul": ("Mahdi Nabli", "Comptoir Moderne de Nabeul"),
     "Bizerte": ("Mohamed Saied", "Maghreb ?lectrique Bizerte"),
-    "B?ja": ("Mohamed Saied", "Comptoir B?ja & Nord-Ouest"),
+    "Béja": ("Mohamed Saied", "Comptoir Béja & Nord-Ouest"),
     "Jendouba": ("Mohamed Saied", "Jendouba Distribution Pro"),
     "Kairouan": ("Zied Mzid", "Kairouan ?lectro-Fournitures"),
-    "Gab?s": ("Atef Berdaoui", "Union Mat?riel ?lectrique Gab?s"),
-    "M?denine": ("Atef Berdaoui", "Sud-Distribution M?denine"),
+    "Gabès": ("Atef Berdaoui", "Union Matériel ?lectrique Gabès"),
+    "Médenine": ("Atef Berdaoui", "Sud-Distribution Médenine"),
     "Gafsa": ("Atef Berdaoui", "Gafsa ?lectro-Comptoir"),
 }
 
@@ -1310,53 +1310,53 @@ def _generate_diversified_reco(nom, uid, pts, days_since_last, ca_menace, total_
 
     h = (sum(ord(c) for c in (nom or "")) + (int(uid) if str(uid).isdigit() else len(str(uid)))) % 11
 
-    # 1. Grands Comptes & VIP Strat?giques (CA menac? >= 2 500 DT ou >= 15 chantiers)
+    # 1. Grands Comptes & VIP Stratégiques (CA menacé >= 2 500 DT ou >= 15 chantiers)
     if ca_menace >= 2500 or total_ch >= 15:
         if h % 3 == 0:
             return f"Visite terrain prioritaire {comm_name} (<48h) + dotation VIP 250 Pts et remise pro sur {gamme_abandonnee} chez {dist_name}."
         elif h % 3 == 1:
-            return f"D?jeuner d'affaires STIEL avec {comm_name} + activation Points x2 sur {top_sku} et audit in-situ express SLA <12h."
+            return f"Déjeuner d'affaires STIEL avec {comm_name} + activation Points x2 sur {top_sku} et audit in-situ express SLA <12h."
         else:
-            return f"Appel d'honneur Nizar + pack r?activation 300 Pts sur premier chantier et essai exclusif {cross_sell_cible}."
+            return f"Appel d'honneur Nizar + pack réactivation 300 Pts sur premier chantier et essai exclusif {cross_sell_cible}."
 
-    # 2. Churn Critique / D?crochage S?v?re (> 45 jours d'inactivit?)
+    # 2. Churn Critique / Décrochage Sévère (> 45 jours d'inactivité)
     elif days_since_last > 45:
         if h % 3 == 0:
-            return f"Enqu?te t?l?phonique Nizar sur blocage chantiers + offre relance Points x2 sur {gamme_abandonnee} valable 15 jours."
+            return f"Enquête téléphonique Nizar sur blocage chantiers + offre relance Points x2 sur {gamme_abandonnee} valable 15 jours."
         elif h % 3 == 1:
-            return f"Visite de courtoisie {comm_name} + kit ?chantillons {cross_sell_cible} d?pos? au comptoir {dist_name}."
+            return f"Visite de courtoisie {comm_name} + kit échantillons {cross_sell_cible} déposé au comptoir {dist_name}."
         else:
-            return f"D?blocage bonus +200 Pts fid?lit? d?s reprise d?claration sur {top_sku} + accompagnement technique STIEL."
+            return f"Déblocage bonus +200 Pts fidélité dès reprise déclaration sur {top_sku} + accompagnement technique STIEL."
 
-    # 3. Artisans proches d'un palier sup?rieur (manque <= 500 pts)
+    # 3. Électriciens proches d'un palier supérieur (manque <= 500 pts)
     elif 0 < pts_manquants <= 500:
         if h % 2 == 0:
             return f"Alerte Palier {prochain_palier} : Plus que {pts_manquants} pts ! Doublement des points (x2) sur {top_sku} pour franchir le seuil."
         else:
-            return f"Challenge Palier Sup?rieur : Bonus direct de {min(pts_manquants, 250)} Pts offert d?s le prochain chantier {gamme_abandonnee} valid?."
+            return f"Challenge Palier Supérieur : Bonus direct de {min(pts_manquants, 250)} Pts offert dès le prochain chantier {gamme_abandonnee} validé."
 
-    # 4. Sp?cialistes Tableaux & Protection
+    # 4. Spécialistes Tableaux & Protection
     elif "Tableau" in gamme_abandonnee or "Protection" in gamme_abandonnee:
         if h % 2 == 0:
-            return f"Op?ration Tableaux S?curis?s : Points tripl?s (x3) sur Disjoncteurs ST-DJ16C et parafoudres pour les 2 prochains chantiers."
+            return f"Opération Tableaux Sécurisés : Points triplés (x3) sur Disjoncteurs ST-DJ16C et parafoudres pour les 2 prochains chantiers."
         else:
-            return f"Kit d'intervention modulaire offert chez {dist_name} + Points x2 sur coffrets et disjoncteurs valid?s par {comm_name}."
+            return f"Kit d'intervention modulaire offert chez {dist_name} + Points x2 sur coffrets et disjoncteurs validés par {comm_name}."
 
-    # 5. Gammes D?coratives & Design (Noir Carbone / Silver)
+    # 5. Gammes Décoratives & Design (Noir Carbone / Silver)
     elif "Noir" in gamme_abandonnee or "Silver" in gamme_abandonnee:
         if h % 2 == 0:
-            return f"Challenge Finition Luxe : Points x2 sur {gamme_abandonnee} + ?chantillonnage gratuit {cross_sell_cible} pour pr?sentation architecte."
+            return f"Challenge Finition Luxe : Points x2 sur {gamme_abandonnee} + échantillonnage gratuit {cross_sell_cible} pour présentation architecte."
         else:
-            return f"Offre WhatsApp exclusive : Multiplicateur x2 sur appareillage {gamme_abandonnee} + 150 Pts bonus sur prochain chantier r?sidentiel."
+            return f"Offre WhatsApp exclusive : Multiplicateur x2 sur appareillage {gamme_abandonnee} + 150 Pts bonus sur prochain chantier résidentiel."
 
-    # 6. D?crochage R?cent Standard (15 - 40 jours)
+    # 6. Décrochage Récent Standard (15 - 40 jours)
     else:
         if prob_48h >= 78:
-            return f"Campagne Flash WhatsApp 48h : Multiplicateur Points x2 sur {top_sku} et validation t?l?m?trique express."
+            return f"Campagne Flash WhatsApp 48h : Multiplicateur Points x2 sur {top_sku} et validation télémétrique express."
         elif h % 2 == 0:
-            return f"Challenge Reprise 2 Chantiers : Dotation fid?lit? de 180 Pts bonus + doublement des points sur {gamme_abandonnee}."
+            return f"Challenge Reprise 2 Chantiers : Dotation fidélité de 180 Pts bonus + doublement des points sur {gamme_abandonnee}."
         else:
-            return f"Appel d'animation commercial ({comm_name}) + offre de r?activation pack {gamme_abandonnee} & cross-sell {cross_sell_cible}."
+            return f"Appel d'animation commercial ({comm_name}) + offre de réactivation pack {gamme_abandonnee} & cross-sell {cross_sell_cible}."
 
 def compute_live_churn():
     """Churn calculé en direct sur le DWH : >= 2 chantiers historiques et <= 1 sur les 30 derniers jours.
@@ -2067,13 +2067,13 @@ def send_meta_whatsapp_voice_note(to_phone, spoken_text, phone_number_id=None):
 
 
 _SERVER_BOOT_TIMESTAMP = time.time()
-# Initialiser avec l'heure actuelle pour ?viter d'envoyer le message par d?faut lors d'une conversation d?j? en cours
+# Initialiser avec l'heure actuelle pour ?viter d'envoyer le message par défaut lors d'une conversation déjà en cours
 _WA_LAST_INTERACTION_BY_PHONE = {
     "21620214144": time.time(),
     "21698573031": time.time()
 }
 _WA_COLD_BOOT_RECAP_SENT = set()
-WA_INACTIVITY_HOURS_THRESHOLD = 4 * 3600  # 4 heures d'inactivit? avant un nouveau r?cap de d?but de conversation
+WA_INACTIVITY_HOURS_THRESHOLD = 4 * 3600  # 4 heures d'inactivité avant un nouveau récap de début de conversation
 
 def _render_keep_alive_loop():
     """Ping automatique toutes les 8 minutes pour éviter que Render n'entre en mode Sleep."""
@@ -2186,9 +2186,9 @@ def api_whatsapp_voice_webhook():
                 time.sleep(0.3)
                 wait_init += 1
 
-            # Le message par d?faut (R?capitulatif de la semaine) est envoy? UNIQUEMENT :
-            # 1) Si la conversation red?marre apr?s plusieurs heures d'inactivit? (>= 4 heures), OU
-            # 2) Si le serveur sort d'un vrai mode Sleep profond (cache PostgreSQL toujours non charg? apr?s 1.2s) et une seule fois !
+            # Le message par défaut (Récapitulatif de la semaine) est envoy? UNIQUEMENT :
+            # 1) Si la conversation redémarre après plusieurs heures d'inactivité (>= 4 heures), OU
+            # 2) Si le serveur sort d'un vrai mode Sleep profond (cache PostgreSQL toujours non charg? après 1.2s) et une seule fois !
             is_after_several_hours = (now_ts - last_user_ts) >= WA_INACTIVITY_HOURS_THRESHOLD
             is_true_cold_sleep = (data_engine.cached_data is None) and (clean_phone not in _WA_COLD_BOOT_RECAP_SENT)
 
