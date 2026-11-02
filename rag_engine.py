@@ -538,7 +538,9 @@ class AlphaRagEngine:
             pts = int(float(u.get("solde_points") or 0))
             dt = str(u.get("created_at") or "")[:16].replace("T", " ")
             n_ch = ch_count_by_user.get(fn.strip().lower(), 0)
-            all_users_lines.append(f"  [Inscrit #{idx}] {fn} | Email: {em} | Tél: {ph} | Points: {pts} pts | Chantiers: {n_ch} | Date: {dt}")
+            is_comp = u.get("account_completed", True)
+            comp_tag = "Compte V?rifi? ?" if is_comp else "Inscription Test / Profil Incomplet (sans t?l ni chantier)"
+            all_users_lines.append(f"  [Inscrit #{idx}] {fn} | Profil: {comp_tag} | Email: {em} | T?l: {ph} | Points: {pts} pts | Chantiers: {n_ch} | Date: {dt}")
         all_users_table_str = "\n".join(all_users_lines)
 
         # 6. Table intégrale des 185 Chantiers (triés par ID décroissant)
@@ -1041,9 +1043,12 @@ Date et heure exactes (Tunis) : {date_fr}
                 "   - Cherche le nom dans les sections PROFIL(S) TROUVE(S), 13 (Table PostgreSQL Live des 176 inscrits), 15 (Grand Palmares des 50 Electriciens YTD), 16 (Distributeurs), 6 (Commerciaux) et 8 (Churn).\n"
                 "   - Si la personne figure dans la section 15 (ex: Bilel Guesmi au Rang #2 du Grand Palmares YTD) ou dans la section 13 (PostgreSQL Live, ex: Bilel Majbri), donne immediatement sa fiche detaillee complete (Rang/Code/ID, Region, Palier, Chantiers, CA TND, Solde Points, Churn/Statut).\n"
                 "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun artisan de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
-                "2. REFUS UNIQUEMENT POUR LES SUJETS CLAIREMENT NON PROFESSIONNELS (meteo, temperature, cuisine, football/sport, blagues, politique).\n"
-                "3. RIGUEUR RAG ABSOLUE : Utilise exclusivement les chiffres exacts presents dans le contexte ci-dessous.\n"
-                "4. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (*) et du **gras**, jamais de tableau markdown.\n\n"
+                "2. NOUVELLES INSCRIPTIONS & PROFILS TESTS :\n"
+                "   - Si on demande qui s'est inscrit aujourd'hui ou recemment, consulte la table des utilisateurs.\n"
+                "   - Si les nouveaux comptes ont 'account_completed: False' (ex: Janice Jacobs, Shaina Thames creees le 2026-11-02), precise explicitement qu'il s'agit d'inscriptions de test / comptes non finalises (sans numero de telephone tunisien ni chantier), et mentionne aussi le dernier electricien tunisien verifie (ex: Ali Kelibia le 27/10/2026).\n"
+                "3. REFUS UNIQUEMENT POUR LES SUJETS CLAIREMENT NON PROFESSIONNELS (meteo, temperature, cuisine, football/sport, blagues, politique).\n"
+                "4. RIGUEUR RAG ABSOLUE : Utilise exclusivement les chiffres exacts presents dans le contexte ci-dessous.\n"
+                "5. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (?) et du **gras**, jamais de tableau markdown.\n\n"
                 f"{dwh_context}"
             )
             for model_candidate in self.models_pool:
