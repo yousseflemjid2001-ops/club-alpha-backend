@@ -1427,34 +1427,36 @@
     </div>
 
     <!-- MODAL DRILL-THROUGH : INSPECTION PHOTO HD & GÉOLOCALISATION IN-SITU -->
-    <div id="photoInspectModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="executive-card rounded-2xl max-w-5xl w-full overflow-hidden shadow-2xl my-8 animate-fadeIn">
-            <!-- Modal Header -->
-            <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4 border-b border-slate-800">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-400">
+    <div id="photoInspectModal" onclick="if(event.target === this) closePhotoModal()" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div class="executive-card rounded-2xl max-w-5xl w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl relative my-auto border border-slate-700/80 animate-fadeIn">
+            <!-- Modal Header (Sticky at top so close button is ALWAYS visible) -->
+            <div class="bg-slate-900/98 text-white px-5 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 sticky top-0 z-30 shrink-0 shadow-md">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-400 shrink-0">
                         <i class="fa-solid fa-camera-retro text-lg" data-lucide="camera"></i>
                     </div>
-                    <div>
-                        <div class="flex items-center gap-2">
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <span id="modalChantierId" class="font-mono text-xs uppercase px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">CH-2026-8492</span>
-                            <h3 id="modalChantierTitle" class="font-bold text-lg">Inspection Visuelle HD & Contrôle GPS In-Situ</h3>
+                            <h3 id="modalChantierTitle" class="font-bold text-base sm:text-lg truncate">Inspection Visuelle HD & Contrôle GPS In-Situ</h3>
                         </div>
-                        <p id="modalChantierSubtitle" class="text-xs text-slate-400">Artisan : Walid Bouazizi • Commercial : Karim Ben Ali • Gouvernorat : Tunis</p>
+                        <p id="modalChantierSubtitle" class="text-xs text-slate-400 truncate">Artisan : Walid Bouazizi • Commercial : Karim Ben Ali • Gouvernorat : Tunis</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span id="modalGpsBadge" class="px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <div class="flex items-center gap-3 shrink-0 ml-auto">
+                    <span id="modalGpsBadge" class="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-semibold items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         <i class="fa-solid fa-location-crosshairs" data-lucide="crosshair"></i> Validé In-Situ (42 m)
                     </span>
-                    <button onclick="closePhotoModal()" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
-                        <i class="fa-solid fa-xmark text-lg" data-lucide="x"></i>
+                    <!-- ULTRA-VISIBLE PROMINENT CLOSE BUTTON -->
+                    <button onclick="closePhotoModal()" class="px-4 py-2 rounded-xl bg-rose-500/25 hover:bg-rose-600 text-rose-200 hover:text-white border-2 border-rose-500/60 hover:border-rose-400 flex items-center gap-2 font-black text-xs sm:text-sm shadow-xl transition-all cursor-pointer group" title="Fermer la fenêtre (ou touche Échap)">
+                        <i class="fa-solid fa-xmark text-base group-hover:scale-125 transition-transform font-black"></i>
+                        <span>Fermer ✕</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Modal Body -->
-            <div class="grid grid-cols-1 lg:grid-cols-12">
+            <!-- Modal Body (Scrollable inside the card) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 overflow-y-auto flex-1 custom-scrollbar">
                 <!-- Left: High-Res Visual Proof Viewer (7 cols) -->
                 <div class="lg:col-span-7 bg-slate-950 p-6 flex flex-col justify-between relative">
                     <!-- View Selector Tabs -->
@@ -1580,12 +1582,16 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 mt-4">
-                        <button onclick="triggerAuditDecision('reject')" class="flex-1 py-2.5 px-4 rounded-xl border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 font-semibold text-xs transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-ban" data-lucide="ban"></i> Rejeter Dossier (Anomalie)
+                    <!-- Action Buttons with Bottom Close Button -->
+                    <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 mt-4">
+                        <button onclick="closePhotoModal()" class="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer shadow">
+                            <i class="fa-solid fa-xmark text-sm text-rose-400"></i>
+                            <span>Fermer</span>
                         </button>
-                        <button onclick="triggerAuditDecision('approve')" class="flex-1 py-2.5 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-1.5">
+                        <button onclick="triggerAuditDecision('reject')" class="flex-1 py-2.5 px-3 rounded-xl border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 font-semibold text-xs transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-ban" data-lucide="ban"></i> Rejeter Dossier
+                        </button>
+                        <button onclick="triggerAuditDecision('approve')" class="flex-1 py-2.5 px-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-check-double" data-lucide="check-check"></i> Certifier & Créditer Points
                         </button>
                     </div>
@@ -10602,8 +10608,9 @@
                         </p>
                     </div>
                 </div>
-                <button onclick="closeChantierModal()" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition flex items-center justify-center">
-                    <i class="fa-solid fa-xmark text-sm" data-lucide="x"></i>
+                <button onclick="closeChantierModal()" class="px-3.5 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/40 flex items-center gap-1.5 font-bold text-xs shadow transition cursor-pointer" title="Fermer">
+                    <i class="fa-solid fa-xmark text-sm font-bold"></i>
+                    <span>Fermer ✕</span>
                 </button>
             </div>
 
@@ -17000,6 +17007,18 @@
         }
         if (document.readyState === 'complete') init(); else window.addEventListener('load', init);
     })();
+    
+    // Global ESC key listener to instantly close any open modal
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            if (typeof closePhotoModal === 'function') closePhotoModal();
+            if (typeof closeChantierModal === 'function') closeChantierModal();
+            if (typeof closeUserHistoryModal === 'function') closeUserHistoryModal();
+            if (typeof closePbiFocusMode === 'function') closePbiFocusMode();
+            const emailModal = document.getElementById('mondayEmailModal');
+            if (emailModal && !emailModal.classList.contains('hidden')) emailModal.classList.add('hidden');
+        }
+    });
     </script>
 </body>
 </html>
