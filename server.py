@@ -1151,16 +1151,26 @@ def api_rag_config():
     if request.method == "POST":
         body = request.get_json(silent=True) or {}
         new_key = body.get("gemini_api_key", "").strip()
+        new_groq_key = body.get("groq_api_key", "").strip()
         if alpha_rag_engine and new_key:
             alpha_rag_engine.set_api_key(new_key)
-            return jsonify({"status": "ok", "message": "Clé Gemini enregistrée avec succès", "has_gemini_key": True})
-    has_key = bool(alpha_rag_engine and alpha_rag_engine.api_key)
+        if alpha_rag_engine and new_groq_key:
+            alpha_rag_engine.set_groq_api_key(new_groq_key)
+        return jsonify({
+            "status": "ok",
+            "message": "Configuration API LLM enregistrée avec succès",
+            "has_gemini_key": bool(alpha_rag_engine and alpha_rag_engine.api_key),
+            "has_groq_key": bool(alpha_rag_engine and alpha_rag_engine.groq_api_key)
+        })
+    has_gemini = bool(alpha_rag_engine and alpha_rag_engine.api_key)
+    has_groq = bool(alpha_rag_engine and alpha_rag_engine.groq_api_key)
     return jsonify({
         "status": "ok",
-        "has_gemini_key": has_key,
-        "engine": "Google Gemini 1.5 Flash" if has_key else "Moteur RAG Hybride DWH Local",
+        "has_gemini_key": has_gemini,
+        "has_groq_key": has_groq,
+        "engine": "Google Gemini + Groq Fallback (Cascade Haute Disponibilité)" if (has_gemini and has_groq) else ("Groq Cloud" if has_groq else ("Google Gemini" if has_gemini else "Moteur RAG Hybride DWH Local")),
         "requires_key": False,
-        "message": "Alpha Copilot fonctionne à 100% avec le DWH PostgreSQL. La clé Gemini est optionnelle pour enrichir les formulations en langage naturel."
+        "message": "Alpha Copilot dispose d'une redondance intelligente : Gemini (Priorité 1) -> Groq LPU (Secours gratuit) -> DWH Local direct."
     })
 
 # --- AGENT IA FIDNESS : CHURN EN DIRECT, ESSAI 30 JOURS, SUIVI DES OFFRES ---

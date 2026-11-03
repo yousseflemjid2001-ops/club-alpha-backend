@@ -29,6 +29,24 @@ def load_env_api_key():
     return ""
 
 
+def load_env_groq_key():
+    key = os.environ.get("GROQ_API_KEY", "").strip()
+    if key:
+        return key
+    env_paths = [".env", "../.env", os.path.join(os.path.dirname(__file__), ".env")]
+    for p in env_paths:
+        if os.path.exists(p):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    for line in f:
+                        if line.strip().startswith("GROQ_API_KEY="):
+                            return line.split("=", 1)[1].strip().strip('"').strip("'")
+            except Exception:
+                pass
+    return ""
+
+
+
 
 PALMARES_YTD_ELECTRICIENS = [{"rank": 1, "name": "Walid Bouazizi", "code": "EL-2023-014", "region": "Grand Tunis", "gouv": "Tunis", "tier": "PLATINE", "chantiers": 142, "ca": 46900, "points": 6420, "churn": 9, "status": "Ambassadeur ⭐"}, {"rank": 2, "name": "Bilel Guesmi", "code": "EL-2023-088", "region": "Grand Tunis", "gouv": "Tunis", "tier": "PLATINE", "chantiers": 118, "ca": 38450, "points": 5190, "churn": 12, "status": "Très Actif"}, {"rank": 3, "name": "Mohamed Ali Karray", "code": "EL-2024-032", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "PLATINE", "chantiers": 104, "ca": 34120, "points": 4680, "churn": 14, "status": "Leader Sud"}, {"rank": 4, "name": "Anis Gharbi", "code": "EL-2024-109", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "OR", "chantiers": 76, "ca": 24800, "points": 2850, "churn": 78, "status": "À Risque ⚠️"}, {"rank": 5, "name": "Sami Khelifi", "code": "EL-2024-177", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "OR", "chantiers": 68, "ca": 21950, "points": 2640, "churn": 22, "status": "Régulier"}, {"rank": 6, "name": "Nabil Tounsi", "code": "EL-2025-045", "region": "Grand Tunis", "gouv": "Tunis", "tier": "OR", "chantiers": 62, "ca": 19800, "points": 2310, "churn": 18, "status": "En Hausse 📈"}, {"rank": 7, "name": "Tarek Maalej", "code": "EL-2025-288", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "ARGENT", "chantiers": 44, "ca": 14200, "points": 1790, "churn": 54, "status": "Cible Palier Or"}, {"rank": 8, "name": "Hichem Mejri", "code": "EL-2025-112", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "tier": "ARGENT", "chantiers": 39, "ca": 12450, "points": 1520, "churn": 31, "status": "Régulier"}, {"rank": 9, "name": "Mourad Ayari", "code": "EL-2025-304", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 34, "ca": 10890, "points": 1280, "churn": 25, "status": "Actif"}, {"rank": 10, "name": "Lotfi Ben Amor", "code": "EL-2026-019", "region": "Sousse & Sahel", "gouv": "Monastir", "tier": "ARGENT", "chantiers": 28, "ca": 9240, "points": 1050, "churn": 42, "status": "Nouveau"}, {"rank": 11, "name": "Sofiane Trabelsi", "code": "EL-2024-055", "region": "Grand Tunis", "gouv": "Ariana", "tier": "OR", "chantiers": 58, "ca": 18600, "points": 2240, "churn": 16, "status": "Très Actif"}, {"rank": 12, "name": "Karim Chaabane", "code": "EL-2024-092", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "OR", "chantiers": 54, "ca": 17400, "points": 2120, "churn": 24, "status": "Régulier"}, {"rank": 13, "name": "Youssef Ben Amor", "code": "EL-2024-118", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "OR", "chantiers": 51, "ca": 16800, "points": 2050, "churn": 19, "status": "En Hausse 📈"}, {"rank": 14, "name": "Zied Mahjoub", "code": "EL-2024-142", "region": "Grand Tunis", "gouv": "Ben Arous", "tier": "OR", "chantiers": 48, "ca": 15900, "points": 1980, "churn": 28, "status": "Fidèle"}, {"rank": 15, "name": "Riadh Dridi", "code": "EL-2024-165", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "OR", "chantiers": 45, "ca": 14850, "points": 1840, "churn": 22, "status": "Actif"}, {"rank": 16, "name": "Ramzi Hammami", "code": "EL-2024-190", "region": "Nabeul (Cap Bon)", "gouv": "Hammamet", "tier": "ARGENT", "chantiers": 42, "ca": 13700, "points": 1710, "churn": 33, "status": "Régulier"}, {"rank": 17, "name": "Khaled Jlassi", "code": "EL-2025-012", "region": "Grand Tunis", "gouv": "Manouba", "tier": "ARGENT", "chantiers": 40, "ca": 12900, "points": 1620, "churn": 15, "status": "En Hausse 📈"}, {"rank": 18, "name": "Kais Oueslati", "code": "EL-2025-038", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 38, "ca": 12300, "points": 1540, "churn": 29, "status": "Régulier"}, {"rank": 19, "name": "Bassem Jerbi", "code": "EL-2025-064", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "ARGENT", "chantiers": 36, "ca": 11800, "points": 1460, "churn": 38, "status": "Cible Or"}, {"rank": 20, "name": "Mounir Cherif", "code": "EL-2025-090", "region": "Sousse & Sahel", "gouv": "Monastir", "tier": "ARGENT", "chantiers": 35, "ca": 11400, "points": 1400, "churn": 21, "status": "Fidèle"}, {"rank": 21, "name": "Fakhri Baccouche", "code": "EL-2025-115", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 33, "ca": 10700, "points": 1320, "churn": 26, "status": "Actif"}, {"rank": 22, "name": "Marwen Mansouri", "code": "EL-2025-139", "region": "Bizerte & Nord", "gouv": "Mateur", "tier": "ARGENT", "chantiers": 31, "ca": 10200, "points": 1260, "churn": 45, "status": "À Surveiller ⚠️"}, {"rank": 23, "name": "Amin Rekik", "code": "EL-2025-162", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "ARGENT", "chantiers": 30, "ca": 9800, "points": 1200, "churn": 17, "status": "En Hausse 📈"}, {"rank": 24, "name": "Hamza Louati", "code": "EL-2025-188", "region": "Sfax & Sud", "gouv": "Mahres", "tier": "ARGENT", "chantiers": 29, "ca": 9450, "points": 1160, "churn": 30, "status": "Régulier"}, {"rank": 25, "name": "Firas Zaier", "code": "EL-2025-212", "region": "Grand Tunis", "gouv": "Ariana", "tier": "ARGENT", "chantiers": 28, "ca": 9100, "points": 1120, "churn": 19, "status": "Actif"}, {"rank": 26, "name": "Wajdi Ben Salah", "code": "EL-2025-236", "region": "Sousse & Sahel", "gouv": "Mahdia", "tier": "ARGENT", "chantiers": 27, "ca": 8800, "points": 1080, "churn": 36, "status": "Régulier"}, {"rank": 27, "name": "Saber Snoussi", "code": "EL-2025-260", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "tier": "ARGENT", "chantiers": 26, "ca": 8500, "points": 1040, "churn": 23, "status": "Fidèle"}, {"rank": 28, "name": "Imed Ben Salem", "code": "EL-2025-284", "region": "Grand Tunis", "gouv": "Tunis", "tier": "ARGENT", "chantiers": 25, "ca": 8200, "points": 1010, "churn": 27, "status": "Actif"}, {"rank": 29, "name": "Hatem Riahi", "code": "EL-2025-308", "region": "Bizerte & Nord", "gouv": "Béja", "tier": "ARGENT", "chantiers": 24, "ca": 7900, "points": 970, "churn": 34, "status": "Régulier"}, {"rank": 30, "name": "Chokri Belhadj", "code": "EL-2025-332", "region": "Grand Tunis", "gouv": "Ben Arous", "tier": "ARGENT", "chantiers": 23, "ca": 7600, "points": 930, "churn": 18, "status": "En Progression 📈"}, {"rank": 31, "name": "Mehdi Sellami", "code": "EL-2025-356", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 22, "ca": 7250, "points": 890, "churn": 41, "status": "Potentiel"}, {"rank": 32, "name": "Wissem Chebbi", "code": "EL-2025-380", "region": "Grand Tunis", "gouv": "Tunis", "tier": "BRONZE", "chantiers": 21, "ca": 6900, "points": 850, "churn": 25, "status": "Actif"}, {"rank": 33, "name": "Malek Ghariani", "code": "EL-2025-404", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "BRONZE", "chantiers": 20, "ca": 6600, "points": 810, "churn": 32, "status": "Régulier"}, {"rank": 34, "name": "Hedi Touati", "code": "EL-2025-428", "region": "Nabeul (Cap Bon)", "gouv": "Kelibia", "tier": "BRONZE", "chantiers": 19, "ca": 6300, "points": 770, "churn": 20, "status": "Fidèle"}, {"rank": 35, "name": "Mondher Zribi", "code": "EL-2025-452", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 18, "ca": 6000, "points": 740, "churn": 48, "status": "À Relancer ⚠️"}, {"rank": 36, "name": "Slimane Jouini", "code": "EL-2025-476", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "BRONZE", "chantiers": 18, "ca": 5800, "points": 710, "churn": 28, "status": "Actif"}, {"rank": 37, "name": "Nizar Ben Youssef", "code": "EL-2025-500", "region": "Grand Tunis", "gouv": "Ariana", "tier": "BRONZE", "chantiers": 17, "ca": 5500, "points": 680, "churn": 19, "status": "En Hausse 📈"}, {"rank": 38, "name": "Walid Mathlouthi", "code": "EL-2025-524", "region": "Sousse & Sahel", "gouv": "Monastir", "tier": "BRONZE", "chantiers": 16, "ca": 5250, "points": 650, "churn": 35, "status": "Régulier"}, {"rank": 39, "name": "Radhouane Jaziri", "code": "EL-2025-548", "region": "Bizerte & Nord", "gouv": "Jendouba", "tier": "BRONZE", "chantiers": 16, "ca": 5000, "points": 620, "churn": 22, "status": "Actif"}, {"rank": 40, "name": "Skander Triki", "code": "EL-2025-572", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 15, "ca": 4800, "points": 590, "churn": 44, "status": "À Suivre"}, {"rank": 41, "name": "Chiheb Ayed", "code": "EL-2025-596", "region": "Grand Tunis", "gouv": "Tunis", "tier": "BRONZE", "chantiers": 15, "ca": 4600, "points": 560, "churn": 26, "status": "Régulier"}, {"rank": 42, "name": "Maher Zouari", "code": "EL-2025-620", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 14, "ca": 4400, "points": 530, "churn": 31, "status": "Actif"}, {"rank": 43, "name": "Elyes Miled", "code": "EL-2025-644", "region": "Sousse & Sahel", "gouv": "Kairouan", "tier": "BRONZE", "chantiers": 14, "ca": 4200, "points": 510, "churn": 29, "status": "Fidèle"}, {"rank": 44, "name": "Aziz Ben Abdallah", "code": "EL-2025-668", "region": "Grand Tunis", "gouv": "La Marsa", "tier": "BRONZE", "chantiers": 13, "ca": 4000, "points": 490, "churn": 17, "status": "Nouveau Actif ⭐"}, {"rank": 45, "name": "Farouk Karoui", "code": "EL-2025-692", "region": "Nabeul (Cap Bon)", "gouv": "Grombalia", "tier": "BRONZE", "chantiers": 13, "ca": 3850, "points": 470, "churn": 37, "status": "Régulier"}, {"rank": 46, "name": "Haythem Khelil", "code": "EL-2025-716", "region": "Bizerte & Nord", "gouv": "Bizerte", "tier": "BRONZE", "chantiers": 12, "ca": 3700, "points": 450, "churn": 23, "status": "Actif"}, {"rank": 47, "name": "Taoufik Saadaoui", "code": "EL-2025-740", "region": "Grand Tunis", "gouv": "Ben Arous", "tier": "BRONZE", "chantiers": 12, "ca": 3550, "points": 430, "churn": 40, "status": "À Relancer"}, {"rank": 48, "name": "Mourad Ghorbel", "code": "EL-2025-764", "region": "Sfax & Sud", "gouv": "Sfax", "tier": "BRONZE", "chantiers": 11, "ca": 3400, "points": 410, "churn": 30, "status": "Régulier"}, {"rank": 49, "name": "Badis Trabelsi", "code": "EL-2025-788", "region": "Sousse & Sahel", "gouv": "Sousse", "tier": "BRONZE", "chantiers": 11, "ca": 3250, "points": 390, "churn": 25, "status": "Actif"}, {"rank": 50, "name": "Oussama Bejaoui", "code": "EL-2025-812", "region": "Bizerte & Nord", "gouv": "Menzel Bourguiba", "tier": "BRONZE", "chantiers": 10, "ca": 3100, "points": 370, "churn": 34, "status": "En Progression 📈"}]
 PALMARES_DISTRIBUTEURS = [{"rank": 1, "name": "Comptoir Électrique du Sud (CES)", "ville": "Sfax (Route de Gabès)", "region": "Sfax & Sud", "gouv": "Sfax", "volume": 16840, "ca": 384200, "share": "20.8%", "artisans": 148, "commercial": "Sonia Gharbi", "tier": "Distributeur Or 🏆"}, {"rank": 2, "name": "Sté Tunisienne d'Électricité & Quincaillerie (STEQ)", "ville": "Tunis (Charguia)", "region": "Grand Tunis", "gouv": "Grand Tunis", "volume": 14250, "ca": 348900, "share": "18.9%", "artisans": 164, "commercial": "Karim Ben Ali", "tier": "Distributeur Or 🏆"}, {"rank": 3, "name": "Élec-Distribution Sahel & Cie", "ville": "Sousse (Sahloul)", "region": "Sousse & Sahel", "gouv": "Sousse", "volume": 11200, "ca": 271400, "share": "14.7%", "artisans": 96, "commercial": "Mehdi Trabelsi", "tier": "Distributeur Argent 🥈"}, {"rank": 4, "name": "Comptoir Moderne de Nabeul", "ville": "Nabeul (Centre)", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "volume": 8940, "ca": 218500, "share": "11.8%", "artisans": 74, "commercial": "Mehdi Trabelsi", "tier": "Distributeur Argent 🥈"}, {"rank": 5, "name": "Maghreb Électrique Bizerte", "ville": "Bizerte (Zone Port)", "region": "Bizerte & Nord", "gouv": "Bizerte", "volume": 7650, "ca": 182300, "share": "9.9%", "artisans": 62, "commercial": "Yassine Mansour", "tier": "Distributeur Argent 🥈"}, {"rank": 6, "name": "Comptoir Électro-Technique Ariana", "ville": "Ariana (Ennasr)", "region": "Grand Tunis", "gouv": "Grand Tunis", "volume": 6420, "ca": 154800, "share": "8.4%", "artisans": 58, "commercial": "Karim Ben Ali", "tier": "Partenaire Certifié"}, {"rank": 7, "name": "Union Matériel Électrique Gabès", "ville": "Gabès (Ville)", "region": "Sfax & Sud", "gouv": "Sfax", "volume": 4890, "ca": 119200, "share": "6.5%", "artisans": 41, "commercial": "Sonia Gharbi", "tier": "Partenaire Certifié"}, {"rank": 8, "name": "Kairouan Électro-Fournitures", "ville": "Kairouan (Centre)", "region": "Sousse & Sahel", "gouv": "Sousse", "volume": 3840, "ca": 92400, "share": "5.0%", "artisans": 32, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Certifié"}, {"rank": 9, "name": "Comptoir Général de Mahdia", "ville": "Mahdia (Zone Portuaire)", "region": "Sousse & Sahel", "gouv": "Mahdia", "volume": 3450, "ca": 84100, "share": "4.6%", "artisans": 29, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Certifié"}, {"rank": 10, "name": "Électro-Matériel Monastir", "ville": "Monastir (Skanès)", "region": "Sousse & Sahel", "gouv": "Monastir", "volume": 3180, "ca": 78200, "share": "4.2%", "artisans": 26, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Certifié"}, {"rank": 11, "name": "Comptoir du Cap Bon Kelibia", "ville": "Kelibia (Port)", "region": "Nabeul (Cap Bon)", "gouv": "Nabeul", "volume": 2890, "ca": 71400, "share": "3.9%", "artisans": 24, "commercial": "Mehdi Trabelsi", "tier": "Partenaire Agréé"}, {"rank": 12, "name": "Élec-Plus Ben Arous", "ville": "Ben Arous (Megrine)", "region": "Grand Tunis", "gouv": "Grand Tunis", "volume": 2720, "ca": 66800, "share": "3.6%", "artisans": 23, "commercial": "Karim Ben Ali", "tier": "Partenaire Agréé"}, {"rank": 13, "name": "Bizerte Matériel Pro", "ville": "Menzel Bourguiba", "region": "Bizerte & Nord", "gouv": "Bizerte", "volume": 2450, "ca": 59900, "share": "3.2%", "artisans": 21, "commercial": "Yassine Mansour", "tier": "Partenaire Agréé"}, {"rank": 14, "name": "Sud-Distribution Médenine", "ville": "Médenine (Centre)", "region": "Sfax & Sud", "gouv": "Médenine", "volume": 2180, "ca": 53400, "share": "2.9%", "artisans": 19, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}, {"rank": 15, "name": "Djerba Électro-Technique", "ville": "Houmt Souk (Djerba)", "region": "Sfax & Sud", "gouv": "Médenine", "volume": 1950, "ca": 48100, "share": "2.6%", "artisans": 18, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}, {"rank": 16, "name": "Gafsa Électro-Comptoir", "ville": "Gafsa (Centre)", "region": "Sfax & Sud", "gouv": "Gafsa", "volume": 1780, "ca": 43500, "share": "2.3%", "artisans": 15, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}, {"rank": 17, "name": "Comptoir Béja & Nord-Ouest", "ville": "Béja (Zone Industrielle)", "region": "Bizerte & Nord", "gouv": "Béja", "volume": 1620, "ca": 39800, "share": "2.1%", "artisans": 14, "commercial": "Yassine Mansour", "tier": "Partenaire Agréé"}, {"rank": 18, "name": "Zaghouan Fournitures Bâtiment", "ville": "Zaghouan (Centre)", "region": "Grand Tunis", "gouv": "Zaghouan", "volume": 1490, "ca": 36500, "share": "2.0%", "artisans": 13, "commercial": "Karim Ben Ali", "tier": "Partenaire Agréé"}, {"rank": 19, "name": "Jendouba Distribution Pro", "ville": "Jendouba (Route Tabarka)", "region": "Bizerte & Nord", "gouv": "Jendouba", "volume": 1380, "ca": 33900, "share": "1.8%", "artisans": 12, "commercial": "Yassine Mansour", "tier": "Partenaire Agréé"}, {"rank": 20, "name": "Tozeur Matériel Électrique Oasis", "ville": "Tozeur (Ville)", "region": "Sfax & Sud", "gouv": "Tozeur", "volume": 1250, "ca": 30800, "share": "1.7%", "artisans": 11, "commercial": "Sonia Gharbi", "tier": "Partenaire Agréé"}]
@@ -49,15 +67,92 @@ class AlphaRagEngine:
         self.data_engine = None
         self.churn_provider = None
         self.api_key = load_env_api_key()
-        # Utilise en priorité Gemini 3.5 Flash-Lite (ultra-rapide ~0.7s, haute fiabilité) et Gemini 3.5 Flash en secours
-        # Chaque modèle dispose de son propre quota gratuit : en cas de 429 (quota/jour atteint), on passe au suivant
-        # et on met le modèle épuisé en pause (cooldown) pour ne plus perdre de temps dessus.
+        self.groq_api_key = load_env_groq_key()
+        # Pool de modèles Gemini prioritaires
         self.models_pool = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-3-flash-preview", "gemini-2.5-flash-lite", "gemini-3.5-flash-lite"]
         self.model_cooldown_until = {}
+        # Pool de modèles Groq de secours gratuit (LPU ultra-rapide)
+        self.groq_models_pool = ["openai/gpt-oss-120b", "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]
+        self.groq_cooldown_until = {}
         self.llm_last_error = ""
 
     def set_api_key(self, key):
         self.api_key = (key or "").strip()
+
+    def set_groq_api_key(self, key):
+        self.groq_api_key = (key or "").strip()
+
+    def _call_groq_completion(self, system_prompt, query, dwh_context=None):
+        if not self.groq_api_key:
+            return None
+        now_ts = time.time()
+        # Troncature intelligente du contexte pour respecter le quota TPM de Groq (~2 200 tokens)
+        compact_ctx = (dwh_context or "")[:9000]
+        clean_sys = (
+            "Tu es Alpha Copilot, l'assistant décisionnel officiel de Club Alpha by STIEL Tunisie (PostgreSQL 57.131.30.69).\n"
+            "RÈGLES D'OR :\n"
+            "1. Réponds de façon chirurgicale, exacte et concise (2 à 5 lignes max) avec des accents corrects en français.\n"
+            "2. Pour les questions d'identité ('c'est qui X', 'qui est X'), cherche dans les profils électriciens, commerciaux et distributeurs et donne sa fiche complète (Palier, Chantiers, CA TND, Points).\n"
+            "3. Utilise des puces (•) et du **gras** pour mettre en valeur les données clés. Pas de tableau markdown.\n"
+            "4. Zéro invention : appuie-toi exclusivement sur les données DWH fournies ci-dessous."
+        )
+        for g_model in self.groq_models_pool:
+            if self.groq_cooldown_until.get(g_model, 0) > now_ts:
+                continue
+            try:
+                url = "https://api.groq.com/openai/v1/chat/completions"
+                headers = {
+                    "Authorization": f"Bearer {self.groq_api_key}",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": g_model,
+                    "messages": [
+                        {"role": "system", "content": clean_sys},
+                        {"role": "user", "content": f"Données réelles DWH STIEL :\n{compact_ctx}\n\nQuestion posée : {query}"}
+                    ],
+                    "temperature": 0.1,
+                    "max_tokens": 500
+                }
+                resp = requests.post(url, headers=headers, json=payload, timeout=9)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    content = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+                    if content:
+                        return {"response": content, "model": g_model}
+                elif resp.status_code == 429:
+                    self.groq_cooldown_until[g_model] = time.time() + 300
+                    print(f"[RAG GROQ] Rate limit sur {g_model} (429)")
+                else:
+                    print(f"[RAG GROQ] HTTP {resp.status_code} sur {g_model}")
+            except Exception as e:
+                print(f"[RAG GROQ] Erreur {g_model}: {e}")
+        return None
+
+    def _transcribe_audio_groq(self, audio_bytes, mime_type="audio/ogg"):
+        if not self.groq_api_key or not audio_bytes:
+            return None
+        try:
+            url = "https://api.groq.com/openai/v1/audio/transcriptions"
+            headers = {"Authorization": f"Bearer {self.groq_api_key}"}
+            ext = "ogg" if "ogg" in mime_type else ("mp3" if "mp3" in mime_type else "wav")
+            files = {
+                "file": (f"audio.{ext}", audio_bytes, mime_type)
+            }
+            data = {
+                "model": "whisper-large-v3-turbo",
+                "language": "fr",
+                "temperature": 0.0
+            }
+            resp = requests.post(url, headers=headers, files=files, data=data, timeout=10)
+            if resp.status_code == 200:
+                txt = resp.json().get("text", "").strip()
+                if txt:
+                    return txt
+        except Exception as e:
+            print(f"[RAG GROQ AUDIO] Exception whisper: {e}")
+        return None
+
 
     def _get_live_Snapshot(self):
         """Extrait en direct les classements réels depuis PostgreSQL (data_engine.cached_data)."""
@@ -1346,6 +1441,19 @@ Date et heure exactes (Tunis) : {date_fr}
                         return {"transcript": transcript, "response": answer}
                 except Exception as e:
                     print(f"[RAG AUDIO] Erreur {model_candidate}: {e}")
+
+        # Secours Groq Whisper pour les notes vocales si Gemini est épuisé
+        if self.groq_api_key:
+            groq_trans = self._transcribe_audio_groq(audio_bytes, mime_type)
+            if groq_trans:
+                print(f"[RAG AUDIO] Transcription réussie via Groq Whisper : '{groq_trans}'")
+                rag_res = self.answer_query(groq_trans, fast_only=False)
+                ans = rag_res.get("response") or rag_res.get("answer") or ""
+                return {
+                    "transcript": groq_trans,
+                    "response": ans
+                }
+
         return {
             "transcript": "Note vocale",
             "response": self._instant_deterministic_answer("top electricien")
@@ -1392,25 +1500,27 @@ Date et heure exactes (Tunis) : {date_fr}
                     "llm_engine": "Agent AI Fidness Direct"
                 }
 
-        # 2. Appel Gemini 3.5 Flash-Lite en priorité avec contexte PostgreSQL ciblé (compréhension fine de la question)
+        # 2. Préparation du contexte DWH et du prompt système
         dwh_context = self.get_dwh_context(q)
+        system_prompt = (
+            "Tu es Alpha Copilot, l'assistant decisionnel officiel de Club Alpha by STIEL Tunisie connecte a PostgreSQL (57.131.30.69) et au Dashboard Executif.\n"
+            "REGLES FONDAMENTALES :\n"
+            "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ÉLECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
+            "   - Ne refuse JAMAIS une question demandant 'c est qui [Nom]' ou portant sur un nom propre !\n"
+            "   - Cherche le nom dans les sections PROFIL(S) TROUVE(S), 13 (Table PostgreSQL Live des 176 inscrits), 15 (Grand Palmares des 50 Electriciens YTD), 16 (Distributeurs), 6 (Commerciaux) et 8 (Churn).\n"
+            "   - Si la personne figure dans la section 15 (ex: Bilel Guesmi au Rang #2 du Grand Palmares YTD) ou dans la section 13 (PostgreSQL Live, ex: Bilel Majbri), donne immediatement sa fiche detaillee complete (Rang/Code/ID, Region, Palier, Chantiers, CA TND, Solde Points, Churn/Statut).\n"
+            "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun électricien de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
+            "2. NOUVELLES INSCRIPTIONS & PROFILS TESTS :\n"
+            "   - Si on demande qui s'est inscrit aujourd'hui ou recemment, consulte la table des utilisateurs.\n"
+            "   - Si les nouveaux comptes ont 'account_completed: False' (ex: Janice Jacobs, Shaina Thames creees le 2026-11-02), precise explicitement qu'il s'agit d'inscriptions de test / comptes non finalises (sans numero de telephone tunisien ni chantier), et mentionne aussi le dernier electricien tunisien verifie (ex: Ali Kelibia le 27/10/2026).\n"
+            "3. REFUS UNIQUEMENT POUR LES SUJETS CLAIREMENT NON PROFESSIONNELS (meteo, temperature, cuisine, football/sport, blagues, politique).\n"
+            "4. RIGUEUR RAG ABSOLUE : Utilise exclusivement les chiffres exacts presents dans le contexte ci-dessous.\n"
+            "5. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (•) et du **gras**, jamais de tableau markdown.\n\n"
+            f"{dwh_context}"
+        )
+
+        # 2.A Appel Gemini 3.5 Flash-Lite en priorité (si clé présente)
         if self.api_key and not fast_only:
-            system_prompt = (
-                "Tu es Alpha Copilot, l'assistant decisionnel officiel de Club Alpha by STIEL Tunisie connecte a PostgreSQL (57.131.30.69) et au Dashboard Executif.\n"
-                "REGLES FONDAMENTALES :\n"
-                "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ÉLECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
-                "   - Ne refuse JAMAIS une question demandant 'c est qui [Nom]' ou portant sur un nom propre !\n"
-                "   - Cherche le nom dans les sections PROFIL(S) TROUVE(S), 13 (Table PostgreSQL Live des 176 inscrits), 15 (Grand Palmares des 50 Electriciens YTD), 16 (Distributeurs), 6 (Commerciaux) et 8 (Churn).\n"
-                "   - Si la personne figure dans la section 15 (ex: Bilel Guesmi au Rang #2 du Grand Palmares YTD) ou dans la section 13 (PostgreSQL Live, ex: Bilel Majbri), donne immediatement sa fiche detaillee complete (Rang/Code/ID, Region, Palier, Chantiers, CA TND, Solde Points, Churn/Statut).\n"
-                "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun électricien de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
-                "2. NOUVELLES INSCRIPTIONS & PROFILS TESTS :\n"
-                "   - Si on demande qui s'est inscrit aujourd'hui ou recemment, consulte la table des utilisateurs.\n"
-                "   - Si les nouveaux comptes ont 'account_completed: False' (ex: Janice Jacobs, Shaina Thames creees le 2026-11-02), precise explicitement qu'il s'agit d'inscriptions de test / comptes non finalises (sans numero de telephone tunisien ni chantier), et mentionne aussi le dernier electricien tunisien verifie (ex: Ali Kelibia le 27/10/2026).\n"
-                "3. REFUS UNIQUEMENT POUR LES SUJETS CLAIREMENT NON PROFESSIONNELS (meteo, temperature, cuisine, football/sport, blagues, politique).\n"
-                "4. RIGUEUR RAG ABSOLUE : Utilise exclusivement les chiffres exacts presents dans le contexte ci-dessous.\n"
-                "5. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (•) et du **gras**, jamais de tableau markdown.\n\n"
-                f"{dwh_context}"
-            )
             now_ts = time.time()
             self.llm_last_error = ""
             for model_candidate in self.models_pool:
@@ -1460,6 +1570,23 @@ Date et heure exactes (Tunis) : {date_fr}
                     self.model_cooldown_until[model_candidate] = time.time() + 120
                     self.llm_last_error = "timeout"
                     print(f"[RAG] Erreur {model_candidate}: {e}")
+
+        # 2.bis Fallback Intelligent : Groq Cloud LLM (OpenAI-compatible, ultra-rapide, 100% gratuit)
+        if self.groq_api_key:
+            groq_res = self._call_groq_completion(system_prompt, q, dwh_context)
+            if groq_res and groq_res.get("response"):
+                elapsed_ms = int((time.time() - t0) * 1000)
+                used_model = groq_res.get("model", "groq")
+                return {
+                    "response": groq_res["response"],
+                    "thought": f"Ancrage PostgreSQL 57.131.30.69 + basculement direct sur Groq ({used_model}) (temps {elapsed_ms}ms).",
+                    "thoughts_tokens": len(groq_res["response"].split()),
+                    "response_time_ms": elapsed_ms,
+                    "confidence": "99.7%",
+                    "sources": ["DWH PostgreSQL (57.131.30.69)", f"Groq Cloud ({used_model})"],
+                    "suggested_followups": followups,
+                    "llm_engine": f"Groq {used_model}"
+                }
 
         # 3. Secours 100% local (sans IA) : réponses directes calculées depuis PostgreSQL + Dashboard
         local = None
