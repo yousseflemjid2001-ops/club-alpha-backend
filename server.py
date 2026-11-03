@@ -1270,21 +1270,21 @@ def _fmt_phone(wa):
 COMM_MAP = {
     "Grand Tunis": ("Ali Ben Romdhane", "STEQ Charguia (Tunis)"),
     "Tunis": ("Ali Ben Romdhane", "STEQ Charguia (Tunis)"),
-    "Ariana": ("Nizar Bentanfous", "Comptoir ?lectro-Technique Ariana"),
-    "Ben Arous": ("Ali Ben Romdhane", "?lec-Plus Ben Arous"),
-    "Manouba": ("Nizar Bentanfous", "Comptoir ?lectro-Technique Ariana"),
-    "Sousse": ("Zied Mzid", "?lec-Distribution Sahel (Sousse)"),
-    "Monastir": ("Zied Mzid", "?lectro-Matériel Monastir"),
+    "Ariana": ("Nizar Bentanfous", "Comptoir Électro-Technique Ariana"),
+    "Ben Arous": ("Ali Ben Romdhane", "Élec-Plus Ben Arous"),
+    "Manouba": ("Nizar Bentanfous", "Comptoir Électro-Technique Ariana"),
+    "Sousse": ("Zied Mzid", "Élec-Distribution Sahel (Sousse)"),
+    "Monastir": ("Zied Mzid", "Électro-Matériel Monastir"),
     "Mahdia": ("Zied Mzid", "Comptoir Général de Mahdia"),
-    "Sfax": ("Atef Berdaoui", "Comptoir ?lectrique du Sud (CES Route de Gabès)"),
+    "Sfax": ("Atef Berdaoui", "Comptoir électrique du Sud (CES Route de Gabès)"),
     "Nabeul": ("Mahdi Nabli", "Comptoir Moderne de Nabeul"),
-    "Bizerte": ("Mohamed Saied", "Maghreb ?lectrique Bizerte"),
+    "Bizerte": ("Mohamed Saied", "Maghreb électrique Bizerte"),
     "Béja": ("Mohamed Saied", "Comptoir Béja & Nord-Ouest"),
     "Jendouba": ("Mohamed Saied", "Jendouba Distribution Pro"),
-    "Kairouan": ("Zied Mzid", "Kairouan ?lectro-Fournitures"),
-    "Gabès": ("Atef Berdaoui", "Union Matériel ?lectrique Gabès"),
+    "Kairouan": ("Zied Mzid", "Kairouan Électro-Fournitures"),
+    "Gabès": ("Atef Berdaoui", "Union Matériel électrique Gabès"),
     "Médenine": ("Atef Berdaoui", "Sud-Distribution Médenine"),
-    "Gafsa": ("Atef Berdaoui", "Gafsa ?lectro-Comptoir"),
+    "Gafsa": ("Atef Berdaoui", "Gafsa Électro-Comptoir"),
 }
 
 def _generate_diversified_reco(nom, uid, pts, days_since_last, ca_menace, total_ch, gamme_abandonnee, cross_sell_cible, top_skus, prob_48h, gouv):
@@ -2067,7 +2067,7 @@ def send_meta_whatsapp_voice_note(to_phone, spoken_text, phone_number_id=None):
 
 
 _SERVER_BOOT_TIMESTAMP = time.time()
-# Initialiser avec l'heure actuelle pour ?viter d'envoyer le message par défaut lors d'une conversation déjà en cours
+# Initialiser avec l'heure actuelle pour éviter d'envoyer le message par défaut lors d'une conversation déjà en cours
 _WA_LAST_INTERACTION_BY_PHONE = {
     "21620214144": time.time(),
     "21698573031": time.time()

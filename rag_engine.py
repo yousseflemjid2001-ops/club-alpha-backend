@@ -50,7 +50,11 @@ class AlphaRagEngine:
         self.churn_provider = None
         self.api_key = load_env_api_key()
         # Utilise en priorité Gemini 3.5 Flash-Lite (ultra-rapide ~0.7s, haute fiabilité) et Gemini 3.5 Flash en secours
-        self.models_pool = ["gemini-3.5-flash", "gemini-3.5-flash-lite"]
+        # Chaque modèle dispose de son propre quota gratuit : en cas de 429 (quota/jour atteint), on passe au suivant
+        # et on met le modèle épuisé en pause (cooldown) pour ne plus perdre de temps dessus.
+        self.models_pool = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-3-flash-preview", "gemini-2.5-flash-lite", "gemini-3.5-flash-lite"]
+        self.model_cooldown_until = {}
+        self.llm_last_error = ""
 
     def set_api_key(self, key):
         self.api_key = (key or "").strip()
@@ -209,12 +213,12 @@ class AlphaRagEngine:
         return [
             "Qui est le meilleur électricien (Top Points & Chantiers) ?",
             "Quel est le produit STIEL le plus vendu ?",
-            "Quels sont les 3 ?lectriciens prioritaires en churn critique ?"
+            "Quels sont les 3 électriciens prioritaires en churn critique ?"
         ]
 
 
     def get_loyalty_and_tiers_context(self):
-        """Module #1 : Fidelite, Paliers (Platine/Or/Argent/Bronze), ?lectriciens proches d'un seuil & Passif Points (Waterfall)."""
+        """Module #1 : Fidelite, Paliers (Platine/Or/Argent/Bronze), électriciens proches d'un seuil & Passif Points (Waterfall)."""
         snap = self._get_live_Snapshot()
         users = list(snap.get("users", {}).values())
         total_pts_pg = sum(int(float(u.get("solde_points") or 0)) for u in users)
@@ -240,7 +244,7 @@ class AlphaRagEngine:
                 if pts >= 800:
                     proches_argent.append((fn, pts, 1000 - pts))
 
-        # Croisement avec le Grand Palmares YTD pour les seuils consolid?s
+        # Croisement avec le Grand Palmares YTD pour les seuils consolidés
         proches_or_ytd = [f"{p['name']} ({p['points']} pts, manque {3000 - p['points']} pts pour Or)" for p in PALMARES_YTD_ELECTRICIENS if 2400 <= p.get("points", 0) < 3000]
         proches_argent_ytd = [f"{p['name']} ({p['points']} pts, manque {1000 - p['points']} pts pour Argent)" for p in PALMARES_YTD_ELECTRICIENS if 800 <= p.get("points", 0) < 1000]
         proches_platine_ytd = [f"{p['name']} ({p['points']} pts, manque {7000 - p['points']} pts pour Platine)" for p in PALMARES_YTD_ELECTRICIENS if 5000 <= p.get("points", 0) < 7000]
@@ -352,15 +356,15 @@ class AlphaRagEngine:
 
         gammes_erosion = churn_data.get("gammes_erosion", []) if churn_data else []
         erosion_str = "; ".join(
-            f"{g['gamme']} ({g['artisans_count']} ?lectriciens en d?crochage, {g['unites_mensuelles_perdues']} u./mois perdues, {g['ca_mensuel_expose']} DT/mois exposes -> Cross-sell recommande : {g['cross_sell_cible']})"
+            f"{g['gamme']} ({g['artisans_count']} électriciens en décrochage, {g['unites_mensuelles_perdues']} u./mois perdues, {g['ca_mensuel_expose']} DT/mois exposes -> Cross-sell recommande : {g['cross_sell_cible']})"
             for g in gammes_erosion
         ) or "Modules Blanc Neige, Tableaux & Protection, Modules Noir Carbone"
 
         lines = [
             "21. MODULE #3 ? SUIVI DES OFFRES WHATSAPP POINTS x2 (CAMPAGNES ENVOYEES vs RESTANT A RELANCER) :",
-            f"  - Nombre total d'envois Points x2 enregistres : {len(events)} envois ({len(latest_by_id)} ?lectriciens uniques deja relances).",
-            "  - ?lectriciens ayant D?J? re?u l'offre Points x2 : " + ("; ".join(sent_lines) if sent_lines else "Aucune offre envoyee pour le moment."),
-            f"  - ?lectriciens en Churn N'AYANT PAS ENCORE recu l'offre Points x2 ({len(not_sent_artisans)} restants a relancer en priorite) : " + ("; ".join(not_sent_lines) if not_sent_lines else "Tous les ?lectriciens en churn ont ete relances !"),
+            f"  - Nombre total d'envois Points x2 enregistres : {len(events)} envois ({len(latest_by_id)} électriciens uniques deja relances).",
+            "  - électriciens ayant DÉJÀ reçu l'offre Points x2 : " + ("; ".join(sent_lines) if sent_lines else "Aucune offre envoyee pour le moment."),
+            f"  - électriciens en Churn N'AYANT PAS ENCORE recu l'offre Points x2 ({len(not_sent_artisans)} restants a relancer en priorite) : " + ("; ".join(not_sent_lines) if not_sent_lines else "Tous les électriciens en churn ont ete relances !"),
             f"  - Matrice d'Erosion par Gamme STIEL & Cross-Sell IA : {erosion_str}."
         ]
         return "\n".join(lines)
@@ -373,7 +377,7 @@ class AlphaRagEngine:
             {"label": "Mai 2026", "inscrits": 168, "m0": "100%", "m1": "86%", "m2": "80%", "m3": "76%", "m4": "73%", "m5": "72%"},
             {"label": "Juin 2026", "inscrits": 195, "m0": "100%", "m1": "88%", "m2": "82%", "m3": "79%", "m4": "77%", "m5": "75%"},
             {"label": "Juil 2026", "inscrits": 210, "m0": "100%", "m1": "85%", "m2": "81%", "m3": "78%", "m4": "76%", "m5": "?"},
-            {"label": "Ao?t 2026", "inscrits": 184, "m0": "100%", "m1": "89%", "m2": "84%", "m3": "82%", "m4": "?", "m5": "?"},
+            {"label": "Août 2026", "inscrits": 184, "m0": "100%", "m1": "89%", "m2": "84%", "m3": "82%", "m4": "?", "m5": "?"},
             {"label": "Sep 2026", "inscrits": 225, "m0": "100%", "m1": "91%", "m2": "88%", "m3": "?", "m4": "?", "m5": "?"},
             {"label": "Oct 2026", "inscrits": 188, "m0": "100%", "m1": "93%", "m2": "?", "m3": "?", "m4": "?", "m5": "?"},
             {"label": "Nov 2026 (En cours ? Live)", "inscrits": 204, "m0": "100%", "m1": "?", "m2": "?", "m3": "?", "m4": "?", "m5": "?"},
@@ -401,7 +405,7 @@ class AlphaRagEngine:
 
         lines = [
             "22. MODULE #6 ? MATRICE DES COHORTES DE RETENTION ?LECTRICIENS (M+0 A M+5) :",
-            "  A. MATRICE DE RETENTION CONSOLIDEE (AVRIL 2026 -> NOVEMBRE 2026 LIVE) ? R?tention Moyenne M+5 : 75,0% (+6 pts vs N-1) :"
+            "  A. MATRICE DE RETENTION CONSOLIDEE (AVRIL 2026 -> NOVEMBRE 2026 LIVE) ? Rétention Moyenne M+5 : 75,0% (+6 pts vs N-1) :"
         ]
         for c in base_cohorts:
             lines.append(
@@ -423,7 +427,7 @@ class AlphaRagEngine:
             {"mois": "Mai 2026", "ca": 168000, "budget": 250000, "chantiers": 112, "panier": 1500, "part": "9.1%", "mom": "+18.3% MoM"},
             {"mois": "Juin 2026", "ca": 186000, "budget": 250000, "chantiers": 124, "panier": 1500, "part": "10.1%", "mom": "+10.7% MoM"},
             {"mois": "Juillet 2026", "ca": 210000, "budget": 250000, "chantiers": 138, "panier": 1521, "part": "11.4%", "mom": "+12.9% MoM"},
-            {"mois": "Ao?t 2026", "ca": 228000, "budget": 250000, "chantiers": 154, "panier": 1480, "part": "12.4%", "mom": "+8.6% MoM"},
+            {"mois": "Août 2026", "ca": 228000, "budget": 250000, "chantiers": 154, "panier": 1480, "part": "12.4%", "mom": "+8.6% MoM"},
             {"mois": "Septembre 2026", "ca": 264000, "budget": 250000, "chantiers": 182, "panier": 1450, "part": "14.3%", "mom": "+15.8% MoM (Depassement Objectif 250k)"},
             {"mois": "Octobre 2026", "ca": 298000, "budget": 250000, "chantiers": 208, "panier": 1432, "part": "16.1%", "mom": "+24.8% Record Historique"},
             {"mois": "Novembre 2026 (En cours ? Live)", "ca": 312000, "budget": 250000, "chantiers": 219, "panier": 1425, "part": "16.9%", "mom": "+4.7% Live (Projection fin de mois en hausse)"},
@@ -462,11 +466,11 @@ class AlphaRagEngine:
             lines.append(
                 f"     - {m['mois']} : CA Realise = {m['ca']:,} TND (Budget: {m['budget']:,} TND) | Chantiers Valides = {m['chantiers']} | Panier Moyen = {m['panier']:,} TND | Part Annuelle = {m['part']} | Dynamique = {m['mom']}".replace(",", " ")
             )
-        lines.append("  B. ACTIVITE MENSUELLE POSTGRESQL TEMPS REEL (57.131.30.69 ? F?VRIER A NOVEMBRE 2026) :")
+        lines.append("  B. ACTIVITE MENSUELLE POSTGRESQL TEMPS REEL (57.131.30.69 ? FÉVRIER A NOVEMBRE 2026) :")
         for ym in sorted(pg_months.keys()):
             pm = pg_months[ym]
             lines.append(
-                f"     - Mois {ym} : {pm['users_total']} inscrits ({pm['users_verified']} ?lectriciens v?rifi?s, {pm['users_test']} profils test incomplets) | {pm['ch_total']} chantiers ({pm['ch_valid']} valides, {pm['ch_pending']} en attente) | {pm['pts']:,} points distribues".replace(",", " ")
+                f"     - Mois {ym} : {pm['users_total']} inscrits ({pm['users_verified']} électriciens vérifiés, {pm['users_test']} profils test incomplets) | {pm['ch_total']} chantiers ({pm['ch_valid']} valides, {pm['ch_pending']} en attente) | {pm['pts']:,} points distribues".replace(",", " ")
             )
         return "\n".join(lines)
 
@@ -553,7 +557,7 @@ class AlphaRagEngine:
             s = churn_data["summary"]
             c_lines = [f"Total à risque : {s['count']} artisans (dont {s['critiques']} critiques >45j sans chantier, CA menacé : {s['ca_menace']} DT/mois). Top 5 à relancer :"]
             for i, a in enumerate(churn_data["artisans"][:5], 1):
-                c_lines.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, T?l: {a['phone']}) ? {a['total_chantiers']} chantiers, inactif {a['days_since_last']}j ({a['diagnostic']}) ? Action recommand?e : {a.get('recommandation')}")
+                c_lines.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, Tél: {a['phone']}) ? {a['total_chantiers']} chantiers, inactif {a['days_since_last']}j ({a['diagnostic']}) ? Action recommandée : {a.get('recommandation')}")
             churn_str = "\n".join(c_lines)
 
         # Recherche dynamique approfondie (Artisan, Gouvernorat/Ville, ou Commercial mentionné dans la question)
@@ -597,7 +601,7 @@ class AlphaRagEngine:
                     if churn_data and churn_data.get("artisans"):
                         gv_churn = [a for a in churn_data["artisans"] if gv_low in (a.get("gouvernorat") or "").lower()]
                         if gv_churn:
-                            gv_lines.append("  - ?lectriciens en risque de Churn à " + gv + " : " + ", ".join(f"{a['nom']} (Tél: {a['phone']}, inactif depuis {a['days_since_last']}j, {a['total_chantiers']} ch.)" for a in gv_churn[:5]))
+                            gv_lines.append("  - électriciens en risque de Churn à " + gv + " : " + ", ".join(f"{a['nom']} (Tél: {a['phone']}, inactif depuis {a['days_since_last']}j, {a['total_chantiers']} ch.)" for a in gv_churn[:5]))
                     extra_sections.append("\n".join(gv_lines))
 
         # B. Focus Commercial spécifique (Slim, Ali Ben Romdhane, Mourad, Hichem, Nizar)
@@ -608,7 +612,7 @@ class AlphaRagEngine:
                 c_ch = [ch for ch in chantiers if (ch.get("commercial") or "").lower() == c_name.lower()]
                 extra_sections.append(
                     f"FOCUS COMMERCIAL {c_name.upper()} : Région {c_obj['region']} | Tél: {c_obj['phone']} | "
-                    f"{c_obj['chantiers']} chantiers supervisés | {c_obj['nb_electriciens']} ?lectriciens suivis | {c_obj['points']} pts générés. "
+                    f"{c_obj['chantiers']} chantiers supervisés | {c_obj['nb_electriciens']} électriciens suivis | {c_obj['points']} pts générés. "
                     f"Exemples de chantiers : " + ", ".join(f"#{ch.get('id')} ({ch.get('electricien')}, {ch.get('gouvernorat')}, {ch.get('total_points')} pts)" for ch in c_ch[:5])
                 )
 
@@ -686,7 +690,7 @@ class AlphaRagEngine:
                 if sc > 0:
                     exact_or_partial_lines.append((sc,
                         f"  * [Distributeur Officiel STIEL ? Rang #{dist.get('rank')}] {dist.get('name')} ({dist.get('ville')}) | "
-                        f"?lectriciens servis: {dist.get('artisans')} | CA STIEL: {dist.get('ca', 0):,} TND | Part: {dist.get('share', '')}".replace(",", " ")
+                        f"Électriciens servis: {dist.get('artisans')} | CA STIEL: {dist.get('ca', 0):,} TND | Part: {dist.get('share', '')}".replace(",", " ")
                     ))
 
             if exact_or_partial_lines:
@@ -787,13 +791,13 @@ class AlphaRagEngine:
             for g in gouvs
         )
 
-        # 4. Liste intégrale des ?lectriciens en Churn
+        # 4. Liste intégrale des électriciens en Churn
         all_churn_str = churn_str
         if churn_data and churn_data.get("artisans"):
             s = churn_data["summary"]
             c_all = [f"Total à risque : {s['count']} artisans (dont {s['critiques']} critiques >45j sans chantier, CA menacé : {s['ca_menace']} DT/mois). Liste complète :"]
             for i, a in enumerate(churn_data["artisans"], 1):
-                c_all.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, T?l: {a['phone']}) ? {a['total_chantiers']} ch., {a.get('points',0)} pts, inactif {a['days_since_last']}j ({a['diagnostic']}) ? Recommandation : {a.get('recommandation')}")
+                c_all.append(f"  #{i} {a['nom']} ({a['gouvernorat']}, Tél: {a['phone']}) ? {a['total_chantiers']} ch., {a.get('points',0)} pts, inactif {a['days_since_last']}j ({a['diagnostic']}) ? Recommandation : {a.get('recommandation')}")
             all_churn_str = "\n".join(c_all)
 
         # 5. Table intégrale des 174 Utilisateurs (triés par ordre chronologique d'inscription du 1er au 174ème)
@@ -815,8 +819,8 @@ class AlphaRagEngine:
             dt = str(u.get("created_at") or "")[:16].replace("T", " ")
             n_ch = ch_count_by_user.get(fn.strip().lower(), 0)
             is_comp = u.get("account_completed", True)
-            comp_tag = "Compte V?rifi? ?" if is_comp else "Inscription Test / Profil Incomplet (sans t?l ni chantier)"
-            all_users_lines.append(f"  [Inscrit #{idx}] {fn} | Profil: {comp_tag} | Email: {em} | T?l: {ph} | Points: {pts} pts | Chantiers: {n_ch} | Date: {dt}")
+            comp_tag = "Compte Vérifié ?" if is_comp else "Inscription Test / Profil Incomplet (sans t?l ni chantier)"
+            all_users_lines.append(f"  [Inscrit #{idx}] {fn} | Profil: {comp_tag} | Email: {em} | Tél: {ph} | Points: {pts} pts | Chantiers: {n_ch} | Date: {dt}")
         all_users_table_str = "\n".join(all_users_lines)
 
         # 6. Table intégrale des 185 Chantiers (triés par ID décroissant)
@@ -946,26 +950,26 @@ Date et heure exactes (Tunis) : {date_fr}
   [Palmares #50] Oussama Bejaoui (EL-2025-812) | Region: Bizerte & Nord (Menzel Bourguiba) | Palier: BRONZE | Chantiers: 10 | CA: 3100 TND | Points: 370 pts | Churn: 34% | Statut: En Progression 📈
 
 16. PALMARES DES 20 DISTRIBUTEURS / COMPTOIRS STIEL :
-  [Distributeur #1] Comptoir Électrique du Sud (CES) (Sfax (Route de Gabès)) | ?lectriciens servis: 148 | CA: 384200 TND | Part: 20.8% | Statut: Partenaire Officiel
-  [Distributeur #2] Sté Tunisienne d'Électricité & Quincaillerie (STEQ) (Tunis (Charguia)) | ?lectriciens servis: 164 | CA: 348900 TND | Part: 18.9% | Statut: Partenaire Officiel
-  [Distributeur #3] Élec-Distribution Sahel & Cie (Sousse (Sahloul)) | ?lectriciens servis: 96 | CA: 271400 TND | Part: 14.7% | Statut: Partenaire Officiel
-  [Distributeur #4] Comptoir Moderne de Nabeul (Nabeul (Centre)) | ?lectriciens servis: 74 | CA: 218500 TND | Part: 11.8% | Statut: Partenaire Officiel
-  [Distributeur #5] Maghreb Électrique Bizerte (Bizerte (Zone Port)) | ?lectriciens servis: 62 | CA: 182300 TND | Part: 9.9% | Statut: Partenaire Officiel
-  [Distributeur #6] Comptoir Électro-Technique Ariana (Ariana (Ennasr)) | ?lectriciens servis: 58 | CA: 154800 TND | Part: 8.4% | Statut: Partenaire Officiel
-  [Distributeur #7] Union Matériel Électrique Gabès (Gabès (Ville)) | ?lectriciens servis: 41 | CA: 119200 TND | Part: 6.5% | Statut: Partenaire Officiel
-  [Distributeur #8] Kairouan Électro-Fournitures (Kairouan (Centre)) | ?lectriciens servis: 32 | CA: 92400 TND | Part: 5.0% | Statut: Partenaire Officiel
-  [Distributeur #9] Comptoir Général de Mahdia (Mahdia (Zone Portuaire)) | ?lectriciens servis: 29 | CA: 84100 TND | Part: 4.6% | Statut: Partenaire Officiel
-  [Distributeur #10] Électro-Matériel Monastir (Monastir (Skanès)) | ?lectriciens servis: 26 | CA: 78200 TND | Part: 4.2% | Statut: Partenaire Officiel
-  [Distributeur #11] Comptoir du Cap Bon Kelibia (Kelibia (Port)) | ?lectriciens servis: 24 | CA: 71400 TND | Part: 3.9% | Statut: Partenaire Officiel
-  [Distributeur #12] Élec-Plus Ben Arous (Ben Arous (Megrine)) | ?lectriciens servis: 23 | CA: 66800 TND | Part: 3.6% | Statut: Partenaire Officiel
-  [Distributeur #13] Bizerte Matériel Pro (Menzel Bourguiba) | ?lectriciens servis: 21 | CA: 59900 TND | Part: 3.2% | Statut: Partenaire Officiel
-  [Distributeur #14] Sud-Distribution Médenine (Médenine (Centre)) | ?lectriciens servis: 19 | CA: 53400 TND | Part: 2.9% | Statut: Partenaire Officiel
-  [Distributeur #15] Djerba Électro-Technique (Houmt Souk (Djerba)) | ?lectriciens servis: 18 | CA: 48100 TND | Part: 2.6% | Statut: Partenaire Officiel
-  [Distributeur #16] Gafsa Électro-Comptoir (Gafsa (Centre)) | ?lectriciens servis: 15 | CA: 43500 TND | Part: 2.3% | Statut: Partenaire Officiel
-  [Distributeur #17] Comptoir Béja & Nord-Ouest (Béja (Zone Industrielle)) | ?lectriciens servis: 14 | CA: 39800 TND | Part: 2.1% | Statut: Partenaire Officiel
-  [Distributeur #18] Zaghouan Fournitures Bâtiment (Zaghouan (Centre)) | ?lectriciens servis: 13 | CA: 36500 TND | Part: 2.0% | Statut: Partenaire Officiel
-  [Distributeur #19] Jendouba Distribution Pro (Jendouba (Route Tabarka)) | ?lectriciens servis: 12 | CA: 33900 TND | Part: 1.8% | Statut: Partenaire Officiel
-  [Distributeur #20] Tozeur Matériel Électrique Oasis (Tozeur (Ville)) | ?lectriciens servis: 11 | CA: 30800 TND | Part: 1.7% | Statut: Partenaire Officiel
+  [Distributeur #1] Comptoir Électrique du Sud (CES) (Sfax (Route de Gabès)) | Électriciens servis: 148 | CA: 384200 TND | Part: 20.8% | Statut: Partenaire Officiel
+  [Distributeur #2] Sté Tunisienne d'Électricité & Quincaillerie (STEQ) (Tunis (Charguia)) | Électriciens servis: 164 | CA: 348900 TND | Part: 18.9% | Statut: Partenaire Officiel
+  [Distributeur #3] Élec-Distribution Sahel & Cie (Sousse (Sahloul)) | Électriciens servis: 96 | CA: 271400 TND | Part: 14.7% | Statut: Partenaire Officiel
+  [Distributeur #4] Comptoir Moderne de Nabeul (Nabeul (Centre)) | Électriciens servis: 74 | CA: 218500 TND | Part: 11.8% | Statut: Partenaire Officiel
+  [Distributeur #5] Maghreb Électrique Bizerte (Bizerte (Zone Port)) | Électriciens servis: 62 | CA: 182300 TND | Part: 9.9% | Statut: Partenaire Officiel
+  [Distributeur #6] Comptoir Électro-Technique Ariana (Ariana (Ennasr)) | Électriciens servis: 58 | CA: 154800 TND | Part: 8.4% | Statut: Partenaire Officiel
+  [Distributeur #7] Union Matériel Électrique Gabès (Gabès (Ville)) | Électriciens servis: 41 | CA: 119200 TND | Part: 6.5% | Statut: Partenaire Officiel
+  [Distributeur #8] Kairouan Électro-Fournitures (Kairouan (Centre)) | Électriciens servis: 32 | CA: 92400 TND | Part: 5.0% | Statut: Partenaire Officiel
+  [Distributeur #9] Comptoir Général de Mahdia (Mahdia (Zone Portuaire)) | Électriciens servis: 29 | CA: 84100 TND | Part: 4.6% | Statut: Partenaire Officiel
+  [Distributeur #10] Électro-Matériel Monastir (Monastir (Skanès)) | Électriciens servis: 26 | CA: 78200 TND | Part: 4.2% | Statut: Partenaire Officiel
+  [Distributeur #11] Comptoir du Cap Bon Kelibia (Kelibia (Port)) | Électriciens servis: 24 | CA: 71400 TND | Part: 3.9% | Statut: Partenaire Officiel
+  [Distributeur #12] Élec-Plus Ben Arous (Ben Arous (Megrine)) | Électriciens servis: 23 | CA: 66800 TND | Part: 3.6% | Statut: Partenaire Officiel
+  [Distributeur #13] Bizerte Matériel Pro (Menzel Bourguiba) | Électriciens servis: 21 | CA: 59900 TND | Part: 3.2% | Statut: Partenaire Officiel
+  [Distributeur #14] Sud-Distribution Médenine (Médenine (Centre)) | Électriciens servis: 19 | CA: 53400 TND | Part: 2.9% | Statut: Partenaire Officiel
+  [Distributeur #15] Djerba Électro-Technique (Houmt Souk (Djerba)) | Électriciens servis: 18 | CA: 48100 TND | Part: 2.6% | Statut: Partenaire Officiel
+  [Distributeur #16] Gafsa Électro-Comptoir (Gafsa (Centre)) | Électriciens servis: 15 | CA: 43500 TND | Part: 2.3% | Statut: Partenaire Officiel
+  [Distributeur #17] Comptoir Béja & Nord-Ouest (Béja (Zone Industrielle)) | Électriciens servis: 14 | CA: 39800 TND | Part: 2.1% | Statut: Partenaire Officiel
+  [Distributeur #18] Zaghouan Fournitures Bâtiment (Zaghouan (Centre)) | Électriciens servis: 13 | CA: 36500 TND | Part: 2.0% | Statut: Partenaire Officiel
+  [Distributeur #19] Jendouba Distribution Pro (Jendouba (Route Tabarka)) | Électriciens servis: 12 | CA: 33900 TND | Part: 1.8% | Statut: Partenaire Officiel
+  [Distributeur #20] Tozeur Matériel Électrique Oasis (Tozeur (Ville)) | Électriciens servis: 11 | CA: 30800 TND | Part: 1.7% | Statut: Partenaire Officiel
 
 17. TOP 5 COMMERCIAUX SLA (TABLEAU FORCE COMMERCIALE SLA DU DASHBOARD) :
   [Commercial SLA #1] Karim Ben Ali | Zone: Grand Tunis & Nord | Chantiers: 48 | SLA Moyen: 18.2h | In-Situ <150m: 91.7% | Conformite: 95.8% | Alertes: 2 | CA Valide: 624500 TND | Statut: Leader Nord
@@ -1006,6 +1010,30 @@ Date et heure exactes (Tunis) : {date_fr}
 
 {mod7_monthly_str}
 """
+
+    def _local_profile_answer(self, q, dwh_context):
+        """Secours sans IA : restitue les profils/commerciaux détectés dans la question (ex: « c'est qui Ahmed et Zied »)."""
+        marker_starts = ("PROFIL(S) EXACT(S) TROUVE", "FOCUS COMMERCIAL", "FOCUS DÉTAILLÉ GOUVERNORAT")
+        out = []
+        for block in (dwh_context or "").split("\n\n"):
+            b = block.strip()
+            if b.startswith(marker_starts):
+                out.append(b)
+        if not out:
+            return None
+        lines = []
+        for b in out:
+            for ln in b.split("\n"):
+                ln = ln.strip()
+                if ln.startswith("PROFIL(S)"):
+                    lines.append("👤 **Profils trouvés dans Club Alpha** :")
+                elif ln.startswith("FOCUS COMMERCIAL"):
+                    lines.append("👔 " + ln.replace("FOCUS COMMERCIAL ", "**Commercial ", 1).replace(" :", "** :", 1))
+                elif ln.startswith("*"):
+                    lines.append("• " + ln.lstrip("* ").strip())
+                else:
+                    lines.append(ln)
+        return "\n".join(lines[:14])
 
     def _instant_deterministic_answer(self, q):
         """Répond en < 5ms avec 100% d'exactitude aux questions directes fréquentes (zéro hallucination, 0 token API)."""
@@ -1066,7 +1094,7 @@ Date et heure exactes (Tunis) : {date_fr}
         if (any(w in ql_norm for w in date_explicit) or ql_norm in ["date", "heure", "jour"]) and not any(w in ql_norm for w in not_date_keywords):
             return f"📅 Aujourd'hui, nous sommes le **{date_fr}** (heure de Tunis)."
 
-        # 2. Recherche d'un ?lectricien spécifique par son nom ou demande de script d'appel commercial
+        # 2. Recherche d'un électricien spécifique par son nom ou demande de script d'appel commercial
         if users and len(ql_norm) >= 3:
             stop_words = {"analyse", "profil", "propose", "script", "appel", "commercial", "pour", "nizar", "electricien", "artisan", "chantier", "points", "combien", "quel", "quelle", "quels", "quelles", "dans", "avec", "sont", "plus", "moins", "tunis", "sfax", "sousse", "nabeul", "club", "alpha", "stiel"}
             matched_u = None
@@ -1089,7 +1117,7 @@ Date et heure exactes (Tunis) : {date_fr}
                 phone = u.get("phone") or "+216 24 144 256"
                 last_date = max((str(c.get("created_at", ""))[:10] for c in u_ch), default=str(u.get("created_at", ""))[:10])
                 lines = [
-                    f"👤 **Fiche ?lectricien PostgreSQL — {u.get('full_name')}** :",
+                    f"👤 **Fiche électricien PostgreSQL — {u.get('full_name')}** :",
                     f"• **ID / Contact** : `#{uid}` • Tél : **{phone}** • Email : `{u.get('email') or 'N/A'}`",
                     f"• **Solde Fidélité** : **{pts:,} pts** ({len(u_ch)} chantiers déclarés, dernier actif : **{last_date}**)".replace(",", " "),
                     f"• **Commercial Référent** : **{comm}**",
@@ -1175,6 +1203,22 @@ Date et heure exactes (Tunis) : {date_fr}
                 "• **Stock Points PostgreSQL Temps Réel (57.131.30.69)** : **152 429 pts** en circulation (provision directe : **1 524,29 DT**)."
             )
 
+        # 6C. Chiffre d'affaires / évolution par mois (série Power BI consolidée)
+        if ("mois" in ql_norm or "mensuel" in ql_norm) and any(w in ql_norm for w in ["chiffre d affaire", "chiffre d'affaire", "ca ", "evolution", "revenu"]):
+            serie = [
+                ("Avril 2026", 142000, 95, 1494, "+4,2%"), ("Mai 2026", 168000, 112, 1500, "+18,3%"),
+                ("Juin 2026", 186000, 124, 1500, "+10,7%"), ("Juillet 2026", 210000, 138, 1521, "+12,9%"),
+                ("Août 2026", 228000, 154, 1480, "+8,6%"), ("Septembre 2026", 264000, 182, 1450, "+15,8%"),
+                ("Octobre 2026", 298000, 208, 1432, "+24,8% (record)"),
+            ]
+            lines = ["📈 **Chiffre d'affaires par mois — Club Alpha by STIEL (Dashboard consolidé)** :"]
+            for m, ca, nb, panier, mom in serie:
+                ca_s = f"{ca:,}".replace(",", " ")
+                pn_s = f"{panier:,}".replace(",", " ")
+                lines.append(f"• **{m}** : **{ca_s} TND** • {nb} chantiers • panier moyen {pn_s} TND • {mom} MoM")
+            lines.append("_Novembre 2026 : mois en cours (données consolidées publiées en fin de mois)._")
+            return "\n".join(lines)
+
         # 7. Synthèse Financière / CA / Marge / ROI
         if any(w in ql_norm for w in ["financier", "marge", "roi", "chiffre d affaire", "ca incremental", "rentabilite", "investissement"]):
             total_pts = int(sum(float(u.get("solde_points", 0)) for u in users.values())) or 152429
@@ -1200,7 +1244,7 @@ Date et heure exactes (Tunis) : {date_fr}
             d = self.get_live_churn()
             if d and d.get("artisans"):
                 s = d["summary"]
-                lines = [f"🚨 **{s['count']} ?lectriciens en risque Churn** ({s['critiques']} critiques > 45j, enjeu : **{s['ca_menace']:,} DT/mois**). **Top 5 prioritaires à relancer** :".replace(",", " ")]
+                lines = [f"🚨 **{s['count']} électriciens en risque Churn** ({s['critiques']} critiques > 45j, enjeu : **{s['ca_menace']:,} DT/mois**). **Top 5 prioritaires à relancer** :".replace(",", " ")]
                 for i, a in enumerate(d["artisans"][:5], 1):
                     lines.append(f"{i}. **{a['nom']}** ({a['gouvernorat']}) ? ?? **{a['phone']}** ? {a['total_chantiers']} ch., inactif **{a['days_since_last']} j** (*{a['diagnostic']}*)\n   ? *Action Proactive* : {a.get('recommandation')}")
                 return "\n".join(lines)
@@ -1229,7 +1273,7 @@ Date et heure exactes (Tunis) : {date_fr}
             comms = self.get_commercials_ranking()
             lines = ["👔 **Classement de la Force Commerciale STIEL (PostgreSQL Live)** :"]
             for i, c in enumerate(comms[:6], 1):
-                lines.append(f"{i}. **{c['nom']}** ({c['region']}) — **{c['chantiers']} chantiers audités**, {c['nb_electriciens']} ?lectriciens suivis (**{c['points']:,} pts**)".replace(",", " "))
+                lines.append(f"{i}. **{c['nom']}** ({c['region']}) — **{c['chantiers']} chantiers audités**, {c['nb_electriciens']} électriciens suivis (**{c['points']:,} pts**)".replace(",", " "))
             return "\n".join(lines)
 
         # 13. Bilan exécutif / Chiffres clés / Total / Statistiques
@@ -1332,36 +1376,56 @@ Date et heure exactes (Tunis) : {date_fr}
                     "llm_engine": "Agent AI Fidness Direct"
                 }
 
+        # 1B. Questions « chiffre d'affaires par mois » : réponse exacte immédiate (0 token IA, 0 quota)
+        qn = ql_simple.replace("'", " ").replace("\u2019", " ")
+        if ("mois" in qn or "mensuel" in qn) and any(w in qn for w in ["chiffre d affaire", "evolution", "évolution", "revenu"]):
+            det_ca = self._instant_deterministic_answer(q)
+            if det_ca:
+                return {
+                    "response": det_ca,
+                    "thought": "Série mensuelle consolidée du Dashboard (réponse directe, sans IA).",
+                    "thoughts_tokens": 0,
+                    "response_time_ms": max(int((time.time() - t0) * 1000), 5),
+                    "confidence": "100%",
+                    "sources": ["Dashboard Power BI consolidé"],
+                    "suggested_followups": followups,
+                    "llm_engine": "Agent AI Fidness Direct"
+                }
+
         # 2. Appel Gemini 3.5 Flash-Lite en priorité avec contexte PostgreSQL ciblé (compréhension fine de la question)
         dwh_context = self.get_dwh_context(q)
         if self.api_key and not fast_only:
             system_prompt = (
                 "Tu es Alpha Copilot, l'assistant decisionnel officiel de Club Alpha by STIEL Tunisie connecte a PostgreSQL (57.131.30.69) et au Dashboard Executif.\n"
                 "REGLES FONDAMENTALES :\n"
-                "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ?LECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
+                "1. TOUTE QUESTION SUR UN NOM DE PERSONNE ('c est qui X', 'qui est X', 'profil de X'), UN ÉLECTRICIEN, UN COMMERCIAL, UN DISTRIBUTEUR, UN GOUVERNORAT, UNE DATE/MOIS, UN CHANTIER OU UN PRODUIT EST 100% DANS LE PERIMETRE METIER :\n"
                 "   - Ne refuse JAMAIS une question demandant 'c est qui [Nom]' ou portant sur un nom propre !\n"
                 "   - Cherche le nom dans les sections PROFIL(S) TROUVE(S), 13 (Table PostgreSQL Live des 176 inscrits), 15 (Grand Palmares des 50 Electriciens YTD), 16 (Distributeurs), 6 (Commerciaux) et 8 (Churn).\n"
                 "   - Si la personne figure dans la section 15 (ex: Bilel Guesmi au Rang #2 du Grand Palmares YTD) ou dans la section 13 (PostgreSQL Live, ex: Bilel Majbri), donne immediatement sa fiche detaillee complete (Rang/Code/ID, Region, Palier, Chantiers, CA TND, Solde Points, Churn/Statut).\n"
-                "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun ?lectricien de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
+                "   - Si aucun nom exact n'est trouve, indique simplement qu'aucun électricien de ce nom exact ne figure dans la base et cite les profils au prenom ou nom proche.\n"
                 "2. NOUVELLES INSCRIPTIONS & PROFILS TESTS :\n"
                 "   - Si on demande qui s'est inscrit aujourd'hui ou recemment, consulte la table des utilisateurs.\n"
                 "   - Si les nouveaux comptes ont 'account_completed: False' (ex: Janice Jacobs, Shaina Thames creees le 2026-11-02), precise explicitement qu'il s'agit d'inscriptions de test / comptes non finalises (sans numero de telephone tunisien ni chantier), et mentionne aussi le dernier electricien tunisien verifie (ex: Ali Kelibia le 27/10/2026).\n"
                 "3. REFUS UNIQUEMENT POUR LES SUJETS CLAIREMENT NON PROFESSIONNELS (meteo, temperature, cuisine, football/sport, blagues, politique).\n"
                 "4. RIGUEUR RAG ABSOLUE : Utilise exclusivement les chiffres exacts presents dans le contexte ci-dessous.\n"
-                "5. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (?) et du **gras**, jamais de tableau markdown.\n\n"
+                "5. FORMAT : Reponds en francais avec des accents corrects, de facon concise et directe (2 a 5 lignes max), sans phrase d'introduction inutile. Utilise des puces (•) et du **gras**, jamais de tableau markdown.\n\n"
                 f"{dwh_context}"
             )
+            now_ts = time.time()
+            self.llm_last_error = ""
             for model_candidate in self.models_pool:
+                if self.model_cooldown_until.get(model_candidate, 0) > now_ts:
+                    continue  # quota épuisé récemment : on ne perd pas de temps dessus
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_candidate}:generateContent?key={self.api_key}"
                 gen_cfg = {"temperature": 0.0, "maxOutputTokens": 800}
-                if "gemini-3.5-flash" in model_candidate and "lite" not in model_candidate:
+                if model_candidate == "gemini-3.5-flash":
                     gen_cfg["thinkingConfig"] = {"thinkingBudget": 0}
                 payload = {
                     "contents": [{"role": "user", "parts": [{"text": f"{system_prompt}\n\nQuestion : {q}"}]}],
                     "generationConfig": gen_cfg
                 }
                 try:
-                    resp = requests.post(url, json=payload, timeout=12)
+                    resp = requests.post(url, json=payload, timeout=9)
                     if resp.status_code == 200:
                         data = resp.json()
                         parts = data["candidates"][0].get("content", {}).get("parts", [])
@@ -1380,22 +1444,77 @@ Date et heure exactes (Tunis) : {date_fr}
                                 "suggested_followups": followups,
                                 "llm_engine": f"{model_candidate} (Ultra-Low Token)"
                             }
+                    elif resp.status_code == 429:
+                        # Quota gratuit atteint pour CE modèle : pause 30 min puis essai du modèle suivant
+                        self.model_cooldown_until[model_candidate] = time.time() + 1800
+                        self.llm_last_error = "quota"
+                        print(f"[RAG] Quota Gemini atteint pour {model_candidate} (429) -> modèle suivant")
+                    elif resp.status_code in (404, 400):
+                        self.model_cooldown_until[model_candidate] = time.time() + 3600
+                        print(f"[RAG] Modèle {model_candidate} indisponible ({resp.status_code})")
+                    else:
+                        self.model_cooldown_until[model_candidate] = time.time() + 60
+                        self.llm_last_error = f"http {resp.status_code}"
+                        print(f"[RAG] {model_candidate} -> HTTP {resp.status_code}")
                 except Exception as e:
+                    self.model_cooldown_until[model_candidate] = time.time() + 120
+                    self.llm_last_error = "timeout"
                     print(f"[RAG] Erreur {model_candidate}: {e}")
 
-        # 3. Réponse intelligente si le LLM n'a pas pu répondre
-        return {
-            "response": (
+        # 3. Secours 100% local (sans IA) : réponses directes calculées depuis PostgreSQL + Dashboard
+        local = None
+        try:
+            local = self._instant_deterministic_answer(q)
+        except Exception as e:
+            print(f"[RAG] Secours déterministe en erreur: {e}")
+        if not local:
+            try:
+                local = self._local_profile_answer(q, dwh_context)
+            except Exception as e:
+                print(f"[RAG] Secours profil en erreur: {e}")
+        if local:
+            note = ""
+            if self.llm_last_error == "quota":
+                note = "\n\n_ℹ️ Réponse calculée directement depuis la base (quota IA gratuit du jour atteint)._"
+            return {
+                "response": local + note,
+                "thought": "Réponse déterministe calculée depuis PostgreSQL / Dashboard (moteur IA indisponible ou sans objet).",
+                "thoughts_tokens": 0,
+                "response_time_ms": max(int((time.time() - t0) * 1000), 5),
+                "confidence": "100%",
+                "sources": ["DWH PostgreSQL (57.131.30.69)"],
+                "suggested_followups": followups,
+                "llm_engine": "Agent AI Fidness Direct"
+            }
+
+        # 4. Dernier recours : message honnête (jamais « pas de correspondance » quand c'est le moteur IA qui est saturé)
+        if self.llm_last_error:
+            msg = (
+                "⏳ Le moteur IA est momentanément saturé (quota gratuit Gemini atteint). "
+                "Je n'ai pas pu analyser cette question en détail.\n\n"
+                "Ces questions fonctionnent toujours en direct :\n"
+                "• *« Top électriciens par points »*\n"
+                "• *« Quels sont les électriciens à relancer ? »*\n"
+                "• *« Quel est le produit le plus vendu ? »*\n"
+                "• *« Chiffre d'affaires par mois »*\n"
+                "• *« Qui s'est inscrit aujourd'hui ? »*"
+            )
+            thought = "Moteur IA indisponible (quota / délai) - aucun secours local applicable"
+        else:
+            msg = (
                 "Je n'ai pas trouvé de correspondance exacte dans la base PostgreSQL pour cette question.\n\n"
                 "💡 **Vous pouvez me demander par exemple** :\n"
                 "• *« Top électriciens par points »*\n"
-                "• *« Quels sont les ?lectriciens à relancer ? »*\n"
+                "• *« Quels sont les électriciens à relancer ? »*\n"
                 "• *« Quel est le produit le plus vendu ? »*\n"
                 "• *« Bilan des chantiers récents »*"
-            ),
-            "thought": "Requête non couverte par le DWH",
+            )
+            thought = "Requête non couverte par le DWH"
+        return {
+            "response": msg,
+            "thought": thought,
             "thoughts_tokens": 10,
-            "response_time_ms": 15,
+            "response_time_ms": max(int((time.time() - t0) * 1000), 15),
             "confidence": "90%",
             "sources": ["DWH PostgreSQL (57.131.30.69)"],
             "suggested_followups": followups,
